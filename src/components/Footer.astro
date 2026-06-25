@@ -1,5 +1,6 @@
 ---
 import { SITE_NAME, company, navLinks, legalLinks, LINE_URL, shopLink } from "../data/site";
+import { withBase } from "../lib/links";
 const year = new Date().getFullYear();
 ---
 
@@ -24,14 +25,14 @@ const year = new Date().getFullYear();
     <nav class="footer-col" aria-label="診療メニュー">
       <p class="footer-head">診療メニュー</p>
       <ul>
-        {navLinks.filter((l) => l.href !== "/").map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        {navLinks.filter((l) => l.href !== "/").map((l) => <li><a href={withBase(l.href)}>{l.label}</a></li>)}
       </ul>
     </nav>
 
     <nav class="footer-col" aria-label="各種ご案内">
       <p class="footer-head">各種ご案内</p>
       <ul>
-        {legalLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        {legalLinks.map((l) => <li><a href={withBase(l.href)}>{l.label}</a></li>)}
         <li><a href={shopLink.href} target="_blank" rel="noopener">オンラインショップ</a></li>
       </ul>
     </nav>

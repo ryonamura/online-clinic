@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import LineCta from "../../components/LineCta.astro";
+import { withBase } from "../../lib/links";
 ---
 
 <PageLayout
@@ -12,7 +13,7 @@ import LineCta from "../../components/LineCta.astro";
 
       {/* パンくずリスト */}
       <nav class="breadcrumb" aria-label="パンくずリスト">
-        <a href="/">トップ</a>
+        <a href={withBase("/")}>トップ</a>
         <span aria-hidden="true">&rsaquo;</span>
         <span>プライバシーポリシー</span>
       </nav>

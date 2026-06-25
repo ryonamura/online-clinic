@@ -1,5 +1,6 @@
 ---
 import { LINE_URL } from "../data/site";
+import { withBase } from "../lib/links";
 export interface Props {
   title: string;
   note?: string;
@@ -16,7 +17,7 @@ const {
     <h1 class="section-title">{title}</h1>
     <p class="lead" style="margin-top: 1rem;">{note}</p>
     <div class="placeholder-actions">
-      <a class="btn btn--brand" href="/">トップへ戻る</a>
+      <a class="btn btn--brand" href={withBase("/")}>トップへ戻る</a>
       <a class="btn btn--line" href={LINE_URL} target="_blank" rel="noopener">
         <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで相談
       </a>

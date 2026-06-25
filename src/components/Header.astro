@@ -1,13 +1,17 @@
 ---
 import { LINE_URL, SITE_NAME, navLinks, shopLink } from "../data/site";
-const path = Astro.url.pathname;
+import { withBase } from "../lib/links";
+
+const BASE = import.meta.env.BASE_URL;
+// base を除いた論理パスで現在地判定（/online-clinic/glp1/ → /glp1/）
+const path = ("/" + Astro.url.pathname.slice(BASE.length)).replace(/\/{2,}/g, "/") || "/";
 const isActive = (href: string) =>
   href === "/" ? path === "/" : path.startsWith(href);
 ---
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label={`${SITE_NAME} ホーム`}>
+    <a class="brand" href={withBase("/")} aria-label={`${SITE_NAME} ホーム`}>
       <span class="brand-mark">キレイレポ</span>
       <span class="brand-sub">ONLINE CLINIC</span>
     </a>
@@ -15,7 +19,7 @@ const isActive = (href: string) =>
     <nav class="nav-desktop" aria-label="グローバルナビゲーション">
       {
         navLinks.map((l) => (
-          <a href={l.href} class:list={["nav-link", { active: isActive(l.href) }]}>
+          <a href={withBase(l.href)} class:list={["nav-link", { active: isActive(l.href) }]}>
             {l.label}
           </a>
         ))
@@ -38,7 +42,7 @@ const isActive = (href: string) =>
   <!-- モバイルメニュー -->
   <div class="mobile-menu" id="mobileMenu" hidden>
     <nav class="mobile-nav" aria-label="モバイルナビゲーション">
-      {navLinks.map((l) => <a href={l.href} class="mobile-link">{l.label}</a>)}
+      {navLinks.map((l) => <a href={withBase(l.href)} class="mobile-link">{l.label}</a>)}
       <a class="mobile-link" href={shopLink.href} target="_blank" rel="noopener">
         <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> オンラインショップ
       </a>

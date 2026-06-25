@@ -2,6 +2,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
 import { LINE_URL, services, shopLink } from "../data/site";
+import { withBase } from "../lib/links";
 
 const trust = [
   { icon: "fa-yen-sign", label: "診察・配送料 2,000円" },
@@ -160,7 +161,7 @@ const compare = [
 
       <div class="service-grid">
         {serviceCards.map((s) => (
-          <a class:list={["service-card", `tone-${s.tone}`]} href={s.href}>
+          <a class:list={["service-card", `tone-${s.tone}`]} href={withBase(s.href)}>
             <span class="service-icon"><i class={`fa-solid ${s.icon}`}></i></span>
             <h3 class="service-name">{s.name}</h3>
             <p class="service-desc">{s.desc}</p>
@@ -261,7 +262,7 @@ const compare = [
         <div><dt>配送について</dt><dd>全国一律 診察・配送料 2,000円（税込）。最短翌日発送、プライバシーに配慮した梱包でお届けします。</dd></div>
         <div><dt>定期配送</dt><dd>毎月自動発送で飲み忘れを防止。定期縛りはなく、次回発送日の1日前までにマイページからいつでも解約・休止が可能です。</dd></div>
       </dl>
-      <p class="fineprint">※解約・休止の締切等の詳細は<a href="/legal/tokushoho">特定商取引法に基づく表記</a>をご確認ください。</p>
+      <p class="fineprint">※解約・休止の締切等の詳細は<a href={withBase("/legal/tokushoho")}>特定商取引法に基づく表記</a>をご確認ください。</p>
     </div>
   </section>
 

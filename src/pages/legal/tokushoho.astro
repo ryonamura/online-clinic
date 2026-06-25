@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import LineCta from "../../components/LineCta.astro";
+import { withBase } from "../../lib/links";
 ---
 
 <PageLayout
@@ -184,7 +185,7 @@ import LineCta from "../../components/LineCta.astro";
                 <th scope="row">販売価格</th>
                 <td>
                   7,500円〜67,000円（税込・1ヶ月分）<br />
-                  ※薬剤・用量により異なります。各プラン詳細は<a href="/glp1">GLP-1ダイエットページ</a>をご参照ください。
+                  ※薬剤・用量により異なります。各プラン詳細は<a href={withBase("/glp1")}>GLP-1ダイエットページ</a>をご参照ください。
                 </td>
               </tr>
               <tr>
@@ -227,7 +228,7 @@ import LineCta from "../../components/LineCta.astro";
                 <th scope="row">販売価格</th>
                 <td>
                   2,980円〜6,980円（税込・1ヶ月分）<br />
-                  ※プランにより異なります。各プラン詳細は<a href="/beauty">美容内服ページ</a>をご参照ください。
+                  ※プランにより異なります。各プラン詳細は<a href={withBase("/beauty")}>美容内服ページ</a>をご参照ください。
                 </td>
               </tr>
               <tr>
@@ -270,7 +271,7 @@ import LineCta from "../../components/LineCta.astro";
                 <th scope="row">販売価格</th>
                 <td>
                   2,980円〜3,480円（税込・1ヶ月分）<br />
-                  ※各プラン詳細は<a href="/antiaging">アンチエイジングページ</a>をご参照ください。
+                  ※各プラン詳細は<a href={withBase("/antiaging")}>アンチエイジングページ</a>をご参照ください。
                 </td>
               </tr>
               <tr>
@@ -313,7 +314,7 @@ import LineCta from "../../components/LineCta.astro";
                 <th scope="row">販売価格</th>
                 <td>
                   3,480円〜19,980円（税込）<br />
-                  ※デュタステリド0.5mgの各プラン（1ヶ月／3ヶ月定期便・12ヶ月まとめ買い）の詳細は<a href="/aga">AGA治療ページ</a>をご参照ください。
+                  ※デュタステリド0.5mgの各プラン（1ヶ月／3ヶ月定期便・12ヶ月まとめ買い）の詳細は<a href={withBase("/aga")}>AGA治療ページ</a>をご参照ください。
                 </td>
               </tr>
               <tr>

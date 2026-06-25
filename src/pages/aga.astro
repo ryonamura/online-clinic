@@ -2,6 +2,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
 import { LINE_URL } from "../data/site";
+import { withBase } from "../lib/links";
 
 const badges = [
   { icon: "fa-mobile-screen-button", label: "オンライン完結" },
@@ -365,7 +366,7 @@ const agaAbout = [
           <dd>毎月自動発送で飲み忘れを防止。定期縛りはなく、いつでも解約・休止が可能です。</dd>
         </div>
       </dl>
-      <p class="fineprint">※解約・休止の詳細は<a href="/legal/tokushoho">特定商取引法に基づく表記</a>をご確認ください。</p>
+      <p class="fineprint">※解約・休止の詳細は<a href={withBase("/legal/tokushoho")}>特定商取引法に基づく表記</a>をご確認ください。</p>
     </div>
   </section>
 
