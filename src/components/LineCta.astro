@@ -1,0 +1,82 @@
+---
+import { LINE_URL } from "../data/site";
+export interface Props {
+  heading?: string;
+  text?: string;
+}
+const {
+  heading = "まずはLINEで無料相談",
+  text = "診察のご予約・お薬のご相談はLINEから。問診〜診察〜発送までスマホひとつで完結します。",
+} = Astro.props;
+---
+
+<section class="line-cta">
+  <div class="container line-cta-inner">
+    <p class="line-cta-eyebrow">EASY &amp; FREE</p>
+    <h2 class="line-cta-heading">{heading}</h2>
+    <p class="line-cta-text">{text}</p>
+    <a class="btn line-cta-btn" href={LINE_URL} target="_blank" rel="noopener">
+      <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談する
+    </a>
+    <p class="line-cta-note">相談・問診は無料です</p>
+  </div>
+</section>
+
+<style>
+  .line-cta {
+    position: relative;
+    overflow: hidden;
+    background: var(--brand-gradient);
+    color: #fff;
+  }
+  .line-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 100% at 50% 0%, rgba(255, 255, 255, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .line-cta-inner {
+    position: relative;
+    text-align: center;
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+  .line-cta-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.32em;
+    font-weight: var(--fw-bold);
+    opacity: 0.85;
+  }
+  .line-cta-heading {
+    color: #fff;
+    font-size: var(--fs-h2);
+    margin-top: 0.6rem;
+    letter-spacing: 0.04em;
+  }
+  .line-cta-text {
+    max-width: 36rem;
+    margin: 1rem auto 0;
+    font-size: var(--fs-lead);
+    opacity: 0.95;
+  }
+  .line-cta-btn {
+    margin-top: 2rem;
+    background: #fff;
+    color: var(--line-dark);
+    font-size: 1.05rem;
+    padding: 1.05em 2.4em;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  }
+  .line-cta-btn:hover {
+    transform: translateY(-2px);
+  }
+  .line-cta-btn i {
+    color: var(--line);
+    font-size: 1.3em;
+  }
+  .line-cta-note {
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+</style>

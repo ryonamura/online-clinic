@@ -1,0 +1,1158 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import LineCta from "../components/LineCta.astro";
+import { LINE_URL } from "../data/site";
+
+const recommended = [
+  {
+    icon: "fa-utensils",
+    title: "食事制限では落ちにくい方",
+    desc: "糖質制限やカロリー制限を試したが、思うように体重が落ちない方に。",
+  },
+  {
+    icon: "fa-brain",
+    title: "食欲のコントロールが難しい方",
+    desc: "空腹感が強く、食べすぎてしまう方に。GLP-1は食欲中枢に作用して満腹感をサポートします。",
+  },
+  {
+    icon: "fa-chart-simple",
+    title: "BMI 25以上の方",
+    desc: "肥満度が高い方は治療の対象となりやすいとされています。医師が適切な用量を処方します。※効果には個人差があります。",
+  },
+  {
+    icon: "fa-rotate",
+    title: "リバウンドを繰り返している方",
+    desc: "何度もダイエットとリバウンドを繰り返している方に。食欲管理の継続をサポートします。",
+  },
+  {
+    icon: "fa-person-running",
+    title: "運動が続かない・苦手な方",
+    desc: "食欲コントロールのサポートにより、生活習慣の改善に取り組みやすくなります。もちろん運動との併用も効果的です。",
+  },
+  {
+    icon: "fa-house-medical",
+    title: "通院せずにダイエットしたい方",
+    desc: "忙しくて通院できない方も、オンライン完結で医師のサポートを受けられます。",
+  },
+];
+
+const medications = [
+  {
+    name: "マンジャロ（チルゼパチド）",
+    medClass: "GIP/GLP-1受容体作動薬",
+    route: "週1回 皮下注射",
+    feature: "GIPとGLP-1の二重作用で食欲抑制・体重減少をサポート",
+    forWhom: "しっかり減量したい方",
+  },
+  {
+    name: "リベルサス（セマグルチド）",
+    medClass: "GLP-1受容体作動薬",
+    route: "毎日 内服（経口）",
+    feature: "注射不要の経口GLP-1薬。食欲抑制と血糖改善をサポート",
+    forWhom: "注射に抵抗がある方",
+  },
+  {
+    name: "フォシーガ（ダパグリフロジン）",
+    medClass: "SGLT2阻害薬",
+    route: "毎日 内服（経口）",
+    feature: "余分な糖を尿から排出。1日約240〜400kcal分の糖を排出",
+    forWhom: "糖質が多い食生活の方",
+  },
+  {
+    name: "ルセフィ（ルセオグリフロジン）",
+    medClass: "SGLT2阻害薬",
+    route: "毎日 内服（経口）",
+    feature: "日本発のSGLT2阻害薬。糖排出で体重減少をサポート",
+    forWhom: "手軽に始めたい方",
+  },
+];
+
+const compareRows = [
+  { method: "食事制限", appetite: "×", continuity: "△", supervision: "×", rebound: "高い" },
+  { method: "運動", appetite: "×", continuity: "△", supervision: "×", rebound: "中程度" },
+  { method: "サプリメント", appetite: "△", continuity: "○", supervision: "×", rebound: "高い" },
+  { method: "GLP-1治療", appetite: "◎", continuity: "◎", supervision: "◎", rebound: "低い※", highlight: true },
+];
+
+const howItWorks = [
+  {
+    icon: "fa-brain",
+    title: "食欲を抑える",
+    desc: "脳の満腹中枢に直接作用し、食欲を自然に抑制。食べ過ぎを防ぎ、無理なくカロリーコントロールが可能になります。",
+  },
+  {
+    icon: "fa-chart-line",
+    title: "血糖値を安定させる",
+    desc: "インスリン分泌を促進し、食後の血糖値上昇を緩やかにします。血糖値の安定が、脂肪の蓄積を抑えることにつながります。",
+  },
+  {
+    icon: "fa-clock",
+    title: "胃の動きを穏やかに",
+    desc: "胃の動きを穏やかにし、食事の消化吸収を緩やかにします。少量の食事でも満足感が持続し、自然なカロリー制限につながります。",
+  },
+];
+
+const cautions = [
+  "本治療は自由診療（保険適用外）です。費用は全額自己負担となります。",
+  "効果には個人差があり、すべての方に同様の効果を保証するものではありません。",
+  "GLP-1受容体作動薬の主な副作用: 吐き気・嘔吐・下痢・便秘・腹痛・食欲減退などの消化器症状（使用初期に出やすく、時間とともに軽減することが多いです）。まれに低血糖・急性膵炎・胆嚢炎などの重篤な副作用が報告されています。",
+  "SGLT2阻害薬（フォシーガ・ルセフィ）の主な副作用: 尿路感染症・性器感染症・頻尿・口渇・脱水など。十分な水分補給をお願いします。",
+  "医師のオンライン診察が必要です。問診内容により処方できない場合があります。",
+];
+
+const contraindications = [
+  "妊娠中・授乳中の方",
+  "膵炎の既往がある方",
+  "甲状腺髄様がん・MEN2の既往または家族歴がある方",
+  "重度の腎機能障害・透析中の方",
+  "1型糖尿病の方",
+];
+---
+
+<PageLayout
+  title="GLP-1ダイエット（メディカルダイエット）のオンライン診療｜キレイレポオンライン"
+  description="マンジャロ・リベルサスなどGLP-1・SGLT2阻害薬を医師が処方。食欲コントロールをサポートする医療ダイエットをオンラインで。診察・配送料2,000円・定期縛りなし。"
+>
+  {/* ============ HERO ============ */}
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">医師監修 · GLP-1オンライン処方</p>
+        <h1 class="hero-title">
+          GLP-1メディカルダイエットの<br />
+          <span class="hero-accent">オンライン診療</span>
+        </h1>
+        <p class="hero-lead">
+          食欲を抑え、体重管理をサポートする医療ダイエット。医師がオンラインで診察し、お薬が自宅に届きます。
+        </p>
+        <ul class="hero-badges">
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>診察・配送料 2,000円</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>定期縛りなし</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>オンライン完結</li>
+        </ul>
+        <div class="hero-actions">
+          <a class="btn btn--line hero-btn" href={LINE_URL} target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+          </a>
+          <a class="btn btn--ghost" href="#plans">料金プランを見る</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-card hero-card--1">
+          <span class="hero-card-icon"><i class="fa-solid fa-syringe"></i></span>
+          <p class="hero-card-title">マンジャロ（注射）</p>
+          <p class="hero-card-sub">GIP/GLP-1二重作動薬 週1回</p>
+        </div>
+        <div class="hero-card hero-card--2">
+          <span class="hero-card-icon"><i class="fa-solid fa-pills"></i></span>
+          <p class="hero-card-title">リベルサス（内服）</p>
+          <p class="hero-card-sub">注射なしの経口GLP-1薬</p>
+        </div>
+        <div class="hero-stat">
+          <div>
+            <strong>7,500<span>円〜</span></strong>
+            <small>月々の薬剤費</small>
+          </div>
+          <div class="hero-stat-div"></div>
+          <div>
+            <strong>0<span>回</span></strong>
+            <small>通院回数</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ RECOMMENDED ============ */}
+  <section class="section section--cream" id="recommended">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">RECOMMENDED</p>
+        <h2 class="section-title">こんな方に<span class="accent">おすすめ</span></h2>
+        <p class="lead">以下のようなお悩みをお持ちの方は、オンライン診療でご相談ください。</p>
+      </header>
+      <div class="rec-grid">
+        {recommended.map((r) => (
+          <article class="rec-card">
+            <span class="rec-icon"><i class={`fa-solid ${r.icon}`} aria-hidden="true"></i></span>
+            <div>
+              <h3 class="rec-title">{r.title}</h3>
+              <p class="rec-desc">{r.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ ABOUT TREATMENT ============ */}
+  <section class="section" id="about">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">ABOUT</p>
+        <h2 class="section-title">治療に<span class="accent">ついて</span></h2>
+        <p class="lead">ダイエットの基本原則と、GLP-1治療の位置づけについてご説明します。</p>
+      </header>
+
+      <div class="formula-block">
+        <p class="formula-label">ダイエットの基本原則</p>
+        <p class="formula">
+          <span class="formula-item">摂取カロリー</span>
+          <span class="formula-op">&lt;</span>
+          <span class="formula-item formula-item--accent">消費カロリー</span>
+        </p>
+        <p class="formula-desc">
+          GLP-1は食欲を自然に抑えることで、この状態を無理なく維持しやすくする働きがあると考えられています。
+        </p>
+      </div>
+
+      <h3 class="subsection-title">他の減量方法との比較</h3>
+      <div class="compare-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>方法</th>
+              <th>食欲抑制</th>
+              <th>継続しやすさ</th>
+              <th>医師の監修</th>
+              <th>リバウンドリスク</th>
+            </tr>
+          </thead>
+          <tbody>
+            {compareRows.map((r) => (
+              <tr class:list={[{ "row--highlight": r.highlight }]}>
+                <td class="method-name">{r.method}</td>
+                <td class:list={["cell-center", { "val--good": r.appetite === "◎" }]}>{r.appetite}</td>
+                <td class:list={["cell-center", { "val--good": r.continuity === "◎" }]}>{r.continuity}</td>
+                <td class:list={["cell-center", { "val--good": r.supervision === "◎" }]}>{r.supervision}</td>
+                <td class:list={["cell-center", { "val--good": r.rebound === "低い※" }]}>{r.rebound}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="fineprint">※効果・リバウンドリスクには個人差があります。医師の指導のもと継続使用が推奨されます。</p>
+    </div>
+  </section>
+
+  {/* ============ MEDICATIONS ============ */}
+  <section class="section section--cream" id="medications">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">MEDICATIONS</p>
+        <h2 class="section-title">薬の種類と<span class="accent">特徴</span></h2>
+        <p class="lead">医師が診察のうえ、お体の状態やご希望に合わせた薬剤を処方します。</p>
+      </header>
+
+      <div class="med-grid">
+        {medications.map((m) => (
+          <article class="med-card">
+            <div class="med-header">
+              <p class="med-class">{m.medClass}</p>
+              <h3 class="med-name">{m.name}</h3>
+            </div>
+            <dl class="med-detail">
+              <div>
+                <dt>投与方法</dt>
+                <dd>{m.route}</dd>
+              </div>
+              <div>
+                <dt>特徴</dt>
+                <dd>{m.feature}</dd>
+              </div>
+              <div>
+                <dt>こんな方に</dt>
+                <dd>{m.forWhom}</dd>
+              </div>
+            </dl>
+          </article>
+        ))}
+      </div>
+      <p class="fineprint">
+        ※いずれも国内では肥満治療目的での使用は承認適応外です。医師の判断のもと処方されます。
+        ※効果には個人差があります。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ PLANS ============ */}
+  <section class="section" id="plans">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">PLANS</p>
+        <h2 class="section-title">料金<span class="accent">プラン</span></h2>
+        <p class="lead">すべて税込・別途診察・配送料2,000円・定期縛りなし。</p>
+      </header>
+
+      {/* Category A */}
+      <div class="plan-category">
+        <p class="plan-cat-label">
+          <span class="plan-cat-badge">カテゴリ A</span>
+          マンジャロ（注射）GIP/GLP-1受容体作動薬
+        </p>
+        <div class="plan-grid">
+          <article class="plan-card">
+            <p class="plan-name">スタートプラン</p>
+            <p class="plan-drug">マンジャロ 2.5mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">12,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">13,000<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">33,900<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">6ヶ月一括</span><span class="plan-price">66,000<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card plan-card--featured">
+            <p class="plan-badge">よくご選択いただいています</p>
+            <p class="plan-name">マンジャロ 5.0mgプラン</p>
+            <p class="plan-drug">マンジャロ 5.0mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">25,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">27,000<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">74,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">6ヶ月一括</span><span class="plan-price">135,000<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card">
+            <p class="plan-name">ハイドーズプラン</p>
+            <p class="plan-drug">マンジャロ 7.5mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">36,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">38,000<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">107,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">6ヶ月一括</span><span class="plan-price">198,000<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      {/* Category B */}
+      <div class="plan-category">
+        <p class="plan-cat-label">
+          <span class="plan-cat-badge">カテゴリ B</span>
+          マンジャロ 高用量（医師の判断で増量）
+        </p>
+        <div class="plan-grid">
+          <article class="plan-card">
+            <p class="plan-name">ステップアップ</p>
+            <p class="plan-drug">マンジャロ 10.0mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">45,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">47,000<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">131,000<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card">
+            <p class="plan-name">ハイパワー</p>
+            <p class="plan-drug">マンジャロ 12.5mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">58,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">60,000<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">167,520<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card">
+            <p class="plan-name">マックスドーズ</p>
+            <p class="plan-drug">マンジャロ 15.0mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">65,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">67,000<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">188,100<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      {/* Category C */}
+      <div class="plan-category">
+        <p class="plan-cat-label">
+          <span class="plan-cat-badge">カテゴリ C</span>
+          リベルサス（飲むGLP-1）注射が苦手な方に
+        </p>
+        <div class="plan-grid plan-grid--2">
+          <article class="plan-card">
+            <p class="plan-name">まず試してみたい方に</p>
+            <p class="plan-drug">リベルサス 3mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">月額（定期便）</span><span class="plan-price">7,500<span class="plan-unit">円〜/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">20,000<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card">
+            <p class="plan-name">しっかり取り組みたい方に</p>
+            <p class="plan-drug">リベルサス 7mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">月額（定期便）</span><span class="plan-price">15,500<span class="plan-unit">円〜/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">44,500<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      {/* Category D */}
+      <div class="plan-category">
+        <p class="plan-cat-label">
+          <span class="plan-cat-badge">カテゴリ D</span>
+          ダイエットサポート内服薬（SGLT2阻害薬）
+        </p>
+        <div class="plan-grid plan-grid--2">
+          <article class="plan-card">
+            <p class="plan-name">フォシーガプラン</p>
+            <p class="plan-drug">フォシーガ 5mg（ダパグリフロジン）</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">8,500<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">9,500<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">27,600<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card">
+            <p class="plan-name">ルセフィプラン</p>
+            <p class="plan-drug">ルセフィ錠 2.5mg（ルセオグリフロジン）</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">7,500<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">8,500<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">24,700<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      {/* Category E */}
+      <div class="plan-category">
+        <p class="plan-cat-label">
+          <span class="plan-cat-badge">カテゴリ E</span>
+          セットプラン（組み合わせでアプローチ）
+        </p>
+        <div class="plan-grid">
+          <article class="plan-card">
+            <p class="plan-name">Wアプローチセット</p>
+            <p class="plan-drug">メトホルミン 500mg + フォシーガ 5mg</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">初回</span><span class="plan-price">10,930<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">継続</span><span class="plan-price">12,930<span class="plan-unit">円/月</span></span></div>
+              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">37,600<span class="plan-unit">円</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card">
+            <p class="plan-name">吐き気対策セット</p>
+            <p class="plan-drug">マンジャロ 2.5mg + ナウゼリン（吐き気止め）</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">月額（税込・配送料込）</span><span class="plan-price">13,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">定期便</span><span class="plan-price">14,000<span class="plan-unit">円/月</span></span></div>
+            </div>
+          </article>
+          <article class="plan-card">
+            <p class="plan-name">漢方併用セット</p>
+            <p class="plan-drug">マンジャロ 2.5mg + 防風通聖散</p>
+            <div class="plan-prices">
+              <div><span class="plan-label">月額（税込・配送料込）</span><span class="plan-price">16,000<span class="plan-unit">円</span></span></div>
+              <div><span class="plan-label">定期便</span><span class="plan-price">17,000<span class="plan-unit">円/月</span></span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <p class="fineprint">
+        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。定期縛りなし・いつでも解約可能。
+        吐き気対策セット・漢方併用セットの表示価格は診察・配送料込みです。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ HOW GLP-1 WORKS ============ */}
+  <section class="section section--cream" id="mechanism">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">MECHANISM</p>
+        <h2 class="section-title">GLP-1の<span class="accent">3つの働き</span></h2>
+        <p class="lead">GLP-1は体内に存在するホルモンで、次のような作用があると考えられています。</p>
+      </header>
+      <div class="mechanism-grid">
+        {howItWorks.map((h, i) => (
+          <article class="mechanism-card">
+            <span class="mechanism-no">0{i + 1}</span>
+            <span class="mechanism-icon"><i class={`fa-solid ${h.icon}`} aria-hidden="true"></i></span>
+            <h3 class="mechanism-title">{h.title}</h3>
+            <p class="mechanism-desc">{h.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ CAUTION ============ */}
+  <section class="section" id="caution">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">CAUTION</p>
+        <h2 class="section-title">ご注意<span class="accent">事項</span></h2>
+      </header>
+
+      <div class="caution-block">
+        <ul class="caution-list">
+          {cautions.map((c) => (
+            <li><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span>{c}</span></li>
+          ))}
+        </ul>
+      </div>
+
+      <h3 class="contraindications-title">
+        <i class="fa-solid fa-ban" aria-hidden="true"></i>処方できない方（主な例）
+      </h3>
+      <ul class="contraindications-list">
+        {contraindications.map((c) => (
+          <li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>{c}</span></li>
+        ))}
+      </ul>
+      <p class="fineprint">上記以外にも、診察の結果、処方できない場合があります。詳しくはオンライン診察時に医師にご確認ください。</p>
+    </div>
+  </section>
+
+  {/* ============ DISCLAIMER ============ */}
+  <section class="disclaimer" id="disclaimer">
+    <div class="container container--narrow">
+      <p class="disclaimer-title">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>免責事項（DISCLAIMER）
+      </p>
+      <p>
+        本サービスは自由診療（保険適用外）です。費用は全額自己負担となります。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。
+      </p>
+      <p>
+        マンジャロ（チルゼパチド）およびリベルサス（セマグルチド）は、国内では2型糖尿病の治療薬として承認されており、肥満治療を目的とした使用は国内未承認（適応外使用）となります。
+        フォシーガ（ダパグリフロジン）およびルセフィ（ルセオグリフロジン）は、国内では2型糖尿病等の治療薬として承認されており、肥満治療を目的とした使用は国内未承認（適応外使用）となります。
+      </p>
+      <p>
+        適応外使用であるため、医薬品副作用被害救済制度の対象外となります。医薬品は国内卸売販売業者より購入しています。診察の結果、処方を行えない場合があります。
+      </p>
+    </div>
+  </section>
+
+  <LineCta />
+</PageLayout>
+
+<style>
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(80% 70% at 85% 0%, var(--brand-100) 0%, transparent 55%),
+      radial-gradient(70% 60% at 0% 100%, var(--pink-50) 0%, transparent 55%),
+      var(--bg);
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: clamp(2.8rem, 7vw, 5.5rem);
+    align-items: center;
+  }
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero);
+    font-weight: var(--fw-bold);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    margin-top: 1rem;
+    color: var(--ink-700);
+  }
+  .hero-accent {
+    color: var(--brand-700);
+    position: relative;
+  }
+  .hero-accent::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.05em;
+    height: 0.32em;
+    background: var(--brand-200);
+    opacity: 0.55;
+    z-index: -1;
+  }
+  .hero-lead {
+    margin-top: 1.5rem;
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+    max-width: 32rem;
+  }
+  .hero-badges {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+  }
+  .hero-badges i {
+    color: var(--brand-600);
+    margin-right: 0.4em;
+  }
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+  .hero-btn {
+    font-size: 1.05rem;
+    padding: 1.05em 2.1em;
+  }
+
+  /* hero visual */
+  .hero-visual {
+    position: relative;
+    min-height: 320px;
+    display: none;
+    overflow: hidden;
+  }
+  .hero-card {
+    position: absolute;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+    width: 62%;
+  }
+  .hero-card--1 { top: 6%; left: 4%; }
+  .hero-card--2 { top: 40%; right: 2%; }
+  .hero-card-icon {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+  .hero-card-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .hero-card-sub {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .hero-stat {
+    position: absolute;
+    bottom: 2%;
+    left: 10%;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: var(--ink-900);
+    color: #fff;
+    border-radius: var(--r-lg);
+    padding: 1.1rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+    max-width: 88%;
+  }
+  .hero-stat strong {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--brand-300);
+  }
+  .hero-stat strong span {
+    font-size: 0.9rem;
+    margin-left: 0.1em;
+  }
+  .hero-stat small {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 0.2rem;
+  }
+  .hero-stat-div {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* ============ shared ============ */
+  .section-head {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto clamp(2.2rem, 5vw, 3.5rem);
+  }
+  .section-head .lead {
+    margin-top: 0.9rem;
+  }
+  .accent {
+    color: var(--brand-700);
+  }
+  .fineprint {
+    margin-top: 1.4rem;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .subsection-title {
+    font-size: 1.1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin: 2.5rem 0 1rem;
+    text-align: center;
+  }
+
+  /* ============ RECOMMENDED ============ */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+  .rec-card {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .rec-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+    font-size: 1.15rem;
+  }
+  .rec-title {
+    font-size: 1.0rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.4rem;
+  }
+  .rec-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ============ ABOUT / FORMULA ============ */
+  .formula-block {
+    background: var(--brand-50);
+    border: 1px solid var(--brand-100);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    text-align: center;
+    max-width: 36rem;
+    margin: 0 auto 2rem;
+  }
+  .formula-label {
+    font-size: 0.82rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-700);
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+  .formula {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .formula-item {
+    font-family: var(--font-serif);
+    font-size: clamp(1.05rem, 3vw, 1.4rem);
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    background: #fff;
+    border-radius: var(--r-md);
+    padding: 0.5em 1em;
+    border: 1px solid var(--cream-300);
+  }
+  .formula-item--accent {
+    border-color: var(--brand-300);
+    color: var(--brand-800);
+  }
+  .formula-op {
+    font-size: 1.8rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-600);
+  }
+  .formula-desc {
+    margin-top: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* compare table */
+  .compare-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--r-md);
+    border: 1px solid var(--cream-300);
+    box-shadow: var(--shadow-sm);
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    min-width: 480px;
+  }
+  .compare-table th {
+    background: var(--ink-900);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    font-weight: var(--fw-bold);
+    text-align: left;
+    font-size: 0.85rem;
+  }
+  .compare-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--cream-200);
+    color: var(--ink-500);
+    background: #fff;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .method-name {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .cell-center { text-align: center; }
+  .row--highlight td { background: var(--brand-50); }
+  .row--highlight .method-name { color: var(--brand-800); }
+  .val--good {
+    color: var(--brand-700);
+    font-weight: var(--fw-bold);
+  }
+
+  /* ============ MEDICATIONS ============ */
+  .med-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .med-card {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .med-header {
+    padding: 1.2rem 1.5rem;
+    background: var(--brand-gradient-soft);
+    border-bottom: 1px solid var(--brand-100);
+  }
+  .med-class {
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-700);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .med-name {
+    font-size: 1.05rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .med-detail {
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .med-detail > div {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0.4rem;
+  }
+  .med-detail dt {
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-700);
+    padding-top: 0.1em;
+  }
+  .med-detail dd {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    line-height: 1.6;
+  }
+
+  /* ============ PLANS ============ */
+  .plan-category {
+    margin-bottom: 3rem;
+  }
+  .plan-cat-label {
+    font-size: 0.95rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .plan-cat-badge {
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    background: var(--brand-100);
+    border-radius: var(--r-pill);
+    padding: 0.3em 0.9em;
+    flex-shrink: 0;
+  }
+  .plan-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+  .plan-card {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .plan-card--featured {
+    border-color: var(--brand-300);
+    box-shadow: var(--shadow-brand);
+  }
+  .plan-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: var(--fw-bold);
+    color: #fff;
+    background: var(--brand-gradient);
+    border-radius: var(--r-pill);
+    padding: 0.25em 0.9em;
+    margin-bottom: 0.8rem;
+  }
+  .plan-name {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem;
+    overflow-wrap: anywhere;
+  }
+  .plan-drug {
+    font-size: 0.82rem;
+    color: var(--brand-700);
+    font-weight: var(--fw-medium);
+    margin-bottom: 1rem;
+    overflow-wrap: anywhere;
+  }
+  .plan-prices {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .plan-prices > div {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .plan-label {
+    font-size: 0.78rem;
+    color: var(--ink-400);
+    min-width: 6.5rem;
+    flex-shrink: 0;
+  }
+  .plan-price {
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    font-size: 1.15rem;
+    color: var(--brand-800);
+  }
+  .plan-unit {
+    font-size: 0.75rem;
+    font-weight: var(--fw-regular);
+    margin-left: 0.1em;
+  }
+
+  /* ============ MECHANISM ============ */
+  .mechanism-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+  .mechanism-card {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .mechanism-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--brand-gradient);
+  }
+  .mechanism-no {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-700);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.7rem;
+  }
+  .mechanism-icon {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 1.3rem;
+    box-shadow: var(--shadow-brand);
+    margin-bottom: 1rem;
+  }
+  .mechanism-title {
+    font-size: 1.1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.6rem;
+  }
+  .mechanism-desc {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ============ CAUTION ============ */
+  .caution-block {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .caution-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .caution-list li {
+    display: flex;
+    gap: 0.7em;
+    align-items: flex-start;
+    font-size: 0.92rem;
+    color: var(--ink-500);
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+  .caution-list i {
+    color: var(--brand-600);
+    margin-top: 0.2em;
+    flex-shrink: 0;
+  }
+  .contraindications-title {
+    font-size: 1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .contraindications-title i {
+    color: var(--brand-600);
+  }
+  .contraindications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+  .contraindications-list li {
+    display: flex;
+    gap: 0.6em;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+  }
+  .contraindications-list i {
+    color: var(--ink-300);
+    margin-top: 0.2em;
+    flex-shrink: 0;
+  }
+
+  /* ============ DISCLAIMER ============ */
+  .disclaimer {
+    background: var(--cream-100);
+    padding-block: 2.5rem;
+  }
+  .disclaimer-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+  }
+  .disclaimer-title i {
+    color: var(--brand-700);
+    margin-right: 0.4em;
+  }
+  .disclaimer p:not(.disclaimer-title) {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--ink-500);
+    margin-bottom: 0.8rem;
+    overflow-wrap: anywhere;
+  }
+  .disclaimer p:last-child { margin-bottom: 0; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (min-width: 600px) {
+    .rec-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .plan-grid--2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 720px) {
+    .med-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .mechanism-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .plan-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 960px) {
+    .hero-inner {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+    }
+    .hero-visual {
+      display: block;
+      min-height: 360px;
+    }
+    .rec-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .plan-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,18 @@
+# build output
+dist/
+# dependencies
+node_modules/
+# astro
+.astro/
+# generated types
+.vercel/
+.netlify/
+# environment variables
+.env
+.env.*
+!.env.example
+# macOS
+.DS_Store
+# logs
+*.log
+npm-debug.log*

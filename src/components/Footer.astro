@@ -1,0 +1,157 @@
+---
+import { SITE_NAME, company, navLinks, legalLinks, LINE_URL, shopLink } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <p class="footer-mark">キレイレポ<span>ONLINE</span></p>
+      <p class="footer-desc">
+        GLP-1メディカルダイエット・美容内服・アンチエイジング・AGA治療のオンライン診療。
+        スマホひとつで、問診から診察、お薬の発送まで。
+      </p>
+      <div class="footer-cta">
+        <a class="btn btn--line footer-line" href={LINE_URL} target="_blank" rel="noopener">
+          <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+        </a>
+        <a class="footer-shop" href={shopLink.href} target="_blank" rel="noopener">
+          <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>オンラインショップ
+        </a>
+      </div>
+    </div>
+
+    <nav class="footer-col" aria-label="診療メニュー">
+      <p class="footer-head">診療メニュー</p>
+      <ul>
+        {navLinks.filter((l) => l.href !== "/").map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="各種ご案内">
+      <p class="footer-head">各種ご案内</p>
+      <ul>
+        {legalLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        <li><a href={shopLink.href} target="_blank" rel="noopener">オンラインショップ</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <p class="footer-head">運営者情報</p>
+      <ul class="footer-company">
+        <li>運営：{company.operator}</li>
+        <li>提携医療機関：{company.partnerClinic}</li>
+        <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>© {year} {SITE_NAME}（{company.operator}）</p>
+      <p class="footer-disclaimer">
+        本サイトは自由診療に関する情報を提供するものです。掲載内容は医療広告ガイドラインに基づき作成しています。
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink-900);
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.92rem;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: clamp(3rem, 6vw, 4.5rem);
+  }
+  .footer-mark {
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    font-size: 1.4rem;
+    color: var(--brand-300);
+    letter-spacing: 0.05em;
+  }
+  .footer-mark span {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    margin-left: 0.5em;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .footer-desc {
+    margin-top: 1rem;
+    max-width: 24rem;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.62);
+  }
+  .footer-cta {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem 1.4rem;
+  }
+  .footer-line {
+    padding: 0.7em 1.5em;
+    font-size: 0.9rem;
+  }
+  .footer-shop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.88rem;
+    font-weight: var(--fw-medium);
+    color: #fff;
+  }
+  .footer-shop i {
+    color: var(--brand-300);
+  }
+  .footer-shop:hover {
+    color: var(--brand-300);
+  }
+  .footer-head {
+    font-weight: var(--fw-bold);
+    color: #fff;
+    margin-bottom: 1rem;
+    letter-spacing: 0.06em;
+  }
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .footer-col a:hover {
+    color: var(--brand-300);
+  }
+  .footer-company {
+    color: rgba(255, 255, 255, 0.62);
+    line-height: 1.7;
+  }
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .footer-bottom-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 1.5rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .footer-disclaimer {
+    max-width: 38rem;
+  }
+
+  @media (min-width: 760px) {
+    .footer-top {
+      grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+      gap: 2rem;
+    }
+  }
+</style>

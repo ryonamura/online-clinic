@@ -1,0 +1,887 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import LineCta from "../components/LineCta.astro";
+
+const badges = [
+  { icon: "fa-yen-sign", label: "月額 2,980円〜" },
+  { icon: "fa-mobile-screen-button", label: "オンライン完結" },
+  { icon: "fa-rotate-left", label: "定期縛りなし" },
+];
+
+const mechanisms = [
+  {
+    no: "01",
+    icon: "fa-bolt",
+    label: "AMPK活性化",
+    heading: "細胞のエネルギーセンサーを活性化",
+    body: "AMPKを活性化することで、オートファジーの促進とミトコンドリア機能の改善が起こりうると研究されています。細胞レベルでの老化を抑制できる可能性が研究されていますが、ヒトでの抗老化効果はまだ確立していません。",
+  },
+  {
+    no: "02",
+    icon: "fa-chart-line",
+    label: "血糖値・代謝改善",
+    heading: "インスリン感受性を高める",
+    body: "インスリン感受性を高め、血糖値の安定化と脂質代謝の改善をサポートすることが期待されています。2型糖尿病治療薬としての代謝改善作用は長年の臨床で確認されています。",
+  },
+  {
+    no: "03",
+    icon: "fa-shield-halved",
+    label: "抗炎症・抗酸化",
+    heading: "慢性的な微小炎症の抑制",
+    body: "慢性的な微小炎症を抑制し、酸化ストレスを軽減する作用が研究されています。世界的に研究が進むエイジングケアアプローチとして注目されている考え方です。",
+  },
+];
+
+const recommended = [
+  { icon: "fa-microscope", text: "40代以降の加齢による体力低下・疲れやすさを感じ始めた方に" },
+  { icon: "fa-fire-flame-curved", text: "体重が落ちにくくなった、基礎代謝の衰えを実感している方に" },
+  { icon: "fa-dna", text: "海外のTAME試験など、抗老化研究の最新アプローチを試したい方に" },
+  { icon: "fa-heart-pulse", text: "病気になる前の予防的なセルフケアとして科学的アプローチを求める方に" },
+  { icon: "fa-droplet", text: "健康診断で血糖値を指摘された、糖質の摂りすぎが心配な方に" },
+  { icon: "fa-spa", text: "スキンケアだけでなく、内側からの美容・健康ケアを求める方に" },
+];
+
+const solutions = [
+  {
+    icon: "fa-battery-full",
+    heading: "細胞エネルギー回復",
+    body: "AMPKの活性化でミトコンドリア機能の改善が期待されています。細胞のエネルギー産生をサポートする可能性があると研究されています。",
+  },
+  {
+    icon: "fa-chart-area",
+    heading: "代謝・血糖値の安定",
+    body: "インスリン感受性を高め、血糖値の安定化と脂質代謝の改善をサポートします。2型糖尿病治療薬としての実績に基づく作用です。",
+  },
+  {
+    icon: "fa-shield",
+    heading: "慢性炎症の抑制",
+    body: "加齢に伴う慢性的な微小炎症を抑制し、酸化ストレスの軽減をサポートすることが研究されています。",
+  },
+];
+---
+
+<PageLayout
+  title="アンチエイジングのオンライン診療｜キレイレポオンライン"
+  description="メトホルミンによるエイジングケアアプローチをオンラインで。AMPK活性化・代謝改善・抗炎症など世界的に研究が進む抗老化の選択肢を月額2,980円〜。自由診療（保険適用外）、エイジングケア目的の処方は国内未承認（適応外使用）。"
+>
+  {/* ============ HERO ============ */}
+  <section class="hero-aa">
+    <div class="container hero-aa-inner">
+      <div class="hero-aa-copy">
+        <p class="eyebrow-aa">
+          <i class="fa-solid fa-dna" aria-hidden="true"></i>ANTI-AGING
+        </p>
+        <h1 class="hero-aa-title">
+          アンチエイジングの<br />
+          <span class="hero-aa-accent">オンライン診療</span>
+        </h1>
+        <p class="hero-aa-lead">
+          2型糖尿病治療薬として60年以上の臨床実績を持つメトホルミン（※その実績は抗老化効果を示すものではありません）。
+          AMPK活性化による抗老化アプローチを、オンライン診療で手軽に始められます。
+        </p>
+        <ul class="hero-aa-badges">
+          {badges.map((b) => (
+            <li>
+              <i class={`fa-solid ${b.icon}`} aria-hidden="true"></i>
+              {b.label}
+            </li>
+          ))}
+        </ul>
+        <div class="hero-aa-actions">
+          <a
+            class="btn btn--line hero-aa-btn"
+            href="https://lin.ee/3vvO4ol"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+          </a>
+          <a class="btn btn--ghost" href="#plan">料金を見る</a>
+        </div>
+        <p class="hero-aa-note">
+          ※自由診療（保険適用外）。エイジングケア目的の処方は国内未承認（適応外使用）。ヒトでの抗老化効果は確立していません。
+        </p>
+      </div>
+
+      <div class="hero-aa-visual" aria-hidden="true">
+        <div class="hero-aa-card">
+          <span class="hero-aa-icon-wrap">
+            <i class="fa-solid fa-dna"></i>
+          </span>
+          <p class="hero-aa-card-title">メトホルミン 500mg</p>
+          <p class="hero-aa-card-sub">AMPK活性化 / 代謝改善 / 抗炎症</p>
+          <div class="hero-aa-pill">エイジングケアで世界的注目</div>
+        </div>
+        <div class="hero-aa-stat">
+          <div>
+            <strong>2,980<span>円</span></strong>
+            <small>初回月額</small>
+          </div>
+          <div class="hero-aa-stat-div"></div>
+          <div>
+            <strong>60<span>年</span></strong>
+            <small>糖尿病薬の実績</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ HOW IT WORKS: 3つの働き ============ */}
+  <section class="section" id="mechanism">
+    <div class="container">
+      <header class="aa-section-head">
+        <p class="eyebrow-aa">HOW IT WORKS</p>
+        <h2 class="aa-section-title">メトホルミンの<span class="aa-accent">3つの働き</span></h2>
+        <p class="lead">
+          以下はメトホルミンで研究・期待されている作用です。ヒトでの抗老化効果はまだ確立していません。
+        </p>
+      </header>
+      <div class="mech-grid">
+        {mechanisms.map((m) => (
+          <article class="mech-card">
+            <div class="mech-header">
+              <span class="mech-no">{m.no}</span>
+              <span class="mech-icon">
+                <i class={`fa-solid ${m.icon}`}></i>
+              </span>
+              <span class="mech-label">{m.label}</span>
+            </div>
+            <h3 class="mech-heading">{m.heading}</h3>
+            <p class="mech-body">{m.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ RECOMMENDED ============ */}
+  <section class="section section-cream-aa">
+    <div class="container">
+      <header class="aa-section-head">
+        <p class="eyebrow-aa">RECOMMENDED</p>
+        <h2 class="aa-section-title">こんな方に<span class="aa-accent">おすすめ</span></h2>
+        <p class="lead">
+          ※効果には個人差があり、すべての方への効果を保証するものではありません。
+        </p>
+      </header>
+      <ul class="rec-grid">
+        {recommended.map((r) => (
+          <li class="rec-card">
+            <span class="rec-icon">
+              <i class={`fa-solid ${r.icon}`}></i>
+            </span>
+            <p class="rec-text">{r.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* ============ SOLUTIONS ============ */}
+  <section class="section">
+    <div class="container">
+      <header class="aa-section-head">
+        <p class="eyebrow-aa">SOLUTIONS</p>
+        <h2 class="aa-section-title">メトホルミンで<span class="aa-accent">サポートできること</span></h2>
+        <p class="lead">いずれも研究段階のアプローチです。確立した抗老化効果を主張するものではありません。</p>
+      </header>
+      <div class="sol-grid">
+        {solutions.map((s) => (
+          <article class="sol-card">
+            <span class="sol-icon">
+              <i class={`fa-solid ${s.icon}`}></i>
+            </span>
+            <h3 class="sol-heading">{s.heading}</h3>
+            <p class="sol-body">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PLAN ============ */}
+  <section class="section section-cream-aa" id="plan">
+    <div class="container container--narrow">
+      <header class="aa-section-head">
+        <p class="eyebrow-aa">PLANS</p>
+        <h2 class="aa-section-title">料金<span class="aa-accent">プラン</span></h2>
+        <p class="lead">シンプルな1プランのみ。いつでも解約・休止できます。</p>
+      </header>
+
+      <div class="plan-card">
+        <div class="plan-badge">エイジングケアで注目</div>
+        <div class="plan-icon-wrap" aria-hidden="true">
+          <i class="fa-solid fa-dna"></i>
+        </div>
+        <h3 class="plan-name">メトホルミン 500mg</h3>
+        <p class="plan-desc">30日分 60錠 / 1日2回服用</p>
+
+        <div class="plan-prices">
+          <div class="plan-price-row">
+            <span class="plan-price-label">初回</span>
+            <span class="plan-price-val">2,980<span class="plan-price-unit">円</span></span>
+            <span class="plan-price-note">税込</span>
+          </div>
+          <div class="plan-price-row plan-price-row--continue">
+            <span class="plan-price-label">継続（月額）</span>
+            <span class="plan-price-val">3,480<span class="plan-price-unit">円</span></span>
+            <span class="plan-price-note">税込</span>
+          </div>
+          <div class="plan-price-row plan-price-row--bulk">
+            <span class="plan-price-label">3ヶ月一括</span>
+            <span class="plan-price-val">9,800<span class="plan-price-unit">円</span></span>
+            <span class="plan-price-note">税込</span>
+          </div>
+          <div class="plan-price-row plan-price-row--bulk">
+            <span class="plan-price-label">6ヶ月一括</span>
+            <span class="plan-price-val">18,800<span class="plan-price-unit">円</span></span>
+            <span class="plan-price-note">税込</span>
+          </div>
+        </div>
+
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check" aria-hidden="true"></i>AMPK活性化による抗老化アプローチ（研究段階）</li>
+          <li><i class="fa-solid fa-check" aria-hidden="true"></i>血糖値コントロール・代謝改善をサポート</li>
+          <li><i class="fa-solid fa-check" aria-hidden="true"></i>米国でTAME試験（非糖尿病高齢者対象）が進行中</li>
+          <li><i class="fa-solid fa-check" aria-hidden="true"></i>毎月定期便でお届け／定期縛りなし</li>
+        </ul>
+
+        <p class="plan-extra">別途、診察・配送料 2,000円（税込）</p>
+
+        <a
+          class="btn btn--line plan-cta-btn"
+          href="https://lin.ee/3vvO4ol"
+          target="_blank"
+          rel="noopener"
+        >
+          <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで相談・申し込む
+        </a>
+      </div>
+
+      <p class="fineprint-aa">
+        ※価格は税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。<br />
+        ※エイジングケア目的でのメトホルミン処方は国内未承認（適応外使用）です。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ DISCLAIMER ============ */}
+  <section class="disclaimer-aa" id="disclaimer">
+    <div class="container container--narrow">
+      <p class="disclaimer-aa-title">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>免責事項（DISCLAIMER）
+      </p>
+      <ul class="disclaimer-aa-list">
+        <li>本サービスは自由診療（保険適用外）です。費用は全額自己負担となります。効果・効能には個人差があり、すべての方に同様の結果を保証するものではありません。</li>
+        <li>
+          メトホルミンは国内において2型糖尿病治療薬（メトグルコ錠等）として承認されています。
+          エイジングケア・抗老化を効能とする国内承認医薬品は存在せず、当サービスでのエイジングケア目的の処方は<strong>国内未承認・適応外使用</strong>となります。
+        </li>
+        <li>
+          米国FDAでは2型糖尿病治療薬として承認済ですが、エイジングケアを目的とする承認は各国で取得されていません。
+          米国でTAME試験（非糖尿病高齢者約3,000人対象）が進行中ですが、<strong>結果は未発表であり、ヒトでの抗老化効果は確立していません</strong>。
+        </li>
+        <li>適応外使用のため、<strong>医薬品副作用被害救済制度の対象外</strong>となります。</li>
+        <li>
+          主な副作用：下痢・吐き気・腹痛・食欲不振等の消化器症状（服用初期に出やすく時間とともに軽減することが多い）。
+          まれに乳酸アシドーシス（全身倦怠感・筋肉痛・過呼吸等）が報告されています。異常を感じたら直ちに服用を中止し医師に相談してください。
+        </li>
+        <li>
+          <strong>処方できない方：</strong>
+          腎機能障害・肝機能障害のある方、心不全の方、過度の飲酒をする方、妊娠中・授乳中の方、ヨード造影剤を使用予定の方。
+          オンライン診察の結果、処方を行えない場合があります。
+        </li>
+        <li>医薬品は国内卸売販売業者より購入しています。</li>
+      </ul>
+    </div>
+  </section>
+
+  <LineCta
+    heading="アンチエイジングについてLINEで相談"
+    text="ご不明な点・プランのご相談はLINEから。問診〜診察〜発送まですべてオンラインで完結します。"
+  />
+</PageLayout>
+
+<style>
+  /* ============ GOLD THEME ============ */
+  .eyebrow-aa {
+    font-size: var(--fs-eyebrow);
+    letter-spacing: 0.28em;
+    font-weight: var(--fw-bold);
+    color: var(--gold-600);
+    text-transform: uppercase;
+  }
+  .eyebrow-aa i {
+    margin-right: 0.5em;
+  }
+  .aa-accent {
+    color: var(--gold-600);
+    position: relative;
+  }
+  .aa-accent::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.05em;
+    height: 0.28em;
+    background: var(--gold-200);
+    opacity: 0.65;
+    z-index: -1;
+  }
+  .aa-section-head {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto clamp(2.2rem, 5vw, 3.5rem);
+  }
+  .aa-section-head .lead {
+    margin-top: 0.9rem;
+  }
+  .aa-section-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    line-height: 1.35;
+    color: var(--ink-700);
+    margin-top: 0.5rem;
+  }
+
+  /* ============ HERO ============ */
+  .hero-aa {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(80% 70% at 85% 0%, var(--gold-100) 0%, transparent 55%),
+      radial-gradient(60% 50% at 0% 100%, #fdf8e4 0%, transparent 55%),
+      var(--bg);
+  }
+  .hero-aa-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: clamp(2.8rem, 7vw, 5.5rem);
+    align-items: center;
+  }
+  .hero-aa-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero);
+    font-weight: var(--fw-bold);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    color: var(--ink-700);
+    margin-top: 1rem;
+  }
+  .hero-aa-accent {
+    color: var(--gold-700);
+    position: relative;
+  }
+  .hero-aa-accent::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.05em;
+    height: 0.32em;
+    background: var(--gold-200);
+    opacity: 0.6;
+    z-index: -1;
+  }
+  .hero-aa-lead {
+    margin-top: 1.5rem;
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+    max-width: 34rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+  .hero-aa-badges {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+  .hero-aa-badges li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    font-size: 0.88rem;
+    font-weight: var(--fw-bold);
+    color: var(--gold-800);
+    background: var(--gold-100);
+    border: 1px solid var(--gold-200);
+    border-radius: var(--r-pill);
+    padding: 0.4em 1.1em;
+  }
+  .hero-aa-badges li i {
+    color: var(--gold-600);
+  }
+  .hero-aa-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+  .hero-aa-btn {
+    font-size: 1.05rem;
+    padding: 1.05em 2.1em;
+  }
+  .hero-aa-note {
+    margin-top: 1.2rem;
+    font-size: 0.78rem;
+    color: var(--ink-400);
+    line-height: 1.7;
+    max-width: 34rem;
+    overflow-wrap: anywhere;
+  }
+
+  /* hero visual */
+  .hero-aa-visual {
+    display: none;
+    position: relative;
+    min-height: 320px;
+    overflow: hidden;
+  }
+  .hero-aa-card {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 72%;
+    max-width: calc(100% - 10%);
+    background: #fff;
+    border: 1px solid var(--gold-200);
+    border-radius: var(--r-lg);
+    padding: 1.8rem 2rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-aa-icon-wrap {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: var(--gold-gradient-soft);
+    color: var(--gold-700);
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .hero-aa-card-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 1.05rem;
+  }
+  .hero-aa-card-sub {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .hero-aa-pill {
+    display: inline-block;
+    margin-top: 0.9rem;
+    font-size: 0.74rem;
+    font-weight: var(--fw-bold);
+    color: var(--gold-800);
+    background: var(--gold-100);
+    border: 1px solid var(--gold-200);
+    border-radius: var(--r-pill);
+    padding: 0.3em 0.9em;
+  }
+  .hero-aa-stat {
+    position: absolute;
+    bottom: 4%;
+    right: 4%;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: var(--ink-900);
+    color: #fff;
+    border-radius: var(--r-lg);
+    padding: 1.1rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+    max-width: calc(100% - 8%);
+  }
+  .hero-aa-stat strong {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--gold-300);
+    display: block;
+  }
+  .hero-aa-stat strong span {
+    font-size: 0.9rem;
+    margin-left: 0.1em;
+  }
+  .hero-aa-stat small {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 0.15rem;
+  }
+  .hero-aa-stat-div {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* ============ MECHANISM ============ */
+  .mech-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .mech-card {
+    background: #fff;
+    border: 1px solid var(--gold-200);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .mech-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gold-gradient);
+  }
+  .mech-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .mech-no {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: var(--fw-black);
+    color: var(--gold-200);
+    line-height: 1;
+  }
+  .mech-icon {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--gold-gradient-soft);
+    color: var(--gold-700);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .mech-label {
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: var(--gold-700);
+    background: var(--gold-100);
+    border-radius: var(--r-pill);
+    padding: 0.3em 0.9em;
+  }
+  .mech-heading {
+    font-size: 1.15rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.6rem;
+  }
+  .mech-body {
+    font-size: 0.93rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ============ CREAM SECTION ============ */
+  .section-cream-aa {
+    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
+  }
+
+  /* ============ RECOMMENDED ============ */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .rec-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: #fff;
+    border: 1px solid var(--gold-200);
+    border-radius: var(--r-md);
+    padding: 1.3rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .rec-icon {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--gold-gradient);
+    color: #fff;
+    font-size: 1rem;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-gold);
+  }
+  .rec-text {
+    font-size: 0.95rem;
+    color: var(--ink-700);
+    line-height: 1.65;
+    padding-top: 0.5rem;
+  }
+
+  /* ============ SOLUTIONS ============ */
+  .sol-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .sol-card {
+    background: #fff;
+    border: 1px solid var(--gold-200);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+  }
+  .sol-icon {
+    display: inline-flex;
+    width: 58px;
+    height: 58px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--gold-gradient);
+    color: #fff;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow-gold);
+  }
+  .sol-heading {
+    margin-top: 1.1rem;
+    font-size: 1.1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .sol-body {
+    margin-top: 0.6rem;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ============ PLAN ============ */
+  .plan-card {
+    background: #fff;
+    border: 2px solid var(--gold-300);
+    border-radius: var(--r-lg);
+    padding: clamp(1.8rem, 4vw, 2.8rem);
+    box-shadow: var(--shadow-gold);
+    text-align: center;
+    position: relative;
+  }
+  .plan-badge {
+    display: inline-block;
+    position: absolute;
+    top: -0.9rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: #fff;
+    background: var(--gold-gradient);
+    border-radius: var(--r-pill);
+    padding: 0.35em 1.3em;
+    white-space: nowrap;
+    box-shadow: var(--shadow-gold);
+  }
+  .plan-icon-wrap {
+    display: inline-flex;
+    width: 64px;
+    height: 64px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: var(--gold-gradient-soft);
+    color: var(--gold-700);
+    font-size: 1.6rem;
+    margin-top: 1rem;
+  }
+  .plan-name {
+    margin-top: 1rem;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .plan-desc {
+    margin-top: 0.4rem;
+    font-size: 0.88rem;
+    color: var(--ink-400);
+  }
+  .plan-prices {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--gold-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .plan-price-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid var(--gold-100);
+    background: #fff;
+  }
+  .plan-price-row:last-child {
+    border-bottom: none;
+  }
+  .plan-price-row--continue {
+    background: var(--gold-100);
+  }
+  .plan-price-row--bulk {
+    background: #fdfbf5;
+  }
+  .plan-price-label {
+    font-size: 0.85rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-500);
+    width: clamp(5.5rem, 20vw, 7rem);
+    text-align: left;
+    flex-shrink: 0;
+  }
+  .plan-price-val {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: var(--fw-bold);
+    color: var(--gold-700);
+    line-height: 1;
+  }
+  .plan-price-unit {
+    font-size: 0.85rem;
+    margin-left: 0.1em;
+  }
+  .plan-price-note {
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    margin-left: auto;
+  }
+  .plan-features {
+    margin-top: 1.6rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .plan-features li {
+    display: flex;
+    gap: 0.7em;
+    align-items: flex-start;
+    font-size: 0.93rem;
+    color: var(--ink-700);
+    line-height: 1.55;
+  }
+  .plan-features li i {
+    color: var(--gold-500);
+    flex-shrink: 0;
+    margin-top: 0.22em;
+  }
+  .plan-extra {
+    margin-top: 1.2rem;
+    font-size: 0.82rem;
+    color: var(--ink-400);
+  }
+  .plan-cta-btn {
+    margin-top: 1.8rem;
+    width: 100%;
+    max-width: 28rem;
+    font-size: 1.05rem;
+    padding: 1.05em 2em;
+    justify-content: center;
+  }
+  .fineprint-aa {
+    margin-top: 1.6rem;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+    text-align: center;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  /* ============ DISCLAIMER ============ */
+  .disclaimer-aa {
+    background: var(--cream-100);
+    padding-block: 3rem;
+  }
+  .disclaimer-aa-title {
+    font-size: 1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 1rem;
+  }
+  .disclaimer-aa-title i {
+    color: var(--gold-600);
+    margin-right: 0.45em;
+  }
+  .disclaimer-aa-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .disclaimer-aa-list li {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--ink-500);
+    padding-left: 1em;
+    position: relative;
+    overflow-wrap: anywhere;
+  }
+  .disclaimer-aa-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    color: var(--gold-400);
+  }
+  .disclaimer-aa-list strong {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (min-width: 600px) {
+    .rec-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 720px) {
+    .mech-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .sol-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .rec-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (min-width: 960px) {
+    .hero-aa-inner {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+    }
+    .hero-aa-visual {
+      display: block;
+      min-height: 360px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .hero-aa-visual {
+      min-height: 400px;
+    }
+  }
+
+</style>

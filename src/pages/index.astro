@@ -1,0 +1,967 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import LineCta from "../components/LineCta.astro";
+import { LINE_URL, services, shopLink } from "../data/site";
+
+const trust = [
+  { icon: "fa-yen-sign", label: "診察・配送料 2,000円" },
+  { icon: "fa-rotate-left", label: "定期縛りなし" },
+  { icon: "fa-mobile-screen-button", label: "オンライン完結" },
+  { icon: "fa-comment-dots", label: "LINEで相談OK" },
+];
+
+const serviceCards = [
+  {
+    slug: "glp1",
+    icon: "fa-pills",
+    name: "GLP-1ダイエット",
+    desc: "マンジャロ・リベルサスなどを医師の診察のもと処方。食欲のコントロールをサポートし、無理のない医療ダイエットをご提案します。",
+    price: "月々 7,500円〜",
+    href: "/glp1",
+    tone: "pink",
+  },
+  {
+    slug: "beauty",
+    icon: "fa-wand-magic-sparkles",
+    name: "美容内服",
+    desc: "ビタミンC・トラネキサム酸・L-システインなど、美白・エイジングケアの内服薬を医師が処方。内側からの肌ケアを。",
+    price: "月々 2,980円〜",
+    href: "/beauty",
+    tone: "pink",
+  },
+  {
+    slug: "antiaging",
+    icon: "fa-dna",
+    name: "アンチエイジング",
+    desc: "メトホルミンによるエイジングケアアプローチ。世界的に研究が進む抗老化の選択肢を、オンライン診療で。",
+    price: "月々 2,980円〜",
+    href: "/antiaging",
+    tone: "gold",
+  },
+  {
+    slug: "aga",
+    icon: "fa-mars",
+    name: "AGA治療",
+    desc: "デュタステリド0.5mg等を医師が処方。男性の薄毛（AGA）の進行抑制・発毛をサポートします。",
+    price: "月々 3,480円〜",
+    href: "/aga",
+    tone: "navy",
+  },
+];
+
+const reasons = [
+  {
+    icon: "fa-user-doctor",
+    title: "医師によるオンライン診療",
+    desc: "提携医療機関（マーチクリニック）の医師がビデオ通話で丁寧に診察。自宅にいながら医療機関の処方を受けられます。",
+    tag: "診察・配送料 2,000円",
+  },
+  {
+    icon: "fa-truck-fast",
+    title: "自宅に直接お届け",
+    desc: "処方されたお薬はプライバシーに配慮した梱包でお届け。定期便なら毎月自動発送で飲み忘れを防ぎます。",
+    tag: "配送料込み",
+  },
+  {
+    icon: "fa-comments",
+    title: "LINEで気軽に相談",
+    desc: "ご予約からお薬の変更まで、すべてLINEで完結。費用やプランのご不安も、お気軽にご相談ください。",
+    tag: "相談無料",
+  },
+];
+
+const steps = [
+  { no: "01", title: "LINE友だち追加", time: "約30秒", desc: "ボタンまたはQRコードから友だち追加。24時間いつでも登録いただけます。" },
+  { no: "02", title: "問診票を記入", time: "約5分", desc: "簡単な質問に回答するだけ。健康状態やお悩みをLINE上で入力します。" },
+  { no: "03", title: "オンライン診察", time: "約10分", desc: "ビデオ通話で医師が診察し、お一人おひとりに合った処方をご提案します。" },
+  { no: "04", title: "お薬が自宅に届く", time: "最短翌日発送", desc: "処方確定後にお薬を発送。定期便なら毎月自動でお届け、LINEで経過のフォローも。" },
+];
+
+const aboutPoints = [
+  { icon: "fa-mobile-screen", title: "スマホで完結", desc: "ご予約・問診・診察・お支払いまで、すべてスマホ上で。通院や待ち時間は不要です。" },
+  { icon: "fa-hospital", title: "医療機関による処方", desc: "提携医療機関（マーチクリニック）の医師が診察。医療機関による処方です。" },
+  { icon: "fa-house-medical", title: "ご自宅にお届け", desc: "処方されたお薬はプライバシーに配慮した梱包で、最短翌日にご自宅へお届けします。" },
+];
+
+const compare = [
+  { old: "予約・通院で半日つぶれる", neo: "スマホで約10分" },
+  { old: "待合室での待ち時間", neo: "待ち時間ゼロ" },
+  { old: "定期的に通院が必要", neo: "定期便で自動お届け" },
+  { old: "薬局での受け取り", neo: "お薬が自宅に届く" },
+  { old: "人目が気になる", neo: "プライバシー配慮の梱包" },
+];
+---
+
+<PageLayout>
+  {/* ============ HERO ============ */}
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">ONLINE CLINIC ・ 完全オンライン診療</p>
+        <h1 class="hero-title">
+          GLP-1ダイエット・美容内服の<br />
+          <span class="hero-title-accent">オンライン診療</span>なら<br />
+          キレイレポオンライン
+        </h1>
+        <p class="hero-lead">
+          美容内服・GLP-1ダイエット・アンチエイジング・AGA治療をオンラインで完結。
+          提携医療機関の医師がビデオ通話で診察し、お薬が自宅に届きます。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn--line hero-btn" href={LINE_URL} target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+          </a>
+          <a class="btn btn--ghost" href="#services">サービスを見る</a>
+        </div>
+        <ul class="hero-notes">
+          <li><i class="fa-solid fa-circle-check"></i>診察・配送料 2,000円</li>
+          <li><i class="fa-solid fa-circle-check"></i>定期縛りなし</li>
+          <li><i class="fa-solid fa-circle-check"></i>LINEで完結</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-card hero-card--1">
+          <span class="hero-card-icon"><i class="fa-solid fa-pills"></i></span>
+          <p class="hero-card-title">GLP-1ダイエット</p>
+          <p class="hero-card-sub">マンジャロ・リベルサス 処方</p>
+        </div>
+        <div class="hero-card hero-card--2">
+          <span class="hero-card-icon pink"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <p class="hero-card-title">美容内服</p>
+          <p class="hero-card-sub">美白・エイジングケア処方</p>
+        </div>
+        <div class="hero-stat">
+          <div><strong>2,000<span>円</span></strong><small>診察・配送料</small></div>
+          <div class="hero-stat-div"></div>
+          <div><strong>0<span>回</span></strong><small>通院回数</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ TRUST RIBBON ============ */}
+  <div class="trust">
+    <div class="container trust-inner">
+      {trust.map((t) => (
+        <span class="trust-item"><i class={`fa-solid ${t.icon}`}></i>{t.label}</span>
+      ))}
+    </div>
+  </div>
+
+  {/* ============ SERVICES ============ */}
+  <section class="section" id="services">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">SERVICES</p>
+        <h2 class="section-title">診療<span class="accent">メニュー</span></h2>
+        <p class="lead">目的に合わせた治療プランを医師がご提案します。すべてオンラインで完結。</p>
+      </header>
+
+      <div class="service-grid">
+        {serviceCards.map((s) => (
+          <a class:list={["service-card", `tone-${s.tone}`]} href={s.href}>
+            <span class="service-icon"><i class={`fa-solid ${s.icon}`}></i></span>
+            <h3 class="service-name">{s.name}</h3>
+            <p class="service-desc">{s.desc}</p>
+            <div class="service-foot">
+              <span class="service-price">{s.price}</span>
+              <span class="service-more">詳しく見る<i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p class="fineprint">※価格は税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。</p>
+    </div>
+  </section>
+
+  {/* ============ WHY US ============ */}
+  <section class="section section--cream">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">WHY US</p>
+        <h2 class="section-title">キレイレポが<span class="accent">選ばれる理由</span></h2>
+        <p class="lead">通院不要で、医師による診療を受けられます。</p>
+      </header>
+      <div class="reason-grid">
+        {reasons.map((r) => (
+          <article class="reason-card">
+            <span class="reason-icon"><i class={`fa-solid ${r.icon}`}></i></span>
+            <h3 class="reason-title">{r.title}</h3>
+            <p class="reason-desc">{r.desc}</p>
+            <span class="reason-tag">{r.tag}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ FLOW ============ */}
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2 class="section-title">診療の<span class="accent">流れ</span></h2>
+        <p class="lead">友だち追加から最短その日のうちに診察まで進められます。</p>
+      </header>
+      <ol class="flow">
+        {steps.map((s) => (
+          <li class="flow-step">
+            <span class="flow-no">{s.no}</span>
+            <div class="flow-body">
+              <p class="flow-title">{s.title}<span class="flow-time">{s.time}</span></p>
+              <p class="flow-desc">{s.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ ABOUT / COMPARISON ============ */}
+  <section class="section section--cream">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">ABOUT</p>
+        <h2 class="section-title">オンライン<span class="accent">診療とは</span></h2>
+        <p class="lead">スマホ1台で医師の診察を受け、お薬が自宅に届く新しい医療のかたちです。</p>
+      </header>
+      <div class="about-grid">
+        {aboutPoints.map((a) => (
+          <article class="about-card">
+            <span class="about-icon"><i class={`fa-solid ${a.icon}`}></i></span>
+            <h3 class="about-title">{a.title}</h3>
+            <p class="about-desc">{a.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="compare">
+        <div class="compare-col compare-old">
+          <p class="compare-head">従来の通院</p>
+          <ul>{compare.map((c) => <li><i class="fa-solid fa-xmark"></i>{c.old}</li>)}</ul>
+        </div>
+        <div class="compare-col compare-neo">
+          <p class="compare-head">キレイレポオンライン</p>
+          <ul>{compare.map((c) => <li><i class="fa-solid fa-check"></i>{c.neo}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PAYMENT & DELIVERY ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">PAYMENT &amp; DELIVERY</p>
+        <h2 class="section-title">お支払い・<span class="accent">定期配送</span>について</h2>
+      </header>
+      <dl class="info-list">
+        <div><dt>お支払い方法</dt><dd>クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、atone翌月払い、後払い（コンビニ/銀行ATM）に対応。</dd></div>
+        <div><dt>配送について</dt><dd>全国一律 診察・配送料 2,000円（税込）。最短翌日発送、プライバシーに配慮した梱包でお届けします。</dd></div>
+        <div><dt>定期配送</dt><dd>毎月自動発送で飲み忘れを防止。定期縛りはなく、次回発送日の1日前までにマイページからいつでも解約・休止が可能です。</dd></div>
+      </dl>
+      <p class="fineprint">※解約・休止の締切等の詳細は<a href="/legal/tokushoho">特定商取引法に基づく表記</a>をご確認ください。</p>
+    </div>
+  </section>
+
+  {/* ============ MEDICAL DISCLAIMER ============ */}
+  <section class="disclaimer">
+    <div class="container container--narrow">
+      <p class="disclaimer-title"><i class="fa-solid fa-circle-info"></i>ご利用にあたって</p>
+      <p>
+        本サービスは自由診療（保険適用外）です。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。
+        一部のお薬は、国内では特定の疾患の治療薬として承認されており、ダイエット・美容・エイジングケア目的での使用は承認適応外（適応外使用）となります。
+        副作用やリスクについては、オンライン診察時に医師が十分にご説明します。診察の結果、処方を行えない場合があります。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ ONLINE SHOP ============ */}
+  <section class="section section--cream">
+    <div class="container shop-banner">
+      <div class="shop-banner-text">
+        <p class="eyebrow">ONLINE SHOP</p>
+        <h2 class="section-title">オンライン<span class="accent">ショップ</span></h2>
+        <p class="lead" style="margin-top: 0.6rem;">サプリメント・スキンケアなどは、オンラインショップでもお求めいただけます。</p>
+      </div>
+      <a class="btn btn--brand shop-banner-btn" href={shopLink.href} target="_blank" rel="noopener">
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>ショップを見る
+      </a>
+    </div>
+  </section>
+
+  <LineCta />
+</PageLayout>
+
+<style>
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(80% 70% at 85% 0%, var(--brand-100) 0%, transparent 55%),
+      radial-gradient(70% 60% at 0% 100%, var(--pink-50) 0%, transparent 55%),
+      var(--bg);
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: clamp(2.8rem, 7vw, 5.5rem);
+    align-items: center;
+  }
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero);
+    font-weight: var(--fw-bold);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    margin-top: 1rem;
+  }
+  .hero-title-accent {
+    color: var(--brand-700);
+    position: relative;
+  }
+  .hero-title-accent::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.05em;
+    height: 0.32em;
+    background: var(--brand-200);
+    opacity: 0.55;
+    z-index: -1;
+  }
+  .hero-lead {
+    margin-top: 1.5rem;
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+    max-width: 32rem;
+  }
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+  .hero-btn {
+    font-size: 1.05rem;
+    padding: 1.05em 2.1em;
+  }
+  .hero-notes {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+  }
+  .hero-notes i {
+    color: var(--brand-600);
+    margin-right: 0.4em;
+  }
+
+  .hero-visual {
+    position: relative;
+    min-height: 320px;
+    display: none;
+  }
+  .hero-card {
+    position: absolute;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+    width: 60%;
+  }
+  .hero-card--1 {
+    top: 6%;
+    left: 4%;
+  }
+  .hero-card--2 {
+    top: 38%;
+    right: 2%;
+  }
+  .hero-card-icon {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+  .hero-card-icon.pink {
+    background: var(--pink-100);
+    color: var(--pink-600);
+  }
+  .hero-card-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .hero-card-sub {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .hero-stat {
+    position: absolute;
+    bottom: 2%;
+    left: 12%;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: var(--ink-900);
+    color: #fff;
+    border-radius: var(--r-lg);
+    padding: 1.1rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-stat strong {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--brand-300);
+  }
+  .hero-stat strong span {
+    font-size: 0.9rem;
+    margin-left: 0.1em;
+  }
+  .hero-stat small {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 0.2rem;
+  }
+  .hero-stat-div {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* ============ TRUST ============ */
+  .trust {
+    background: var(--ink-900);
+    color: #fff;
+  }
+  .trust-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem 2rem;
+    padding-block: 1rem;
+  }
+  .trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.88rem;
+    font-weight: var(--fw-medium);
+  }
+  .trust-item i {
+    color: var(--brand-300);
+  }
+
+  /* ============ shared section head ============ */
+  .section--cream {
+    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
+  }
+  .section-head {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto clamp(2.2rem, 5vw, 3.5rem);
+  }
+  .section-head .lead {
+    margin-top: 0.9rem;
+  }
+
+  /* ============ SERVICES ============ */
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .service-card::before {
+    content: "";
+    height: 4px;
+    width: 48px;
+    border-radius: 4px;
+    background: var(--brand-gradient);
+    margin-bottom: 1.3rem;
+  }
+  .service-card.tone-pink::before {
+    background: linear-gradient(135deg, var(--pink-400), var(--pink-600));
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--brand-300);
+  }
+  .service-icon {
+    display: inline-flex;
+    width: 56px;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+    font-size: 1.5rem;
+  }
+  .tone-pink .service-icon {
+    background: var(--pink-100);
+    color: var(--pink-600);
+  }
+  .service-name {
+    margin-top: 1.2rem;
+    font-size: var(--fs-h3);
+  }
+  .service-desc {
+    margin-top: 0.7rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    flex: 1;
+  }
+  .service-foot {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--cream-200);
+  }
+  .service-price {
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    font-size: 1.25rem;
+    color: var(--brand-800);
+  }
+  .tone-pink .service-price {
+    color: var(--pink-600);
+  }
+  .service-card.tone-gold::before {
+    background: var(--gold-gradient);
+  }
+  .service-card.tone-navy::before {
+    background: linear-gradient(135deg, var(--ink-500), var(--ink-900));
+  }
+  .tone-gold .service-icon {
+    background: var(--gold-gradient-soft);
+    color: var(--gold-800);
+  }
+  .tone-navy .service-icon {
+    background: #eef1f5;
+    color: var(--ink-800);
+  }
+  .tone-gold .service-price {
+    color: var(--gold-800);
+  }
+  .tone-navy .service-price {
+    color: var(--ink-800);
+  }
+  .service-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.85rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-500);
+  }
+  .service-card:hover .service-more i {
+    transform: translateX(3px);
+  }
+  .service-more i {
+    transition: transform 0.2s ease;
+  }
+  .fineprint {
+    margin-top: 1.6rem;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+    text-align: center;
+  }
+  .fineprint a {
+    color: var(--brand-700);
+    text-decoration: underline;
+  }
+
+  /* ============ WHY US ============ */
+  .reason-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .reason-card {
+    background: #fff;
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--cream-300);
+  }
+  .reason-icon {
+    display: inline-flex;
+    width: 58px;
+    height: 58px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow-brand);
+  }
+  .reason-title {
+    margin-top: 1.2rem;
+    font-size: 1.15rem;
+  }
+  .reason-desc {
+    margin-top: 0.7rem;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+  }
+  .reason-tag {
+    display: inline-block;
+    margin-top: 1.1rem;
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    background: var(--brand-100);
+    border-radius: var(--r-pill);
+    padding: 0.35em 1em;
+  }
+
+  /* ============ FLOW ============ */
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    counter-reset: flow;
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+  .flow-step {
+    display: flex;
+    gap: 1.3rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .flow-no {
+    flex-shrink: 0;
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    font-size: 1.3rem;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    box-shadow: var(--shadow-brand);
+  }
+  .flow-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 1.08rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+  .flow-time {
+    font-size: 0.74rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    background: var(--brand-100);
+    border-radius: var(--r-pill);
+    padding: 0.2em 0.8em;
+  }
+  .flow-desc {
+    margin-top: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  /* ============ ABOUT ============ */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    margin-bottom: 2.5rem;
+  }
+  .about-card {
+    text-align: center;
+    background: #fff;
+    border-radius: var(--r-lg);
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--cream-300);
+    box-shadow: var(--shadow-sm);
+  }
+  .about-icon {
+    display: inline-flex;
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+    font-size: 1.5rem;
+  }
+  .about-title {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+  }
+  .about-desc {
+    margin-top: 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  /* comparison */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+  .compare-col {
+    border-radius: var(--r-lg);
+    padding: 1.5rem 1.3rem;
+  }
+  .compare-old {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+  }
+  .compare-neo {
+    background: var(--ink-900);
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+  }
+  .compare-head {
+    font-weight: var(--fw-bold);
+    text-align: center;
+    padding-bottom: 0.9rem;
+    margin-bottom: 0.9rem;
+    border-bottom: 1px solid var(--cream-200);
+  }
+  .compare-neo .compare-head {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--brand-300);
+  }
+  .compare-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .compare-col li {
+    display: flex;
+    gap: 0.6em;
+    align-items: flex-start;
+    font-size: 0.9rem;
+  }
+  .compare-old li i {
+    color: var(--ink-300);
+    margin-top: 0.25em;
+  }
+  .compare-neo li i {
+    color: var(--brand-300);
+    margin-top: 0.25em;
+  }
+
+  /* ============ INFO LIST ============ */
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: #fff;
+  }
+  .info-list > div {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+    padding: 1.3rem 1.5rem;
+    border-bottom: 1px solid var(--cream-200);
+  }
+  .info-list > div:last-child {
+    border-bottom: none;
+  }
+  .info-list dt {
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+  }
+  .info-list dd {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+  }
+
+  /* ============ DISCLAIMER ============ */
+  .disclaimer {
+    background: var(--cream-100);
+    padding-block: 2.5rem;
+  }
+  .disclaimer-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.6rem;
+  }
+  .disclaimer-title i {
+    color: var(--brand-700);
+    margin-right: 0.4em;
+  }
+  .disclaimer p:not(.disclaimer-title) {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--ink-500);
+  }
+
+  /* ============ SHOP BANNER ============ */
+  .shop-banner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .shop-banner-text {
+    min-width: 0;
+    flex: 1 1 260px;
+  }
+  .shop-banner-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  /* ============ RESPONSIVE ============ */
+
+  /* --- Mobile baseline (360–599px) --- */
+  @media (max-width: 599px) {
+    /* Hero title: ensure it wraps gracefully */
+    .hero-title {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    /* Hero notes: allow wrapping for narrow viewports */
+    .hero-notes {
+      gap: 0.8rem;
+    }
+
+    /* Compare: stack to 1 column on mobile */
+    .compare {
+      grid-template-columns: 1fr;
+    }
+
+    /* Compare head border matches collapsed layout */
+    .compare-old {
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+    }
+    .compare-neo {
+      border-radius: 0 0 var(--r-lg) var(--r-lg);
+    }
+
+    /* Shop banner: stack on mobile */
+    .shop-banner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .shop-banner-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Service foot: allow wrapping on very small screens */
+    .service-foot {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* Flow step: tighten padding */
+    .flow-step {
+      padding: 1.1rem 1.1rem;
+    }
+
+    /* Trust ribbon: tighten */
+    .trust-inner {
+      gap: 0.6rem 1.2rem;
+    }
+  }
+
+  /* --- Tablet and up (720px+) --- */
+  @media (min-width: 720px) {
+    .service-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .reason-grid,
+    .about-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .info-list > div {
+      grid-template-columns: 200px 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  /* --- Desktop (960px+) --- */
+  @media (min-width: 960px) {
+    .hero-inner {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+    }
+    .hero-visual {
+      display: block;
+      overflow: hidden;
+    }
+    .service-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    /* Prevent service card content from overflowing in 4-col layout */
+    .service-card {
+      min-width: 0;
+    }
+  }
+
+  /* --- Large desktop (1280px+): keep hero cards within bounds --- */
+  @media (min-width: 1280px) {
+    .hero-card {
+      width: 55%;
+    }
+  }
+
+  /* --- General overflow safety --- */
+  .hero-copy,
+  .service-desc,
+  .reason-desc,
+  .about-desc,
+  .flow-desc,
+  .info-list dd {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+</style>

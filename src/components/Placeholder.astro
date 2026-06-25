@@ -1,0 +1,43 @@
+---
+import { LINE_URL } from "../data/site";
+export interface Props {
+  title: string;
+  note?: string;
+}
+const {
+  title,
+  note = "このページは現在準備中です。リニューアル第2段階で整備します。",
+} = Astro.props;
+---
+
+<section class="section placeholder">
+  <div class="container container--narrow placeholder-inner">
+    <p class="eyebrow">COMING SOON</p>
+    <h1 class="section-title">{title}</h1>
+    <p class="lead" style="margin-top: 1rem;">{note}</p>
+    <div class="placeholder-actions">
+      <a class="btn btn--brand" href="/">トップへ戻る</a>
+      <a class="btn btn--line" href={LINE_URL} target="_blank" rel="noopener">
+        <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで相談
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .placeholder {
+    min-height: 56vh;
+    display: flex;
+    align-items: center;
+  }
+  .placeholder-inner {
+    text-align: center;
+  }
+  .placeholder-actions {
+    margin-top: 2.2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>

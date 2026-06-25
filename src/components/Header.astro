@@ -1,0 +1,222 @@
+---
+import { LINE_URL, SITE_NAME, navLinks, shopLink } from "../data/site";
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${SITE_NAME} ホーム`}>
+      <span class="brand-mark">キレイレポ</span>
+      <span class="brand-sub">ONLINE CLINIC</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="グローバルナビゲーション">
+      {
+        navLinks.map((l) => (
+          <a href={l.href} class:list={["nav-link", { active: isActive(l.href) }]}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="header-actions">
+      <a class="shop-link" href={shopLink.href} target="_blank" rel="noopener" aria-label="オンラインショップ">
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><span>ショップ</span>
+      </a>
+      <a class="btn btn--line header-cta" href={LINE_URL} target="_blank" rel="noopener">
+        <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+      </a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav class="mobile-nav" aria-label="モバイルナビゲーション">
+      {navLinks.map((l) => <a href={l.href} class="mobile-link">{l.label}</a>)}
+      <a class="mobile-link" href={shopLink.href} target="_blank" rel="noopener">
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> オンラインショップ
+      </a>
+      <a class="btn btn--line mobile-cta" href={LINE_URL} target="_blank" rel="noopener">
+        <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("hamburgerBtn");
+  const menu = document.getElementById("mobileMenu");
+  btn?.addEventListener("click", () => {
+    const open = menu?.hasAttribute("hidden");
+    if (open) {
+      menu?.removeAttribute("hidden");
+      btn.setAttribute("aria-expanded", "true");
+      btn.classList.add("is-open");
+    } else {
+      menu?.setAttribute("hidden", "");
+      btn.setAttribute("aria-expanded", "false");
+      btn.classList.remove("is-open");
+    }
+  });
+  menu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      menu.setAttribute("hidden", "");
+      btn?.setAttribute("aria-expanded", "false");
+      btn?.classList.remove("is-open");
+    })
+  );
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 250, 251, 0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .brand-mark {
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    font-size: 1.35rem;
+    color: var(--brand-600);
+    letter-spacing: 0.04em;
+  }
+  .brand-sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.32em;
+    color: var(--ink-400);
+    margin-top: 3px;
+  }
+  .nav-desktop {
+    display: none;
+    gap: 1.5rem;
+  }
+  .nav-link {
+    position: relative;
+    font-size: 0.92rem;
+    font-weight: var(--fw-medium);
+    color: var(--ink-700);
+    padding: 0.3rem 0;
+    white-space: nowrap;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: var(--brand-gradient);
+    transition: width 0.25s ease;
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+  .nav-link.active {
+    color: var(--brand-600);
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .shop-link {
+    display: none;
+    align-items: center;
+    gap: 0.45em;
+    font-size: 0.88rem;
+    font-weight: var(--fw-medium);
+    color: var(--ink-700);
+  }
+  .shop-link i {
+    color: var(--brand-600);
+  }
+  .shop-link:hover {
+    color: var(--brand-600);
+  }
+  .header-cta {
+    display: none;
+    padding: 0.6em 1.2em;
+    font-size: 0.9rem;
+  }
+  .hamburger {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .hamburger span {
+    height: 2px;
+    width: 100%;
+    background: var(--ink-700);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .hamburger.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+  .mobile-menu {
+    border-bottom: 1px solid var(--border);
+    background: var(--cream-50);
+  }
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem var(--gutter) 1.5rem;
+  }
+  .mobile-link {
+    padding: 0.95rem 0.25rem;
+    font-weight: var(--fw-medium);
+    border-bottom: 1px solid var(--cream-200);
+  }
+  .mobile-cta {
+    margin-top: 1.2rem;
+    width: 100%;
+  }
+
+  @media (min-width: 980px) {
+    .nav-desktop {
+      display: flex;
+    }
+    .shop-link,
+    .header-cta {
+      display: inline-flex;
+    }
+    .hamburger {
+      display: none;
+    }
+  }
+</style>

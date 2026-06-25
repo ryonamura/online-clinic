@@ -1,0 +1,626 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import LineCta from "../components/LineCta.astro";
+
+const categories = [
+  {
+    id: "glp1",
+    icon: "fa-pills",
+    label: "GLP-1ダイエット",
+    color: "pink",
+    faqs: [
+      {
+        q: "効果はいつから出ますか？",
+        a: "個人差があり、すべての方に同様の効果が出るものではありません。使用開始から2〜4週間で食欲の変化を感じ始める方が多く報告されていますが、体重への変化は1〜3ヶ月ほどかかることが多いとされています。継続使用でさらなる効果が期待できると考えられていますが、効果には個人差があります。本サービスは自由診療（保険適用外）であり、効果を保証するものではありません。",
+      },
+      {
+        q: "副作用はありますか？",
+        a: "GLP-1受容体作動薬では、吐き気・下痢・便秘・腹部不快感などの消化器症状が報告されています。使用初期に出やすく、多くの場合は時間とともに軽減されますが、必ずしも軽減されるとは限りません。まれに低血糖・急性膵炎などの重篤な副作用の報告もあります。SGLT2阻害薬では頻尿・口渇・尿路感染症等が報告されています。気になる症状が現れた場合は、LINEでご相談ください。",
+      },
+      {
+        q: "他の薬との併用はできますか？",
+        a: "服用中のお薬がある場合は、オンライン診察時に必ずお知らせください。医師が安全性を確認のうえ処方可否を判断します。特に糖尿病治療薬をご使用の方は必ずお伝えください。診察の結果、処方ができない場合があります。",
+      },
+      {
+        q: "解約・休止はできますか？",
+        a: "定期縛りは一切ありません。次回発送日の1日前までに、ご自身でマイページからお手続きいただければ、いつでも解約・休止が可能です。違約金・解約手数料は発生しません。",
+      },
+    ],
+  },
+  {
+    id: "beauty",
+    icon: "fa-wand-magic-sparkles",
+    label: "美容内服",
+    color: "pink",
+    faqs: [
+      {
+        q: "いつから効果が出ますか？",
+        a: "肌のターンオーバーには個人差がありますが、一般的に約28〜70日かかるとされています。効果を実感するまでに最低1〜3ヶ月の継続が目安と考えられていますが、効果には個人差があり、すべての方に同様の結果が出るものではありません。美白効果は3〜6ヶ月の継続が推奨されています。本サービスは自由診療（保険適用外）です。定期便なら飲み忘れを防ぎ、継続しやすくなります。",
+      },
+      {
+        q: "市販のサプリと何が違いますか？",
+        a: "医師が処方する内服薬は医薬品として効果が認められており、市販サプリとは成分含有量・品質基準が異なります。肌の状態や生活習慣に合わせて医師が適切な処方を選択します。ただし、効果には個人差があり、すべての方に同様の効果を保証するものではありません。",
+      },
+      {
+        q: "プランは選べますか？",
+        a: "お悩みや目的に合わせて既存プランからお選びいただけます。「シミが気になる」「肌荒れを改善したい」などのご要望をLINEでご相談ください。医師が最適なプランをご提案します。診察の結果、処方ができない場合があります。",
+      },
+      {
+        q: "副作用はありますか？",
+        a: "いずれの成分も比較的安全性は高いとされていますが、胃部不快感・悪心・下痢などの消化器症状が出ることがあります。症状が出た場合は服用を中止し、医師にご相談ください。トラネキサム酸は血栓リスクがあるため、ピル服用中・血栓症の既往がある方は服用できません。",
+      },
+    ],
+  },
+  {
+    id: "antiaging",
+    icon: "fa-dna",
+    label: "アンチエイジング",
+    color: "gold",
+    faqs: [
+      {
+        q: "メトホルミンはどんな薬ですか？",
+        a: "2型糖尿病治療薬として60年以上の臨床実績を持つ医薬品です。近年、AMPK活性化による抗老化作用が研究されており、米国ではTAME試験（非糖尿病高齢者3,000人対象）が進行中です。ただし、エイジングケアを効能とする承認医薬品は現時点で存在せず、エイジングケア目的での使用は国内未承認の適応外使用となります。本サービスは自由診療（保険適用外）です。",
+      },
+      {
+        q: "副作用はありますか？",
+        a: "主な副作用は消化器症状（下痢・吐き気・腹部不快感）です。多くの場合は服用初期に出やすく、時間とともに軽減されることが多いとされていますが、必ずしも軽減されるとは限りません。まれに乳酸アシドーシス（全身倦怠感・筋肉痛・過呼吸など）のリスクがあるため、医師の指示に従って服用してください。腎機能障害・肝機能障害・心不全・妊娠中・授乳中の方には処方できません。",
+      },
+      {
+        q: "どのくらいで効果を感じますか？",
+        a: "効果には個人差があり、すべての方に同様の結果が出るものではありません。メトホルミンのエイジングケアへの作用は研究段階であり、現時点では効果を保証するものではありません。継続的な服用と医師による定期的な確認が重要です。",
+      },
+    ],
+  },
+  {
+    id: "aga",
+    icon: "fa-person",
+    label: "AGA（男性型脱毛症）",
+    color: "navy",
+    faqs: [
+      {
+        q: "効果はいつから出ますか？",
+        a: "個人差があり、すべての方に同様の効果が出るものではありません。AGA治療薬は継続的な服用が前提であり、効果を実感するまでに数ヶ月〜1年程度かかる場合があります。途中で服用を中断すると、効果が失われる場合があります。本サービスは自由診療（保険適用外）であり、効果を保証するものではありません。",
+      },
+      {
+        q: "副作用はありますか？",
+        a: "フィナステリド・デュタステリドなどの5α還元酵素阻害薬では、性欲減退・勃起不全・射精量減少などの性機能に関する副作用が報告されています。まれに抑うつ症状の報告もあります。これらの薬剤は女性（特に妊婦・妊娠の可能性がある方）には使用できません。気になる症状が現れた場合は、速やかに医師にご相談ください。",
+      },
+      {
+        q: "女性でも利用できますか？",
+        a: "AGA（男性型脱毛症）の治療薬（フィナステリド・デュタステリドなど）は、女性には処方できません。特に妊婦・妊娠の可能性がある方は、薬剤に触れることも避けてください。女性の脱毛（FAGA）については別途ご相談ください。",
+      },
+    ],
+  },
+  {
+    id: "general",
+    icon: "fa-circle-question",
+    label: "サービス全般",
+    color: "pink",
+    faqs: [
+      {
+        q: "オンライン診療の流れは？",
+        a: "LINEで友だち追加 → 問診に回答 → 医師がオンラインで診察 → 処方・決済 → ご自宅に配送の流れです。すべてスマホで完結し、来院は不要です。診察の結果、処方ができない場合があります。",
+      },
+      {
+        q: "配送にかかる日数は？",
+        a: "処方確定後、通常3〜5営業日でお届けします。配送状況はLINEでご確認いただけます。最短翌日発送に対応していますが、お届け日は地域や配送状況によって異なります。",
+      },
+      {
+        q: "支払方法は何がありますか？",
+        a: "クレジットカード（VISA・Mastercard・JCB・AMEX）、Apple Pay、atone翌月払い（コンビニ/口座振替）、後払い（コンビニ/銀行ATM）に対応しています。定期便は毎月自動決済となります。",
+      },
+      {
+        q: "定期便の解約方法は？",
+        a: "解約・休止は、次回発送日の1日前までに、ご自身でマイページからお手続きいただけます。解約金・違約金は一切発生しません。",
+      },
+      {
+        q: "処方薬の返品・交換はできますか？",
+        a: "医薬品の性質上、お届け後の返品・交換は原則としてお受けできません。配送中の破損や誤配送の場合は、お届けから3日以内にLINEでご連絡ください。速やかに対応いたします（送料は当社負担）。",
+      },
+    ],
+  },
+];
+---
+
+<PageLayout
+  title="よくある質問｜キレイレポオンライン"
+  description="キレイレポオンラインのよくある質問（FAQ）。GLP-1ダイエット・美容内服・アンチエイジング・AGA・サービス全般のご質問と回答をまとめています。"
+>
+  {/* ============ PAGE HERO ============ */}
+  <section class="faq-hero">
+    <div class="container">
+      <p class="eyebrow">FAQ</p>
+      <h1 class="faq-hero-title">よくある<span class="accent">ご質問</span></h1>
+      <p class="lead faq-hero-lead">
+        GLP-1ダイエット・美容内服・アンチエイジング・AGA・サービス全般のご質問をまとめました。<br />
+        解決しない場合はLINEでお気軽にご相談ください。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ CATEGORY NAV ============ */}
+  <nav class="cat-nav" aria-label="カテゴリ">
+    <div class="container cat-nav-inner">
+      {categories.map((cat) => (
+        <a href={`#cat-${cat.id}`} class:list={["cat-nav-item", `cat-nav-item--${cat.color}`]}>
+          <i class={`fa-solid ${cat.icon}`} aria-hidden="true"></i>
+          <span>{cat.label}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  {/* ============ FAQ SECTIONS ============ */}
+  <div class="faq-body">
+    <div class="container container--narrow">
+      {categories.map((cat) => (
+        <section class="faq-section" id={`cat-${cat.id}`}>
+          <header class:list={["faq-section-head", `faq-section-head--${cat.color}`]}>
+            <span class="faq-section-icon">
+              <i class={`fa-solid ${cat.icon}`} aria-hidden="true"></i>
+            </span>
+            <h2 class="faq-section-title">{cat.label}</h2>
+          </header>
+
+          <dl class="faq-list">
+            {cat.faqs.map((item) => (
+              <details class="faq-item" name={`faq-${cat.id}`}>
+                <summary class="faq-q">
+                  <span class="faq-q-badge">Q</span>
+                  <span class="faq-q-text">{item.q}</span>
+                  <i class="fa-solid fa-chevron-down faq-q-icon" aria-hidden="true"></i>
+                </summary>
+                <div class="faq-a">
+                  <span class="faq-a-badge">A</span>
+                  <p class="faq-a-text">{item.a}</p>
+                </div>
+              </details>
+            ))}
+          </dl>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  {/* ============ DISCLAIMER ============ */}
+  <section class="faq-disclaimer">
+    <div class="container container--narrow">
+      <p class="disclaimer-title"><i class="fa-solid fa-circle-info"></i>免責事項（DISCLAIMER）</p>
+      <ul class="disclaimer-list">
+        <li>本サービスはすべて自由診療（保険適用外）です。費用は全額自己負担となります。</li>
+        <li>効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。</li>
+        <li>GLP-1受容体作動薬（マンジャロ・リベルサス等）、SGLT2阻害薬（フォシーガ・ルセフィ等）は、国内では2型糖尿病治療薬として承認されており、ダイエット目的での使用は国内未承認の適応外使用です。</li>
+        <li>美容内服の一部薬剤は、美容目的での使用が承認適応外となる場合があります。</li>
+        <li>メトホルミンは国内で2型糖尿病治療薬として承認されており、エイジングケア目的での使用は国内未承認の適応外使用です。エイジングケアを効能とする承認医薬品は現時点で存在しません。</li>
+        <li>適応外使用のため、医薬品副作用被害救済制度の対象外となる場合があります。</li>
+        <li>医師のオンライン診察が必要です。問診内容によっては処方できない場合があります。</li>
+        <li>副作用や治療上の疑問点については、オンライン診察時に医師が十分にご説明します。</li>
+      </ul>
+    </div>
+  </section>
+
+  {/* ============ STILL HAVE QUESTIONS ============ */}
+  <section class="section section--cream">
+    <div class="container container--narrow">
+      <div class="still-q">
+        <span class="still-q-icon"><i class="fa-solid fa-comments"></i></span>
+        <h2 class="still-q-title">解決しない場合は<span class="accent">LINEへ</span></h2>
+        <p class="still-q-text">
+          掲載のない質問はLINEでお気軽にご相談ください。<br />
+          専任スタッフが丁寧にご回答します。相談・問診は無料です。
+        </p>
+        <a
+          class="btn btn--line"
+          href="https://lin.ee/3vvO4ol"
+          target="_blank"
+          rel="noopener"
+        >
+          <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで質問する
+        </a>
+        <p class="fineprint">対応時間: 平日 11:00〜17:00</p>
+      </div>
+    </div>
+  </section>
+
+  <LineCta />
+</PageLayout>
+
+<style>
+  /* ============ HERO ============ */
+  .faq-hero {
+    background:
+      radial-gradient(80% 60% at 90% 0%, var(--brand-100) 0%, transparent 55%),
+      radial-gradient(60% 50% at 0% 100%, var(--pink-50) 0%, transparent 55%),
+      var(--bg);
+    padding-block: clamp(3rem, 8vw, 5rem);
+    text-align: center;
+  }
+  .faq-hero-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    letter-spacing: 0.04em;
+    margin-top: 0.5rem;
+  }
+  .faq-hero-lead {
+    max-width: 38rem;
+    margin: 1rem auto 0;
+    color: var(--text-muted);
+  }
+  .accent {
+    color: var(--brand-700);
+  }
+
+  /* ============ CATEGORY NAV ============ */
+  .cat-nav {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 10;
+    background: #fff;
+    border-bottom: 1px solid var(--cream-300);
+    box-shadow: var(--shadow-sm);
+    /* prevent any child from causing horizontal overflow */
+    overflow: hidden;
+  }
+  .cat-nav-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    padding-block: 0.6rem;
+    padding-inline: var(--gutter);
+    justify-content: center;
+    /* fallback: horizontal scroll when items truly can't wrap */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cat-nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+  .cat-nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    padding: 0.42em 0.9em;
+    border-radius: var(--r-pill);
+    border: 1.5px solid var(--cream-300);
+    color: var(--ink-500);
+    background: var(--cream-50);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .cat-nav-item--pink:hover,
+  .cat-nav-item--pink:focus {
+    background: var(--brand-100);
+    color: var(--brand-800);
+    border-color: var(--brand-300);
+  }
+  .cat-nav-item--gold:hover,
+  .cat-nav-item--gold:focus {
+    background: var(--gold-100);
+    color: var(--gold-800);
+    border-color: var(--gold-300);
+  }
+  .cat-nav-item--navy:hover,
+  .cat-nav-item--navy:focus {
+    background: #eef2f6;
+    color: var(--ink-900);
+    border-color: var(--ink-400);
+  }
+
+  /* ============ FAQ BODY ============ */
+  .faq-body {
+    padding-block: clamp(2rem, 6vw, 5rem);
+    /* prevent inner content from overflowing viewport */
+    overflow-x: hidden;
+  }
+
+  /* ============ SECTION HEADER ============ */
+  .faq-section {
+    margin-bottom: 3rem;
+    /* account for sticky header + cat-nav (approx 68px + 60px) */
+    scroll-margin-top: calc(var(--header-h) + 70px);
+  }
+  .faq-section:last-child {
+    margin-bottom: 0;
+  }
+  .faq-section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--r-md);
+    margin-bottom: 1rem;
+    /* prevent head row from overflowing on narrow screens */
+    min-width: 0;
+  }
+  .faq-section-head--pink {
+    background: var(--brand-gradient-soft);
+    border: 1px solid var(--brand-200);
+  }
+  .faq-section-head--gold {
+    background: var(--gold-gradient-soft);
+    border: 1px solid var(--gold-200);
+  }
+  .faq-section-head--navy {
+    background: linear-gradient(135deg, #eef2f6, #dce4ec);
+    border: 1px solid #c5d0db;
+  }
+  .faq-section-icon {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .faq-section-head--pink .faq-section-icon {
+    background: var(--brand-gradient);
+    color: #fff;
+    box-shadow: var(--shadow-brand);
+  }
+  .faq-section-head--gold .faq-section-icon {
+    background: var(--gold-gradient);
+    color: #fff;
+    box-shadow: var(--shadow-gold);
+  }
+  .faq-section-head--navy .faq-section-icon {
+    background: var(--ink-900);
+    color: #fff;
+  }
+  .faq-section-title {
+    font-size: clamp(1.05rem, 0.9rem + 0.8vw, 1.6rem);
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    /* allow title to wrap rather than overflow */
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+
+  /* ============ FAQ ACCORDION ============ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .faq-item {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+    /* prevent long Q/A text from overflowing card */
+    min-width: 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .faq-item[open] {
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq-q {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    /* ensure flex children don't escape */
+    min-width: 0;
+  }
+  .faq-q::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: var(--fw-black);
+    letter-spacing: 0;
+    margin-top: 0.1em;
+  }
+  .faq-q-text {
+    flex: 1;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: clamp(0.875rem, 0.83rem + 0.3vw, 0.97rem);
+    line-height: 1.55;
+    padding-top: 0.15em;
+    /* allow long question text to wrap */
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+  .faq-q-icon {
+    flex-shrink: 0;
+    color: var(--brand-600);
+    font-size: 0.8rem;
+    margin-top: 0.35em;
+    transition: transform 0.25s ease;
+  }
+  .faq-item[open] .faq-q-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem 1.1rem;
+    border-top: 1px solid var(--cream-200);
+    min-width: 0;
+  }
+  .faq-a-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--cream-200);
+    color: var(--ink-500);
+    font-size: 0.8rem;
+    font-weight: var(--fw-black);
+    margin-top: 0.05em;
+  }
+  .faq-a-text {
+    flex: 1;
+    font-size: clamp(0.845rem, 0.8rem + 0.25vw, 0.93rem);
+    color: var(--text-muted);
+    line-height: 1.85;
+    /* ensure long answer text wraps instead of overflowing */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
+  }
+
+  /* ============ DISCLAIMER ============ */
+  .faq-disclaimer {
+    background: var(--cream-100);
+    padding-block: 2.5rem;
+  }
+  .disclaimer-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 1rem;
+  }
+  .disclaimer-title i {
+    color: var(--brand-700);
+    margin-right: 0.4em;
+  }
+  .disclaimer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding-left: 0;
+    list-style: none;
+  }
+  .disclaimer-list li {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--ink-500);
+    padding-left: 1.2em;
+    position: relative;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .disclaimer-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    color: var(--brand-500);
+  }
+
+  /* ============ STILL QUESTIONS ============ */
+  .still-q {
+    text-align: center;
+    padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+  }
+  .still-q-icon {
+    display: inline-flex;
+    width: 64px;
+    height: 64px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 1.6rem;
+    box-shadow: var(--shadow-brand);
+    margin-bottom: 1.2rem;
+  }
+  .still-q-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.8rem;
+  }
+  .still-q-text {
+    color: var(--text-muted);
+    font-size: var(--fs-lead);
+    margin-bottom: 1.8rem;
+    line-height: 1.85;
+  }
+  .fineprint {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+  }
+
+  /* ============ RESPONSIVE ============ */
+
+  /* Mobile: ensure hero text doesn't overflow */
+  @media (max-width: 599px) {
+    .faq-hero-lead {
+      font-size: 0.9rem;
+      padding-inline: 0.25rem;
+    }
+
+    /* On very small screens, cat-nav switches to single-row scroll */
+    .cat-nav-inner {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      padding-block: 0.55rem;
+      /* add slight padding so first item isn't flush to edge */
+      padding-inline: var(--gutter);
+    }
+
+    .faq-section-head {
+      padding: 0.8rem 0.9rem;
+    }
+
+    .still-q-title {
+      font-size: clamp(1.3rem, 1.1rem + 1.5vw, 2rem);
+    }
+  }
+
+  @media (min-width: 600px) {
+    /* Restore wrapping on tablet+ so nav fills width nicely */
+    .cat-nav-inner {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 720px) {
+    .cat-nav-item {
+      font-size: 0.88rem;
+      padding: 0.5em 1.3em;
+    }
+    .faq-q {
+      gap: 0.85rem;
+      padding: 1.25rem 1.5rem;
+    }
+    .faq-a {
+      gap: 0.85rem;
+      padding: 1rem 1.5rem 1.35rem;
+    }
+    .faq-section-head {
+      padding: 1.1rem 1.4rem;
+    }
+    .faq-section-icon {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      font-size: 1.2rem;
+    }
+  }
+</style>

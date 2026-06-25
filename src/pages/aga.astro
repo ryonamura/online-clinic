@@ -1,0 +1,1067 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import LineCta from "../components/LineCta.astro";
+import { LINE_URL } from "../data/site";
+
+const badges = [
+  { icon: "fa-mobile-screen-button", label: "オンライン完結" },
+  { icon: "fa-rotate-left", label: "定期縛りなし" },
+  { icon: "fa-user-doctor", label: "医師監修" },
+];
+
+const forWhom = [
+  { icon: "fa-head-side-virus", title: "生え際が後退してきた", desc: "徐々に額が広くなってきた、生え際の変化が気になり始めた方に。" },
+  { icon: "fa-circle-dot", title: "頭頂部の薄さが気になる", desc: "頭頂部や分け目が目立ってきた、地肌が透けて見えるようになった方に。" },
+  { icon: "fa-droplet", title: "抜け毛が増えた気がする", desc: "シャンプー時や枕への抜け毛が以前より増えたと感じている方に。" },
+  { icon: "fa-clock-rotate-left", title: "家族に薄毛が多い", desc: "父や祖父に薄毛が多く、遺伝的なリスクが気になっている方に。" },
+  { icon: "fa-mobile-screen", title: "通院せずに治療を始めたい", desc: "忙しくてクリニックに通えない方も、オンライン完結で診察・処方を受けられます。" },
+  { icon: "fa-shield-halved", title: "早期から進行を抑えたい", desc: "AGAは進行性のため、気になり始めた段階からの早期対処が重要と考えられています。" },
+];
+
+const medications = [
+  {
+    name: "フィナステリド",
+    brand: "プロペシア・ジェネリック等",
+    approval: "国内でAGA承認",
+    method: "毎日 内服（経口）",
+    feature: "5α還元酵素II型を阻害してDHTの産生を抑制し、AGAの進行抑制をサポートします。",
+    note: "",
+    approved: true,
+  },
+  {
+    name: "デュタステリド",
+    brand: "ザガーロ・ジェネリック等",
+    approval: "国内でAGA承認",
+    method: "毎日 内服（経口）",
+    feature: "5α還元酵素I型・II型の両方を阻害し、DHT産生をより広範囲で抑制します。",
+    note: "",
+    approved: true,
+  },
+  {
+    name: "ミノキシジル外用",
+    brand: "リアップ等（OTC・処方薬）",
+    approval: "発毛効果（男性型脱毛症）",
+    method: "1〜2回/日 外用",
+    feature: "頭皮の血流を改善し、発毛をサポートします。市販品（OTC）としても入手可能です。",
+    note: "",
+    approved: true,
+  },
+  {
+    name: "ミノキシジル内服",
+    brand: "内服薬（錠剤）",
+    approval: "※国内未承認（適応外使用）",
+    method: "毎日 内服（経口）",
+    feature: "外用と比較して全身への効果が期待される一方、副作用（動悸・むくみ・多毛等）のリスクも高まります。医師と十分に相談のうえ検討します。",
+    note: "※国内において発毛目的での内服薬としての承認がありません。適応外使用のため医薬品副作用被害救済制度の対象外となります。",
+    approved: false,
+  },
+];
+
+const steps = [
+  { no: "01", title: "LINE友だち追加", time: "約30秒", desc: "ボタンまたはQRコードから友だち追加。24時間いつでも登録いただけます。" },
+  { no: "02", title: "問診票を記入", time: "約5分", desc: "薄毛の状態・進行具合・健康状態などをLINE上でお答えいただきます。" },
+  { no: "03", title: "オンライン診察", time: "約10分", desc: "ビデオ通話で医師が診察し、症状や進行度に合わせた処方をご提案します。" },
+  { no: "04", title: "お薬が自宅に届く", time: "最短翌日発送", desc: "処方確定後にお薬を発送。定期便でのお届けも対応、LINEで経過フォローも行います。" },
+];
+
+const agaAbout = [
+  {
+    icon: "fa-circle-info",
+    title: "AGAとは",
+    desc: "男性型脱毛症（AGA: Androgenetic Alopecia）は、男性ホルモンの一種であるジヒドロテストステロン（DHT）が毛乳頭細胞に作用することで発症すると考えられています。遺伝的要因と男性ホルモンが関与し、生え際や頭頂部から進行する特徴があります。",
+  },
+  {
+    icon: "fa-chart-line",
+    title: "進行性であること",
+    desc: "AGAは自然に回復することはなく、放置すると徐々に進行します。早期から適切な治療を開始することで、進行の抑制や発毛のサポートが期待されています。気になり始めた段階での受診が重要と考えられています。",
+  },
+  {
+    icon: "fa-dna",
+    title: "DHTとヘアサイクルの関係",
+    desc: "DHTは毛母細胞に作用してヘアサイクル（成長期→退行期→休止期）を乱し、成長期を短縮させると研究されています。フィナステリド・デュタステリドはこのDHTの産生を抑制することで、ヘアサイクルの正常化をサポートします。",
+  },
+];
+---
+
+<PageLayout title="AGA治療（男性型脱毛症）のオンライン診療｜キレイレポオンライン" description="AGAオンライン診療。フィナステリド・デュタステリド・ミノキシジル外用を医師が処方。自宅にお届け、定期縛りなし。">
+
+  {/* ============ HERO ============ */}
+  <section class="hero-aga">
+    <div class="container hero-aga-inner">
+      <div class="hero-aga-copy">
+        <p class="eyebrow-aga">MEN'S AGA ・ 男性型脱毛症 オンライン診療</p>
+        <h1 class="hero-aga-title">
+          AGA（男性型脱毛症）の<br />
+          <span class="hero-aga-accent">オンライン診療</span>
+        </h1>
+        <p class="hero-aga-lead">
+          医師の診察のもと、内服・外用で薄毛の進行抑制・発毛をサポートします。
+          スマホ完結でお薬が自宅に届きます。
+        </p>
+        <div class="hero-aga-badges">
+          {badges.map((b) => (
+            <span class="aga-badge">
+              <i class={`fa-solid ${b.icon}`} aria-hidden="true"></i>{b.label}
+            </span>
+          ))}
+        </div>
+        <div class="hero-aga-actions">
+          <a class="btn btn--line hero-aga-btn" href={LINE_URL} target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+          </a>
+        </div>
+        <ul class="hero-aga-notes">
+          <li><i class="fa-solid fa-circle-check"></i>診察・配送料 2,000円</li>
+          <li><i class="fa-solid fa-circle-check"></i>定期縛りなし</li>
+          <li><i class="fa-solid fa-circle-check"></i>LINEで完結</li>
+        </ul>
+      </div>
+
+      <div class="hero-aga-visual" aria-hidden="true">
+        <div class="aga-visual-card aga-visual-card--1">
+          <span class="aga-visual-icon"><i class="fa-solid fa-pills"></i></span>
+          <p class="aga-visual-title">内服治療</p>
+          <p class="aga-visual-sub">フィナステリド / デュタステリド</p>
+        </div>
+        <div class="aga-visual-card aga-visual-card--2">
+          <span class="aga-visual-icon navy"><i class="fa-solid fa-spray-can-sparkles"></i></span>
+          <p class="aga-visual-title">外用治療</p>
+          <p class="aga-visual-sub">ミノキシジル外用</p>
+        </div>
+        <div class="aga-visual-stat">
+          <div><strong>0<span>回</span></strong><small>通院回数</small></div>
+          <div class="aga-stat-div"></div>
+          <div><strong>2,000<span>円</span></strong><small>診察・配送料</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ TRUST RIBBON ============ */}
+  <div class="aga-trust">
+    <div class="container aga-trust-inner">
+      <span class="aga-trust-item"><i class="fa-solid fa-user-doctor"></i>国内承認薬を処方</span>
+      <span class="aga-trust-item"><i class="fa-solid fa-mobile-screen-button"></i>オンライン完結</span>
+      <span class="aga-trust-item"><i class="fa-solid fa-rotate-left"></i>定期縛りなし</span>
+      <span class="aga-trust-item"><i class="fa-solid fa-comment-dots"></i>LINEで相談OK</span>
+    </div>
+  </div>
+
+  {/* ============ AGAとは ============ */}
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow-aga">ABOUT AGA</p>
+        <h2 class="section-title aga-title">AGAとは<span class="aga-accent">何か</span></h2>
+        <p class="lead">男性ホルモン（DHT）が関与する進行性の脱毛症。早期の対処が重要と考えられています。</p>
+      </header>
+      <div class="aga-about-grid">
+        {agaAbout.map((a) => (
+          <article class="aga-about-card">
+            <span class="aga-about-icon"><i class={`fa-solid ${a.icon}`}></i></span>
+            <h3 class="aga-about-title">{a.title}</h3>
+            <p class="aga-about-desc">{a.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ こんな方に ============ */}
+  <section class="section aga-section--dark">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow-aga eyebrow-aga--light">RECOMMENDED</p>
+        <h2 class="section-title aga-title aga-title--light">こんな方に<span class="aga-accent--light">おすすめ</span></h2>
+        <p class="lead aga-lead--light">AGA治療のオンライン診療はこのようなお悩みをお持ちの方にご利用いただいています。</p>
+      </header>
+      <div class="aga-for-grid">
+        {forWhom.map((f) => (
+          <article class="aga-for-card">
+            <span class="aga-for-icon"><i class={`fa-solid ${f.icon}`}></i></span>
+            <div>
+              <h3 class="aga-for-title">{f.title}</h3>
+              <p class="aga-for-desc">{f.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ 薬の種類 ============ */}
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow-aga">MEDICATIONS</p>
+        <h2 class="section-title aga-title">薬の<span class="aga-accent">種類と特徴</span></h2>
+        <p class="lead">医師がお一人おひとりの状態に合わせて処方を検討します。</p>
+      </header>
+
+      <div class="aga-med-table-wrap">
+        <table class="aga-med-table">
+          <thead>
+            <tr>
+              <th>薬剤名</th>
+              <th>代表製品</th>
+              <th>投与方法</th>
+              <th>承認状況</th>
+              <th>特徴・備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            {medications.map((m) => (
+              <tr>
+                <td data-label="薬剤名">
+                  <strong>{m.name}</strong>
+                  {!m.approved && <span class="aga-unapproved-badge">適応外</span>}
+                </td>
+                <td data-label="代表製品">{m.brand}</td>
+                <td data-label="投与方法">{m.method}</td>
+                <td data-label="承認状況">
+                  <span class={m.approved ? "aga-approved" : "aga-unapproved"}>{m.approval}</span>
+                </td>
+                <td data-label="特徴・備考">
+                  {m.feature}
+                  {m.note && <span class="aga-med-note">{m.note}</span>}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="fineprint">※フィナステリド・デュタステリドは国内でAGA（男性型脱毛症）治療薬として承認されています。ミノキシジル内服は国内未承認（適応外使用）です。いずれも医師の判断のもと処方されます。</p>
+      <p class="fineprint">※フィナステリド・デュタステリドは女性（特に妊娠中または妊娠の可能性がある方）・未成年への使用は禁忌です。</p>
+    </div>
+  </section>
+
+  {/* ============ 診療の流れ ============ */}
+  <section class="section aga-section--cream">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow-aga">HOW IT WORKS</p>
+        <h2 class="section-title aga-title">診療の<span class="aga-accent">流れ</span></h2>
+        <p class="lead">LINE友だち追加から最短その日のうちに診察まで進められます。</p>
+      </header>
+      <ol class="aga-flow">
+        {steps.map((s) => (
+          <li class="aga-flow-step">
+            <span class="aga-flow-no">{s.no}</span>
+            <div class="aga-flow-body">
+              <p class="aga-flow-title">
+                {s.title}<span class="aga-flow-time">{s.time}</span>
+              </p>
+              <p class="aga-flow-desc">{s.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ 料金プラン ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow-aga">PLANS</p>
+        <h2 class="section-title aga-title">料金<span class="aga-accent">プラン</span></h2>
+        <p class="lead">デュタステリド0.5mg錠による治療プラン。定期便ならお得に継続できます。</p>
+      </header>
+
+      <div class="aga-plans">
+        <article class="aga-plan-card">
+          <div class="aga-plan-head">
+            <span class="aga-plan-icon"><i class="fa-solid fa-calendar-day"></i></span>
+            <div>
+              <p class="aga-plan-name">1ヶ月定期便</p>
+              <p class="aga-plan-sub">デュタステリド0.5mg／まずは始めたい方に</p>
+            </div>
+          </div>
+          <ul class="aga-plan-features">
+            <li><i class="fa-solid fa-check"></i>デュタステリド0.5mg錠（国内AGA承認薬・ジェネリック）</li>
+            <li><i class="fa-solid fa-check"></i>毎月1回 自動でお届け</li>
+            <li><i class="fa-solid fa-check"></i>定期縛りなし・いつでも解約可</li>
+          </ul>
+          <div class="aga-plan-price-wrap">
+            <p class="aga-plan-price-label">初回</p>
+            <p class="aga-plan-price">3,480円</p>
+            <p class="aga-plan-price-note">2回目以降 3,980円／月（税込）</p>
+          </div>
+          <a class="btn btn--line aga-plan-btn" href={LINE_URL} target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで申し込む
+          </a>
+        </article>
+
+        <article class="aga-plan-card aga-plan-card--combo">
+          <div class="aga-plan-head">
+            <span class="aga-plan-icon"><i class="fa-solid fa-star"></i></span>
+            <div>
+              <p class="aga-plan-name">3ヶ月定期便（おすすめ）</p>
+              <p class="aga-plan-sub">デュタステリド0.5mg／3ヶ月ごとのお届け</p>
+            </div>
+          </div>
+          <ul class="aga-plan-features">
+            <li><i class="fa-solid fa-check"></i>デュタステリド0.5mg錠（国内AGA承認薬・ジェネリック）</li>
+            <li><i class="fa-solid fa-check"></i>3ヶ月ごとのお届けで続けやすい</li>
+            <li><i class="fa-solid fa-check"></i>定期縛りなし・いつでも解約可</li>
+          </ul>
+          <div class="aga-plan-price-wrap">
+            <p class="aga-plan-price-label">初回</p>
+            <p class="aga-plan-price">6,980円</p>
+            <p class="aga-plan-price-note">2回目以降 7,980円／3ヶ月（税込）</p>
+          </div>
+          <a class="btn btn--line aga-plan-btn" href={LINE_URL} target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで申し込む
+          </a>
+        </article>
+
+        <article class="aga-plan-card">
+          <div class="aga-plan-head">
+            <span class="aga-plan-icon"><i class="fa-solid fa-box-open"></i></span>
+            <div>
+              <p class="aga-plan-name">12ヶ月まとめ買い</p>
+              <p class="aga-plan-sub">デュタステリド0.5mg／じっくり続けたい方に</p>
+            </div>
+          </div>
+          <ul class="aga-plan-features">
+            <li><i class="fa-solid fa-check"></i>デュタステリド0.5mg錠（国内AGA承認薬・ジェネリック）</li>
+            <li><i class="fa-solid fa-check"></i>12ヶ月分をまとめてお届け</li>
+            <li><i class="fa-solid fa-check"></i>1回のお支払いで続けやすい</li>
+          </ul>
+          <div class="aga-plan-price-wrap">
+            <p class="aga-plan-price-label">12ヶ月分</p>
+            <p class="aga-plan-price">19,980円</p>
+            <p class="aga-plan-price-note">（税込・まとめ買い）</p>
+          </div>
+          <a class="btn btn--line aga-plan-btn" href={LINE_URL} target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで申し込む
+          </a>
+        </article>
+      </div>
+
+      <p class="fineprint" style="margin-top: 1.4rem;">フィナステリド・ミノキシジル外用など、その他の薬剤をご希望の方はLINEでご相談ください。</p>
+      <p class="fineprint">※価格はすべて税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。定期縛りなし、次回発送日の1日前までにマイページから解約できます。</p>
+    </div>
+  </section>
+
+  {/* ============ お支払い・配送 ============ */}
+  <section class="section aga-section--cream">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow-aga">PAYMENT &amp; DELIVERY</p>
+        <h2 class="section-title aga-title">お支払い・<span class="aga-accent">配送について</span></h2>
+      </header>
+      <dl class="aga-info-list">
+        <div>
+          <dt>お支払い方法</dt>
+          <dd>クレジットカード（VISA / Mastercard / JCB / AMEX）、atone翌月払い、後払い（コンビニ/銀行ATM）に対応。</dd>
+        </div>
+        <div>
+          <dt>配送について</dt>
+          <dd>全国一律 診察・配送料 2,000円（税込）。最短翌日発送、プライバシーに配慮した梱包でお届けします。</dd>
+        </div>
+        <div>
+          <dt>定期配送</dt>
+          <dd>毎月自動発送で飲み忘れを防止。定期縛りはなく、いつでも解約・休止が可能です。</dd>
+        </div>
+      </dl>
+      <p class="fineprint">※解約・休止の詳細は<a href="/legal/tokushoho">特定商取引法に基づく表記</a>をご確認ください。</p>
+    </div>
+  </section>
+
+  {/* ============ 免責 DISCLAIMER ============ */}
+  <section class="aga-disclaimer">
+    <div class="container container--narrow">
+      <p class="aga-disclaimer-title"><i class="fa-solid fa-circle-info"></i>免責事項（DISCLAIMER）</p>
+      <ul class="aga-disclaimer-list">
+        <li>本サービスは自由診療（保険適用外）です。費用は全額自己負担となります。</li>
+        <li>治療の効果・発毛には個人差があり、すべての方に同様の効果を保証するものではありません。</li>
+        <li>フィナステリド・デュタステリドは国内において男性型脱毛症（AGA）治療薬として承認されています。ミノキシジル内服薬は国内において発毛目的での承認がなく、適応外使用となります。適応外使用の薬剤は医薬品副作用被害救済制度の対象外となります。</li>
+        <li>フィナステリド・デュタステリドは女性（特に妊娠中または妊娠の可能性がある方）・未成年への使用は禁忌です。妊娠中の女性が粉砕または破損した錠剤に触れることは避けてください。</li>
+        <li>主な副作用（フィナステリド・デュタステリド）: 性欲減退・勃起不全・射精障害等の性機能関連副作用、肝機能障害、乳房痛・乳房肥大、前立腺特異抗原（PSA）値の低下など。まれに使用中止後も持続する場合があります。</li>
+        <li>主な副作用（ミノキシジル外用）: 頭皮の刺激感・かゆみ・フケ、使用開始後に一時的な初期脱毛が生じる場合があります。</li>
+        <li>主な副作用（ミノキシジル内服）: 動悸・頻脈・むくみ・体重増加・多毛など。内服はリスクが高いため、医師と十分に相談のうえ検討します。</li>
+        <li>医師のオンライン診察が必要です。問診内容によっては処方できない場合があります。</li>
+        <li>医薬品は国内卸売販売業者より購入しています。</li>
+      </ul>
+    </div>
+  </section>
+
+  <LineCta heading="AGAについてまずLINEで相談" text="診察のご予約・薬のご相談はLINEから。問診〜診察〜発送までスマホひとつで完結します。相談・問診は無料です。" />
+
+</PageLayout>
+
+<style>
+  /* ============ EYEBROW (AGA専用) ============ */
+  .eyebrow-aga {
+    font-size: var(--fs-eyebrow);
+    letter-spacing: 0.22em;
+    font-weight: var(--fw-bold);
+    color: var(--ink-400);
+    text-transform: uppercase;
+  }
+  .eyebrow-aga--light {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* ============ HERO ============ */
+  .hero-aga {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(70% 60% at 90% 0%, rgba(44, 62, 80, 0.12) 0%, transparent 60%),
+      radial-gradient(60% 50% at 0% 100%, rgba(44, 62, 80, 0.07) 0%, transparent 55%),
+      var(--bg);
+  }
+  .hero-aga-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: clamp(2.8rem, 7vw, 5.5rem);
+    align-items: center;
+  }
+  .hero-aga-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero);
+    font-weight: var(--fw-bold);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    color: var(--ink-900);
+    margin-top: 1rem;
+  }
+  .hero-aga-accent {
+    color: var(--ink-700);
+    position: relative;
+  }
+  .hero-aga-accent::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.05em;
+    height: 0.28em;
+    background: var(--ink-300);
+    opacity: 0.3;
+    z-index: -1;
+  }
+  .hero-aga-lead {
+    margin-top: 1.5rem;
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+    max-width: 32rem;
+  }
+  .hero-aga-badges {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+  .aga-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    font-size: 0.82rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    background: rgba(44, 62, 80, 0.06);
+    border: 1px solid rgba(44, 62, 80, 0.14);
+    border-radius: var(--r-pill);
+    padding: 0.38em 1em;
+  }
+  .aga-badge i {
+    color: var(--ink-500);
+    font-size: 0.9em;
+  }
+  .hero-aga-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+  .hero-aga-btn {
+    font-size: 1.05rem;
+    padding: 1.05em 2.1em;
+  }
+  .hero-aga-notes {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+  }
+  .hero-aga-notes i {
+    color: var(--ink-500);
+    margin-right: 0.4em;
+  }
+
+  /* HERO VISUAL */
+  .hero-aga-visual {
+    position: relative;
+    min-height: 320px;
+    display: none;
+    overflow: hidden;
+  }
+  .aga-visual-card {
+    position: absolute;
+    background: #fff;
+    border: 1px solid rgba(44, 62, 80, 0.12);
+    border-radius: var(--r-lg);
+    padding: 1.5rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+    width: 62%;
+    max-width: calc(100% - 1rem);
+    box-sizing: border-box;
+  }
+  .aga-visual-card--1 {
+    top: 6%;
+    left: 4%;
+  }
+  .aga-visual-card--2 {
+    top: 38%;
+    right: 2%;
+  }
+  .aga-visual-icon {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(44, 62, 80, 0.08);
+    color: var(--ink-700);
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+  .aga-visual-icon.navy {
+    background: var(--ink-900);
+    color: #fff;
+  }
+  .aga-visual-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .aga-visual-sub {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .aga-visual-stat {
+    position: absolute;
+    bottom: 2%;
+    left: 12%;
+    right: 4%;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: var(--ink-900);
+    color: #fff;
+    border-radius: var(--r-lg);
+    padding: 1.1rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+    max-width: calc(100% - 16%);
+    box-sizing: border-box;
+  }
+  .aga-visual-stat strong {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.95);
+  }
+  .aga-visual-stat strong span {
+    font-size: 0.9rem;
+    margin-left: 0.1em;
+  }
+  .aga-visual-stat small {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.65;
+    margin-top: 0.2rem;
+  }
+  .aga-stat-div {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* ============ TRUST ============ */
+  .aga-trust {
+    background: var(--ink-900);
+    color: #fff;
+    width: 100%;
+  }
+  .aga-trust-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem 2rem;
+    padding-block: 1rem;
+  }
+  .aga-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.88rem;
+    font-weight: var(--fw-medium);
+  }
+  .aga-trust-item i {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* ============ SECTION VARIANTS ============ */
+  .aga-section--cream {
+    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .aga-section--dark {
+    background: var(--ink-900);
+    color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ============ SECTION TITLE (AGA) ============ */
+  .aga-title {
+    color: var(--ink-900);
+  }
+  .aga-title--light {
+    color: #fff;
+  }
+  .aga-accent {
+    color: var(--ink-500);
+  }
+  .aga-accent--light {
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .aga-lead--light {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  /* shared section-head */
+  .section-head {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto clamp(2.2rem, 5vw, 3.5rem);
+  }
+  .section-head .lead {
+    margin-top: 0.9rem;
+  }
+
+  /* ============ AGA ABOUT ============ */
+  .aga-about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .aga-about-card {
+    background: #fff;
+    border: 1px solid rgba(44, 62, 80, 0.1);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .aga-about-icon {
+    display: inline-flex;
+    width: 54px;
+    height: 54px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--ink-900);
+    color: #fff;
+    font-size: 1.3rem;
+  }
+  .aga-about-title {
+    margin-top: 1.1rem;
+    font-size: 1.1rem;
+    color: var(--ink-900);
+  }
+  .aga-about-desc {
+    margin-top: 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  /* ============ FOR WHOM ============ */
+  .aga-for-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+  .aga-for-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--r-md);
+    padding: 1.5rem 1.6rem;
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+  }
+  .aga-for-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.15rem;
+  }
+  .aga-for-title {
+    font-size: 1.02rem;
+    font-weight: var(--fw-bold);
+    color: #fff;
+    margin-bottom: 0.35rem;
+  }
+  .aga-for-desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+  }
+
+  /* ============ MEDICATIONS TABLE ============ */
+  .aga-med-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    border-radius: var(--r-lg);
+    border: 1px solid rgba(44, 62, 80, 0.12);
+    box-shadow: var(--shadow-sm);
+  }
+  .aga-med-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 0.9rem;
+    min-width: 640px;
+  }
+  .aga-med-table thead {
+    background: var(--ink-900);
+    color: #fff;
+  }
+  .aga-med-table th {
+    padding: 0.9rem 1.1rem;
+    text-align: left;
+    font-weight: var(--fw-bold);
+    white-space: nowrap;
+    font-size: 0.83rem;
+    letter-spacing: 0.04em;
+  }
+  .aga-med-table td {
+    padding: 1rem 1.1rem;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(44, 62, 80, 0.07);
+    color: var(--ink-700);
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .aga-med-table tr:last-child td {
+    border-bottom: none;
+  }
+  .aga-med-table tr:nth-child(even) td {
+    background: var(--cream-50);
+  }
+  .aga-approved {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: #0a6640;
+    background: #d4f7e2;
+    border-radius: var(--r-pill);
+    padding: 0.2em 0.75em;
+    white-space: nowrap;
+  }
+  .aga-unapproved {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: #7a3a00;
+    background: #fdecd4;
+    border-radius: var(--r-pill);
+    padding: 0.2em 0.75em;
+    white-space: nowrap;
+  }
+  .aga-unapproved-badge {
+    display: inline-block;
+    margin-left: 0.4em;
+    font-size: 0.7rem;
+    font-weight: var(--fw-bold);
+    color: #7a3a00;
+    background: #fdecd4;
+    border-radius: var(--r-pill);
+    padding: 0.15em 0.6em;
+    vertical-align: middle;
+  }
+  .aga-med-note {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #7a3a00;
+    background: #fdecd4;
+    border-radius: var(--r-sm);
+    padding: 0.5rem 0.75rem;
+    line-height: 1.6;
+  }
+
+  /* ============ FLOW ============ */
+  .aga-flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+  .aga-flow-step {
+    display: flex;
+    gap: 1.3rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid rgba(44, 62, 80, 0.1);
+    border-radius: var(--r-md);
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .aga-flow-no {
+    flex-shrink: 0;
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    font-size: 1.3rem;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--ink-900);
+  }
+  .aga-flow-body {
+    flex: 1;
+  }
+  .aga-flow-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 1.08rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+  .aga-flow-time {
+    font-size: 0.74rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-600, var(--ink-500));
+    background: rgba(44, 62, 80, 0.09);
+    border-radius: var(--r-pill);
+    padding: 0.2em 0.8em;
+  }
+  .aga-flow-desc {
+    margin-top: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  /* ============ PLANS ============ */
+  .aga-plans {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+  .aga-plan-card {
+    background: #fff;
+    border: 1px solid rgba(44, 62, 80, 0.12);
+    border-radius: var(--r-lg);
+    padding: 1.8rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .aga-plan-card--combo {
+    border-color: var(--ink-500);
+    border-width: 2px;
+  }
+  .aga-plan-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .aga-plan-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--ink-900);
+    color: #fff;
+    font-size: 1.3rem;
+  }
+  .aga-plan-name {
+    font-weight: var(--fw-bold);
+    font-size: 1.08rem;
+    color: var(--ink-900);
+    overflow-wrap: anywhere;
+  }
+  .aga-plan-sub {
+    font-size: 0.83rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .aga-plan-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 1.5rem;
+  }
+  .aga-plan-features li {
+    display: flex;
+    gap: 0.6em;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    overflow-wrap: anywhere;
+  }
+  .aga-plan-features i {
+    color: var(--ink-500);
+    margin-top: 0.2em;
+    flex-shrink: 0;
+  }
+  .aga-plan-price-wrap {
+    background: var(--cream-50);
+    border: 1px solid rgba(44, 62, 80, 0.08);
+    border-radius: var(--r-md);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+  .aga-plan-price-label {
+    font-size: 0.78rem;
+    color: var(--ink-400);
+    font-weight: var(--fw-medium);
+    margin-bottom: 0.3rem;
+  }
+  .aga-plan-price {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .aga-plan-price-note {
+    font-size: 0.78rem;
+    color: var(--ink-400);
+    margin-top: 0.35rem;
+  }
+  .aga-plan-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ============ INFO LIST ============ */
+  .aga-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid rgba(44, 62, 80, 0.12);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: #fff;
+  }
+  .aga-info-list > div {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+    padding: 1.3rem 1.5rem;
+    border-bottom: 1px solid rgba(44, 62, 80, 0.07);
+  }
+  .aga-info-list > div:last-child {
+    border-bottom: none;
+  }
+  .aga-info-list dt {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .aga-info-list dd {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+  }
+
+  /* ============ DISCLAIMER ============ */
+  .aga-disclaimer {
+    background: var(--cream-100);
+    padding-block: 2.5rem;
+  }
+  .aga-disclaimer-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+  }
+  .aga-disclaimer-title i {
+    color: var(--ink-500);
+    margin-right: 0.4em;
+  }
+  .aga-disclaimer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding-left: 1.2rem;
+  }
+  .aga-disclaimer-list li {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--ink-500);
+    overflow-wrap: anywhere;
+  }
+
+  /* ============ FINEPRINT ============ */
+  .fineprint {
+    margin-top: 1.2rem;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .fineprint a {
+    color: var(--ink-500);
+    text-decoration: underline;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (min-width: 600px) {
+    .aga-for-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .aga-plans {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 720px) {
+    .aga-about-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .aga-info-list > div {
+      grid-template-columns: 200px 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+  @media (min-width: 960px) {
+    .hero-aga-inner {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+    }
+    .hero-aga-visual {
+      display: block;
+    }
+    .aga-for-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

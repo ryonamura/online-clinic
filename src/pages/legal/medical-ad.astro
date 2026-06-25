@@ -1,0 +1,669 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import LineCta from "../../components/LineCta.astro";
+---
+
+<PageLayout
+  title="医療広告ガイドラインについて｜キレイレポオンライン"
+  description="キレイレポオンラインの医療広告ガイドラインへの取り組み。自由診療の治療内容・標準的な費用・主なリスク・副作用・未承認医薬品の情報を掲載しています。"
+>
+
+  {/* ============ PAGE HEADER ============ */}
+  <section class="page-header">
+    <div class="container container--narrow">
+      <p class="eyebrow">LEGAL</p>
+      <h1 class="page-title">医療広告ガイドラインについて</h1>
+      <p class="page-lead">
+        キレイレポオンラインは、厚生労働省が定める「医業若しくは歯科医業又は病院若しくは診療所に関する広告等に関する指針（医療広告ガイドライン）」に基づき、適切な情報提供を行うことを基本方針としています。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ SECTION 1: ガイドラインとは ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>1. 医療広告ガイドラインとは
+      </h2>
+      <div class="article-body">
+        <p>
+          医療広告ガイドラインとは、医療機関が行う広告について、虚偽・誇大な表現や患者の判断を誤らせる表現を禁止し、患者が適切な医療機関を選択できるよう、医療広告の内容を規制するために厚生労働省が策定した指針です。
+        </p>
+        <p>
+          当サービスはオンライン診療プラットフォームとして、提携医療機関（マーチクリニック）を通じて適法に診療・処方を行っており、本指針を遵守した情報発信に努めています。
+        </p>
+        <p class="mhlw-link-wrap">
+          <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          <a
+            href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryou/kokokukisei/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >厚生労働省「医業等に係る広告規制について」公式ページ</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SECTION 2: 当サービスの広告における基本方針 ============ */}
+  <section class="section section--cream">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>2. 当サービスの広告における基本方針
+      </h2>
+      <ol class="policy-list">
+        <li>
+          <span class="policy-term">虚偽・誇大表現の禁止</span>
+          科学的根拠のない効果・効能の表現、実際と異なる内容の表記は一切行いません。
+        </li>
+        <li>
+          <span class="policy-term">比較優良広告の禁止</span>
+          他の医療機関や他社サービスとの比較により、優位性を不当に強調する表現は行いません。
+        </li>
+        <li>
+          <span class="policy-term">費用の明確な表示</span>
+          診察料・処方料・送料等の費用は明確に表示し、隠れた費用が生じないよう努めます。
+        </li>
+        <li>
+          <span class="policy-term">限定解除要件への対応</span>
+          当サービスのウェブサイトは、医療広告ガイドラインにおける「限定解除」の要件（問い合わせ先の明示、自由診療の費用明示、治療内容・リスクの明示等）を満たした上で情報を掲載しています。
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ SECTION 3: 自由診療であることの明示 ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>3. 自由診療であることの明示
+      </h2>
+      <div class="article-body">
+        <p>
+          当サービスで提供する診察・処方は、すべて健康保険の適用外となる自由診療（保険適用外）です。費用は全額自己負担となります。各プランの料金は、各サービスページに明示しています。
+        </p>
+      </div>
+
+      <div class="price-summary">
+        <p class="price-summary-head"><i class="fa-solid fa-yen-sign" aria-hidden="true"></i>標準的な費用の目安</p>
+        <ul class="price-list">
+          <li>
+            <span class="price-service"><i class="fa-solid fa-pills" aria-hidden="true"></i>GLP-1ダイエット</span>
+            <span class="price-range">7,500円〜67,000円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+          </li>
+          <li>
+            <span class="price-service"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>美容内服</span>
+            <span class="price-range">2,980円〜6,980円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+          </li>
+          <li>
+            <span class="price-service"><i class="fa-solid fa-dna" aria-hidden="true"></i>アンチエイジング</span>
+            <span class="price-range">2,980円〜3,480円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+          </li>
+        </ul>
+        <p class="price-note">
+          ※各サービスの詳細な料金プランは、各サービスページをご確認ください。定期縛りはなく、いつでも解約・休止が可能です。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SECTION 4: 主な治療内容・使用薬剤 ============ */}
+  <section class="section section--cream">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-capsules" aria-hidden="true"></i>4. 主な治療内容・使用薬剤と未承認・適応外医薬品の情報
+      </h2>
+      <p class="section-note">
+        当サービスで処方する薬剤の一部は、国内で特定の疾患の治療薬として承認されていますが、ダイエット・美容・エイジングケアを目的とした使用は国内未承認（適応外使用）です。以下に各サービスの情報を明記します。
+      </p>
+
+      {/* ---- GLP-1ダイエット ---- */}
+      <div class="med-block">
+        <h3 class="med-block-title">
+          <span class="med-badge med-badge--gold">
+            <i class="fa-solid fa-pills"></i>GLP-1ダイエット
+          </span>
+        </h3>
+        <div class="table-scroll">
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <th scope="row">治療内容</th>
+              <td>GLP-1受容体作動薬・GIP/GLP-1二重作動薬・SGLT2阻害薬等の処方による医療ダイエットサポート。</td>
+            </tr>
+            <tr>
+              <th scope="row">主な使用薬剤</th>
+              <td>
+                マンジャロ（チルゼパチド）、リベルサス（セマグルチド）、フォシーガ（ダパグリフロジン）、ルセフィ（ルセオグリフロジン）
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">承認・適応外の状況</th>
+              <td>
+                マンジャロ（チルゼパチド）・リベルサス（セマグルチド）は国内で2型糖尿病治療薬として承認されています。肥満治療目的での使用は国内未承認（適応外使用）です。<br />
+                フォシーガ（ダパグリフロジン）・ルセフィ（ルセオグリフロジン）は国内で2型糖尿病等の治療薬として承認されています。肥満治療目的での使用は国内未承認（適応外使用）です。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">主なリスク・副作用</th>
+              <td>
+                <strong>GLP-1受容体作動薬：</strong>吐き気・嘔吐・下痢・便秘・腹痛・食欲減退等の消化器症状（使用初期に出やすく、時間とともに軽減することが多い）。まれに低血糖（冷汗・動悸・手足の震え・めまい）、急性膵炎（激しい上腹部痛・背部痛・嘔吐）、胆嚢炎等の重篤な副作用の報告があります。<br />
+                <strong>SGLT2阻害薬：</strong>尿路感染症・性器感染症・頻尿・口渇・脱水等。十分な水分補給が必要です。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">処方できない方</th>
+              <td>妊娠中・授乳中、膵炎の既往、甲状腺髄様がん・MEN2の既往または家族歴、重度腎機能障害・透析中、1型糖尿病の方等。詳細はオンライン診察時に医師が確認します。</td>
+            </tr>
+            <tr>
+              <th scope="row">副作用被害救済制度</th>
+              <td>
+                適応外使用のため、<strong>医薬品副作用被害救済制度の対象外</strong>となります。医薬品は国内卸売販売業者より購入しています。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      {/* ---- 美容内服 ---- */}
+      <div class="med-block">
+        <h3 class="med-block-title">
+          <span class="med-badge med-badge--pink">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>美容内服
+          </span>
+        </h3>
+        <div class="table-scroll">
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <th scope="row">治療内容</th>
+              <td>美白・美肌・エイジングケアを目的とした内服薬（ビタミン類・L-システイン・トラネキサム酸等）の処方。</td>
+            </tr>
+            <tr>
+              <th scope="row">主な使用薬剤</th>
+              <td>
+                ユベラ（ビタミンE）、シナール（ビタミンC＋パントテン酸）、ハイチオール（L-システイン）、トラネキサム酸、ノイロビタン（ビタミンB群）
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">承認・適応外の状況</th>
+              <td>
+                一部の薬剤は、美容目的での使用が承認適応外となる場合があります。医師の判断のもとで処方します。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">主なリスク・副作用</th>
+              <td>
+                胃部不快感・悪心・下痢・便秘・食欲不振等の消化器症状が出ることがあります。<br />
+                <strong>トラネキサム酸：</strong>血栓リスクがあります。ピル服用中・血栓症の既往・腎機能障害・妊娠中の方には処方できません。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">副作用被害救済制度</th>
+              <td>
+                適応外使用の場合、<strong>医薬品副作用被害救済制度の対象外</strong>となる場合があります。医薬品は国内卸売販売業者より購入しています。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      {/* ---- アンチエイジング ---- */}
+      <div class="med-block">
+        <h3 class="med-block-title">
+          <span class="med-badge med-badge--gold-aa">
+            <i class="fa-solid fa-dna"></i>アンチエイジング
+          </span>
+        </h3>
+        <div class="table-scroll">
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <th scope="row">治療内容</th>
+              <td>メトホルミンによるAMPK活性化を通じたエイジングケアアプローチ。2型糖尿病治療薬として60年以上の臨床実績を持つ薬剤を、抗老化目的で処方します。</td>
+            </tr>
+            <tr>
+              <th scope="row">主な使用薬剤</th>
+              <td>メトホルミン 500mg（メトグルコ等）</td>
+            </tr>
+            <tr>
+              <th scope="row">承認・適応外の状況</th>
+              <td>
+                メトホルミンは国内で2型糖尿病治療薬として承認されています（メトグルコ錠等）。エイジングケアを効能・効果とした承認医薬品は国内には存在しません。当サービスにおけるエイジングケア目的での処方は国内未承認（適応外使用）です。<br />
+                米国FDAでは2型糖尿病治療薬として承認済。エイジングケア目的の承認は各国未取得。米国でTAME試験（非糖尿病高齢者を対象とした臨床試験）が進行中ですが、結果は未発表です。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">主なリスク・副作用</th>
+              <td>
+                下痢・吐き気・腹痛・食欲不振等の消化器症状（服用初期に出やすく、時間とともに軽減することが多い）。まれに乳酸アシドーシス（全身倦怠感・筋肉痛・過呼吸等）のリスクがあります。医師の指示に従って服用してください。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">処方できない方</th>
+              <td>腎機能障害・肝機能障害、心不全、過度の飲酒、妊娠中・授乳中、ヨード造影剤使用予定の方等。詳細はオンライン診察時に医師が確認します。</td>
+            </tr>
+            <tr>
+              <th scope="row">副作用被害救済制度</th>
+              <td>
+                適応外使用のため、<strong>医薬品副作用被害救済制度の対象外</strong>となります。医薬品は国内卸売販売業者より購入しています。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SECTION 5: 体験談・口コミの取り扱い ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-comment-slash" aria-hidden="true"></i>5. 体験談・口コミ等の取り扱い
+      </h2>
+      <div class="article-body">
+        <p>
+          医療広告ガイドラインでは、患者の主観的な体験談を広告として掲載することは原則として禁止されています。当サービスでは、個人の感想・体験談については、その旨を明示した上で掲載し、「すべての方に同様の効果が得られるものではない」という注記を必ず付記します。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SECTION 6: お問い合わせ・苦情窓口 ============ */}
+  <section class="section section--cream">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>6. お問い合わせ・苦情窓口
+      </h2>
+      <div class="article-body">
+        <p>本サービスの広告表現に関するご意見・ご指摘は、下記よりお受けしています。</p>
+      </div>
+      <div class="table-scroll" style="margin-top: 1.2rem;">
+      <table class="info-table">
+        <tbody>
+          <tr>
+            <th scope="row">運営会社</th>
+            <td>株式会社シアン</td>
+          </tr>
+          <tr>
+            <th scope="row">所在地</th>
+            <td>〒141-0031 東京都品川区西五反田2丁目13-6 セラヴィ五反田ビル2F</td>
+          </tr>
+          <tr>
+            <th scope="row">電話番号</th>
+            <td>03-6419-7728</td>
+          </tr>
+          <tr>
+            <th scope="row">メールアドレス</th>
+            <td><a href="mailto:info@xian.inc">info@xian.inc</a></td>
+          </tr>
+          <tr>
+            <th scope="row">お問い合わせ（LINE）</th>
+            <td>
+              <a href="https://lin.ee/YjPkymi" target="_blank" rel="noopener">
+                https://lin.ee/YjPkymi
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">受付時間</th>
+            <td>平日 11:00〜17:00</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="mhlw-link-wrap" style="margin-top: 1.5rem;">
+        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+        医療広告に関する法令・ガイドラインについては、
+        <a
+          href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryou/kokokukisei/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >厚生労働省の公式ページ</a>もご参照ください。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ SECTION 7: 改定について ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-rotate" aria-hidden="true"></i>7. 改定について
+      </h2>
+      <div class="article-body">
+        <p>本ページの内容は、法令・ガイドラインの改定に応じて随時更新します。</p>
+        <p class="update-date">最終更新日：2026年3月</p>
+      </div>
+    </div>
+  </section>
+
+  <LineCta />
+</PageLayout>
+
+<style>
+  /* ============ PAGE HEADER ============ */
+  .page-header {
+    background: linear-gradient(180deg, var(--cream-50) 0%, #fff 100%);
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    border-bottom: 1px solid var(--cream-300);
+  }
+  .page-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-top: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+  .page-lead {
+    margin-top: 0.9rem;
+    font-size: 0.97rem;
+    color: var(--text-muted);
+    max-width: 42rem;
+    line-height: 1.85;
+  }
+
+  /* ============ SECTION COMMON ============ */
+  .section--cream {
+    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
+  }
+  .block-title {
+    font-size: 1.25rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid var(--brand-200);
+    display: flex;
+    align-items: center;
+    gap: 0.55em;
+  }
+  .block-title i {
+    color: var(--brand-600);
+    font-size: 1rem;
+  }
+  .section-note {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+  }
+
+  /* ============ ARTICLE BODY ============ */
+  .article-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--ink-500);
+    line-height: 1.85;
+  }
+
+  /* ============ MHLW LINK ============ */
+  .mhlw-link-wrap {
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    line-height: 1.7;
+  }
+  .mhlw-link-wrap i {
+    color: var(--brand-600);
+    margin-right: 0.4em;
+    font-size: 0.85em;
+  }
+  .mhlw-link-wrap a {
+    color: var(--brand-700);
+    text-decoration: underline;
+    font-weight: var(--fw-medium);
+  }
+  .mhlw-link-wrap a:hover {
+    color: var(--brand-800);
+  }
+
+  /* ============ POLICY LIST ============ */
+  .policy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding-left: 0;
+    list-style: none;
+    counter-reset: policy;
+  }
+  .policy-list li {
+    counter-increment: policy;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    font-size: 0.95rem;
+    color: var(--ink-500);
+    line-height: 1.8;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.1rem 1.3rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .policy-list li::before {
+    content: counter(policy);
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: var(--fw-bold);
+    margin-top: 0.1em;
+  }
+  .policy-term {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-right: 0.5em;
+  }
+
+  /* ============ PRICE SUMMARY ============ */
+  .price-summary {
+    margin-top: 1.8rem;
+    background: var(--brand-50);
+    border: 1px solid var(--brand-200);
+    border-radius: var(--r-lg);
+    padding: 1.6rem 1.8rem;
+  }
+  .price-summary-head {
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    font-size: 1rem;
+    margin-bottom: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .price-summary-head i {
+    color: var(--brand-600);
+  }
+  .price-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+  .price-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.92rem;
+  }
+  .price-service {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .price-service i {
+    color: var(--brand-600);
+    width: 1em;
+  }
+  .price-range {
+    color: var(--ink-500);
+    padding-left: 1.4em;
+  }
+  .price-note {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    line-height: 1.75;
+    border-top: 1px solid var(--brand-200);
+    padding-top: 0.9rem;
+    margin-top: 0.2rem;
+  }
+
+  /* ============ MED BLOCKS ============ */
+  .med-block {
+    margin-bottom: 2.5rem;
+  }
+  .med-block:last-child {
+    margin-bottom: 0;
+  }
+  .med-block-title {
+    margin-bottom: 1rem;
+  }
+  .med-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1.05rem;
+    font-weight: var(--fw-bold);
+    padding: 0.45em 1.1em;
+    border-radius: var(--r-pill);
+  }
+  .med-badge--gold {
+    background: var(--gold-gradient-soft);
+    color: var(--gold-800);
+  }
+  .med-badge--pink {
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+  }
+  .med-badge--gold-aa {
+    background: var(--gold-gradient-soft);
+    color: var(--gold-800);
+  }
+
+  /* ============ TABLE SCROLL WRAPPER ============ */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--r-md);
+  }
+
+  /* ============ INFO TABLE ============ */
+  .info-table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: #fff;
+    font-size: 0.93rem;
+  }
+  .info-table th,
+  .info-table td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--cream-200);
+    line-height: 1.8;
+  }
+  .info-table tr:last-child th,
+  .info-table tr:last-child td {
+    border-bottom: none;
+  }
+  .info-table th {
+    width: 34%;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    background: var(--cream-50);
+    white-space: nowrap;
+  }
+  .info-table td {
+    color: var(--ink-500);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .info-table td strong {
+    color: var(--ink-700);
+    font-weight: var(--fw-bold);
+  }
+  .info-table a {
+    color: var(--brand-700);
+    text-decoration: underline;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  /* ============ UPDATE DATE ============ */
+  .update-date {
+    font-size: 0.85rem;
+    color: var(--ink-400);
+    margin-top: 0.5rem;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    /* テーブルをブロック表示に切り替えてスクロール不要にする */
+    .table-scroll {
+      overflow-x: visible;
+    }
+    .info-table {
+      min-width: 0;
+    }
+    .info-table th,
+    .info-table td {
+      display: block;
+      width: 100%;
+    }
+    .info-table th {
+      white-space: normal;
+      border-bottom: none;
+      padding-bottom: 0.3rem;
+    }
+    .info-table td {
+      padding-top: 0.3rem;
+    }
+    .price-list li {
+      gap: 0.15rem;
+    }
+    /* モバイルでprice-rangeの折り返しを確保 */
+    .price-range {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    /* block-titleが長い場合の折り返し */
+    .block-title {
+      flex-wrap: wrap;
+    }
+  }
+  @media (min-width: 601px) {
+    .info-table th {
+      width: 30%;
+      min-width: 160px;
+    }
+    .price-list li {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .price-range {
+      padding-left: 0;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

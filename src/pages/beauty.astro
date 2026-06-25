@@ -1,0 +1,1112 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import LineCta from "../components/LineCta.astro";
+
+const recommended = [
+  {
+    icon: "fa-sun",
+    title: "シミ・そばかすが気になる",
+    desc: "紫外線ダメージの蓄積でシミが増えてきた方に。トラネキサム酸・ビタミンCで内側からケアをサポートします。",
+  },
+  {
+    icon: "fa-sparkles",
+    title: "くすみ・透明感が欲しい",
+    desc: "肌のトーンが暗くなった、透明感を取り戻したい方に。※効果には個人差があります。",
+  },
+  {
+    icon: "fa-face-smile",
+    title: "ニキビ・肌荒れに悩んでいる",
+    desc: "繰り返すニキビや肌荒れを内側からアプローチしたい方に。ビタミンB群で肌のターンオーバーをサポートします。",
+  },
+  {
+    icon: "fa-leaf",
+    title: "エイジングサインが出始めた",
+    desc: "小じわ・ハリの低下など、初期のエイジングケアを始めたい方に。",
+  },
+  {
+    icon: "fa-capsules",
+    title: "スキンケアだけでは物足りない",
+    desc: "外からのケアに加え、体の内側から肌ケアをサポートしたい方に。",
+  },
+  {
+    icon: "fa-house",
+    title: "通院せずに美容ケアしたい",
+    desc: "忙しくて美容皮膚科に通えない方も、オンラインで手軽に始められます。",
+  },
+];
+
+const solutions = [
+  {
+    icon: "fa-star",
+    title: "美白・シミ対策",
+    desc: "トラネキサム酸・ビタミンCによりメラニン生成の過剰な産生を抑えるよう研究されており、シミ対策の補助として内服が活用されています。効果には個人差があります。",
+  },
+  {
+    icon: "fa-droplet",
+    title: "ハリ・うるおい",
+    desc: "コラーゲンの体内合成をサポートするとされるビタミンCなどにより、肌のハリと潤いを内側からサポートします。効果には個人差があります。",
+  },
+  {
+    icon: "fa-shield",
+    title: "ニキビ・肌荒れ",
+    desc: "ビタミンB群（ノイロビタン）は皮膚・粘膜の健康維持と肌荒れ改善のサポートに役立つと考えられています。効果には個人差があります。",
+  },
+  {
+    icon: "fa-hourglass-half",
+    title: "エイジングケア",
+    desc: "抗酸化ビタミン（ビタミンE・C）は酸化ストレスの軽減をサポートすると研究されており、肌の老化進行ケアの補助として用いられています。効果には個人差があります。",
+  },
+];
+
+// プランの種別: "trial" | "subscription"
+// subscription の場合: monthly(1ヶ月定期) と bulk3(3ヶ月定期) を持つ
+const plans = [
+  {
+    type: "trial",
+    name: "お試しセット",
+    subtitle: "美容内服3種・10日分",
+    contents: "シナール（VC）・ユベラ（VE）・ノイロビタン（VB群）3種セット",
+    price: "1,280円",
+    priceSub: "（10日分）",
+    tag: "まず試してみたい方に",
+    note: "10日経過後、自動的に「はじめての美容内服セット」（月3,480円）に切り替わります。",
+    caution: null,
+    featured: false,
+  },
+  {
+    type: "subscription",
+    name: "はじめての美容内服セット",
+    subtitle: "3種・1ヶ月定期",
+    contents: "シナール（VC）・ユベラ（VE）・ノイロビタン（VB群）",
+    firstMonthly: "2,980円",
+    contMonthly: "3,480円",
+    firstBulk3: null,
+    contBulk3: null,
+    tag: "続けやすい定期プラン",
+    caution: null,
+    featured: false,
+  },
+  {
+    type: "subscription",
+    name: "透明感爆上げセット",
+    subtitle: "3種",
+    contents: "ユベラ（VE）・シナール（VC）・ハイチオール（L-システイン）",
+    firstMonthly: "3,980円",
+    contMonthly: "4,980円",
+    firstBulk3: "9,800円",
+    contBulk3: "10,800円",
+    tag: "おすすめ",
+    caution: null,
+    featured: true,
+  },
+  {
+    type: "subscription",
+    name: "美容内服 4種セット",
+    subtitle: "4種（ハイチオール or トラネキサム酸を追加）",
+    contents: "ユベラ（VE）・シナール（VC）・ノイロビタン（VB群）＋ハイチオール または トラネキサム酸",
+    firstMonthly: "5,480円",
+    contMonthly: "5,980円",
+    firstBulk3: "14,800円",
+    contBulk3: "15,800円",
+    tag: "4種で充実ケア",
+    caution: "トラネキサム酸を選択の場合、ピル服用中・血栓症の既往・腎機能障害・妊娠中の方は服用不可。",
+    featured: false,
+  },
+  {
+    type: "subscription",
+    name: "とことん美白セット",
+    subtitle: "5種フルセット",
+    contents: "ユベラ（VE）・シナール（VC）・ハイチオール・トラネキサム酸・ノイロビタン（VB群）",
+    firstMonthly: "6,480円",
+    contMonthly: "6,980円",
+    firstBulk3: "17,800円",
+    contBulk3: "18,800円",
+    tag: "5種フルセット",
+    caution: "トラネキサム酸を含むため、ピル（経口避妊薬）服用中・血栓症の既往がある方・腎機能障害がある方・妊娠中の方は服用不可。",
+    featured: false,
+  },
+  {
+    type: "subscription",
+    name: "アクネトレント20mg",
+    subtitle: "ニキビ治療",
+    contents: "イソトレチノイン20mg（中等症〜重症ニキビへのアプローチ）",
+    firstMonthly: "4,980円",
+    contMonthly: "5,980円",
+    firstBulk3: "10,800円",
+    contBulk3: "11,800円",
+    tag: "ニキビ治療",
+    caution: "妊娠中・妊娠の可能性のある方は服用不可。服用中および中止後一定期間は確実な避妊が必要。献血も不可。詳細は免責事項をご確認ください。",
+    featured: false,
+  },
+];
+
+const ingredients = [
+  {
+    name: "ユベラ（ビタミンE）",
+    effect: "血行促進・抗酸化・ターンオーバーサポート",
+    plans: "はじめて / 透明感アップ / とことん美白",
+  },
+  {
+    name: "シナール（ビタミンC＋パントテン酸）",
+    effect: "コラーゲン生成サポート・美白・抗酸化",
+    plans: "はじめて / 透明感アップ / とことん美白",
+  },
+  {
+    name: "ハイチオール（L-システイン）",
+    effect: "メラニン生成の過剰産生を抑えるサポート・肝機能サポート",
+    plans: "はじめて / 透明感アップ / とことん美白",
+  },
+  {
+    name: "トラネキサム酸",
+    effect: "シミ・肝斑ケアの補助・美白サポート",
+    plans: "とことん美白のみ（※ピル服用中・血栓症既往の方は不可）",
+  },
+  {
+    name: "ノイロビタン（ビタミンB群）",
+    effect: "皮膚・粘膜の健康維持・肌荒れサポート",
+    plans: "はじめて / とことん美白 / 4種セット",
+  },
+  {
+    name: "アクネトレント（イソトレチノイン）",
+    effect: "皮脂分泌の抑制による中等症〜重症ニキビへのアプローチ",
+    plans: "アクネトレント（※国内未承認・適応外。妊娠中・妊娠の可能性のある方は服用不可）",
+  },
+];
+
+const steps = [
+  { no: "01", title: "LINE友だち追加", time: "約30秒", desc: "QRコードまたはボタンからLINE友だち追加。24時間いつでも登録OK。" },
+  { no: "02", title: "問診票を記入", time: "約5分", desc: "簡単な質問に答えるだけ。お肌のお悩みをLINE上で入力します。" },
+  { no: "03", title: "オンライン診察", time: "約10分", desc: "ビデオ通話で医師が診察し、お悩みに合った処方をご提案します。" },
+  { no: "04", title: "お薬が自宅に届く", time: "最短翌日発送", desc: "処方確定後にお薬を発送。定期便なら毎月自動でお届け。" },
+];
+---
+
+<PageLayout
+  title="美容内服のオンライン診療｜キレイレポオンライン"
+  description="医師処方の美容内服薬（ビタミンC・トラネキサム酸・L-システインなど）をオンラインで。美白・ハリ・ニキビ・エイジングケアをサポート。診察・配送料2,000円、定期縛りなし。"
+>
+  {/* ============ HERO ============ */}
+  <section class="beauty-hero">
+    <div class="container beauty-hero-inner">
+      <div class="beauty-hero-copy">
+        <p class="eyebrow">
+          <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+          医師処方・美容内服オンライン
+        </p>
+        <h1 class="beauty-hero-title">
+          美容内服の<br />
+          <span class="beauty-accent">オンライン診療</span>
+        </h1>
+        <p class="beauty-hero-lead">
+          内側からケアする、医師処方の美容薬。美白・美肌・エイジングケアをサポート。スマホ1台で処方を受け、毎月自宅に届きます。
+        </p>
+        <ul class="beauty-badges">
+          <li><i class="fa-solid fa-circle-check"></i>診察・配送料 2,000円</li>
+          <li><i class="fa-solid fa-circle-check"></i>定期縛りなし</li>
+          <li><i class="fa-solid fa-circle-check"></i>オンライン完結</li>
+        </ul>
+        <div class="beauty-hero-actions">
+          <a class="btn btn--line beauty-cta-btn" href="https://lin.ee/3vvO4ol" target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+          </a>
+        </div>
+      </div>
+
+      <div class="beauty-hero-visual" aria-hidden="true">
+        <div class="beauty-visual-card beauty-visual-card--a">
+          <span class="beauty-visual-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <p class="beauty-visual-title">美白・透明感ケア</p>
+          <p class="beauty-visual-sub">トラネキサム酸・ビタミンC処方</p>
+        </div>
+        <div class="beauty-visual-card beauty-visual-card--b">
+          <span class="beauty-visual-icon"><i class="fa-solid fa-leaf"></i></span>
+          <p class="beauty-visual-title">エイジングケアサポート</p>
+          <p class="beauty-visual-sub">ビタミンE・B群配合</p>
+        </div>
+        <div class="beauty-visual-stat">
+          <div><strong>2,980<span>円〜</span></strong><small>初回</small></div>
+          <div class="beauty-stat-div"></div>
+          <div><strong>0<span>回</span></strong><small>通院回数</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ RECOMMENDED ============ */}
+  <section class="section section--cream">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">RECOMMENDED</p>
+        <h2 class="section-title">こんな方に<span class="beauty-accent-text">おすすめ</span></h2>
+        <p class="lead">肌のお悩みを内側からサポートしたい方へ。医師が最適なプランをご提案します。</p>
+      </header>
+      <div class="recommended-grid">
+        {recommended.map((r) => (
+          <article class="rec-card">
+            <span class="rec-icon"><i class={`fa-solid ${r.icon}`}></i></span>
+            <h3 class="rec-title">{r.title}</h3>
+            <p class="rec-desc">{r.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SOLUTIONS ============ */}
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">SOLUTIONS</p>
+        <h2 class="section-title">内服でサポートできる<span class="beauty-accent-text">お悩み</span></h2>
+        <p class="lead">美容内服は外からのスキンケアに加え、体の内側から肌ケアをサポートします。いずれも効果には個人差があります。</p>
+      </header>
+      <div class="solutions-grid">
+        {solutions.map((s, i) => (
+          <article class="sol-card">
+            <div class="sol-header">
+              <span class="sol-num">0{i + 1}</span>
+              <span class="sol-icon"><i class={`fa-solid ${s.icon}`}></i></span>
+            </div>
+            <h3 class="sol-title">{s.title}</h3>
+            <p class="sol-desc">{s.desc}</p>
+          </article>
+        ))}
+      </div>
+      <p class="fineprint">※美容・美白目的での使用は承認適応外です。効果・効能は保証されません。</p>
+    </div>
+  </section>
+
+  {/* ============ PLANS ============ */}
+  <section class="section section--cream" id="plans">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">PLANS</p>
+        <h2 class="section-title">料金<span class="beauty-accent-text">プラン</span></h2>
+        <p class="lead">お悩みと続けやすさに合わせてお選びいただけます。すべて定期縛りなし。</p>
+      </header>
+      <div class="plans-grid">
+        {plans.map((p) => (
+          <article class:list={["plan-card", { "plan-card--featured": p.featured }]}>
+            {p.featured && <span class="plan-badge">おすすめ</span>}
+            <p class="plan-tag">{p.tag}</p>
+            <h3 class="plan-name">{p.name}</h3>
+            <p class="plan-subtitle">{p.subtitle}</p>
+            <p class="plan-contents">{p.contents}</p>
+
+            {p.type === "trial" && (
+              <div class="plan-price-block">
+                <p class="plan-price-label">お試し価格</p>
+                <p class="plan-price">{p.price}<span class="plan-price-unit">{p.priceSub}</span></p>
+              </div>
+            )}
+
+            {p.type === "subscription" && (
+              <div class="plan-tiers">
+                <div class="plan-tier">
+                  <p class="plan-tier-label">1ヶ月定期</p>
+                  <div class="plan-tier-row">
+                    <span class="plan-tier-sub">初回</span>
+                    <span class="plan-tier-price">{p.firstMonthly}</span>
+                  </div>
+                  <div class="plan-tier-row">
+                    <span class="plan-tier-sub">継続</span>
+                    <span class="plan-tier-price">{p.contMonthly}</span>
+                  </div>
+                </div>
+                {p.firstBulk3 && (
+                  <div class="plan-tier plan-tier--bulk">
+                    <p class="plan-tier-label">3ヶ月定期</p>
+                    <div class="plan-tier-row">
+                      <span class="plan-tier-sub">初回</span>
+                      <span class="plan-tier-price">{p.firstBulk3}</span>
+                    </div>
+                    <div class="plan-tier-row">
+                      <span class="plan-tier-sub">継続</span>
+                      <span class="plan-tier-price">{p.contBulk3}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {p.note && (
+              <p class="plan-note">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                {p.note}
+              </p>
+            )}
+            {p.caution && (
+              <p class="plan-caution">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                {p.caution}
+              </p>
+            )}
+            <a class="btn btn--line plan-btn" href="https://lin.ee/3vvO4ol" target="_blank" rel="noopener">
+              <i class="fa-brands fa-line" aria-hidden="true"></i>このプランで相談する
+            </a>
+          </article>
+        ))}
+      </div>
+      <p class="fineprint">
+        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。<br />
+        ※定期縛りなし、次回発送日の1日前までにマイページから解約できます。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ FLOW ============ */}
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2 class="section-title">診療の<span class="beauty-accent-text">流れ</span></h2>
+        <p class="lead">LINE友だち追加から最短その日のうちに診察まで進められます。</p>
+      </header>
+      <ol class="beauty-flow">
+        {steps.map((s) => (
+          <li class="beauty-flow-step">
+            <span class="beauty-flow-no">{s.no}</span>
+            <div class="beauty-flow-body">
+              <p class="beauty-flow-title">
+                {s.title}
+                <span class="beauty-flow-time">{s.time}</span>
+              </p>
+              <p class="beauty-flow-desc">{s.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ INGREDIENTS ============ */}
+  <section class="section section--cream">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">INGREDIENTS</p>
+        <h2 class="section-title">成分<span class="beauty-accent-text">一覧</span></h2>
+        <p class="lead">お悩みに合わせて、既存プランからお選びいただけます。</p>
+      </header>
+      <div class="ingredients-table-wrap">
+        <table class="ingredients-table">
+          <thead>
+            <tr>
+              <th>成分名</th>
+              <th>主なサポート</th>
+              <th>含有プラン</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ingredients.map((ing) => (
+              <tr>
+                <td class="ing-name">{ing.name}</td>
+                <td>{ing.effect}</td>
+                <td class="ing-plans">{ing.plans}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="fineprint">※成分の効果・効能は美容目的での使用について承認されたものではありません。効果には個人差があります。</p>
+    </div>
+  </section>
+
+  {/* ============ DISCLAIMER ============ */}
+  <section class="beauty-disclaimer">
+    <div class="container container--narrow">
+      <p class="disclaimer-title">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>DISCLAIMER（免責事項）
+      </p>
+      <ul class="disclaimer-list">
+        <li>本サービスは自由診療（保険適用外）です。費用は全額自己負担となります。</li>
+        <li>掲載の内服薬は、美容・美白目的での使用について国内未承認（適応外使用）です。そのため、医薬品副作用被害救済制度の対象外となる場合があります。</li>
+        <li>効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。</li>
+        <li>主な副作用：胃部不快感・悪心・下痢・便秘・食欲不振等の消化器症状が報告されています。症状が続く場合は服用を中止し、医師にご相談ください。</li>
+        <li>トラネキサム酸は血栓リスクがあります。ピル（経口避妊薬）服用中・血栓症の既往がある方・腎機能障害がある方・妊娠中の方は服用できません。</li>
+        <li>医師によるオンライン診察が必要です。問診の結果、処方できない場合があります。</li>
+        <li>医薬品は国内卸売販売業者より適法に購入しています。</li>
+        <li class="disclaimer-list-item--warning">【アクネトレント（イソトレチノイン）に関する重要事項】アクネトレント（イソトレチノイン）は、国内でニキビ治療薬としての承認を受けていない医薬品（適応外使用）であり、医薬品副作用被害救済制度の対象外となります。</li>
+        <li class="disclaimer-list-item--warning">妊娠中・妊娠の可能性のある女性は絶対に服用できません（重大な催奇形性が報告されています）。服用中および服用中止後一定期間は、確実な避妊が必要です。</li>
+        <li>服用中および服用中止後一定期間は献血を行わないでください。</li>
+        <li>アクネトレントの主な副作用：皮膚・口唇・粘膜の乾燥、肝機能障害、脂質異常症、まれに抑うつ等の精神症状。定期的な血液検査が必要な場合があります。</li>
+        <li>アクネトレントは必ず医師の診察・処方のもとで服用し、用法用量を厳守してください。自己判断での増量・中断はしないでください。</li>
+      </ul>
+    </div>
+  </section>
+
+  <LineCta
+    heading="美容内服のご相談はLINEから"
+    text="プランのご不安・どの処方が合うかなど、お気軽にご相談ください。相談・問診は無料です。"
+  />
+</PageLayout>
+
+<style>
+  /* ============ HERO ============ */
+  .beauty-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(80% 70% at 85% 0%, var(--brand-100) 0%, transparent 55%),
+      radial-gradient(70% 60% at 0% 100%, var(--pink-50) 0%, transparent 55%),
+      var(--bg);
+  }
+  .beauty-hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: clamp(2.8rem, 7vw, 5.5rem);
+    align-items: center;
+  }
+  .beauty-hero-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero);
+    font-weight: var(--fw-bold);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    margin-top: 1rem;
+    color: var(--ink-700);
+    overflow-wrap: anywhere;
+  }
+  .beauty-accent {
+    color: var(--brand-700);
+    position: relative;
+  }
+  .beauty-accent::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.05em;
+    height: 0.32em;
+    background: var(--brand-200);
+    opacity: 0.55;
+    z-index: -1;
+  }
+  .beauty-accent-text {
+    color: var(--brand-700);
+  }
+  .beauty-hero-lead {
+    margin-top: 1.5rem;
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+    max-width: 32rem;
+  }
+  .beauty-badges {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    list-style: none;
+    padding: 0;
+  }
+  .beauty-badges i {
+    color: var(--brand-600);
+    margin-right: 0.4em;
+  }
+  .beauty-hero-actions {
+    margin-top: 2rem;
+  }
+  .beauty-cta-btn {
+    font-size: 1.05rem;
+    padding: 1.05em 2.1em;
+  }
+
+  /* Hero visual */
+  .beauty-hero-visual {
+    position: relative;
+    min-height: 320px;
+    display: none;
+    overflow: hidden; /* 絶対配置カードがはみ出さないよう clip */
+  }
+  .beauty-visual-card {
+    position: absolute;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+    width: 60%;
+    max-width: 240px;
+  }
+  .beauty-visual-card--a {
+    top: 4%;
+    left: 4%;
+  }
+  .beauty-visual-card--b {
+    top: 40%;
+    right: 2%;
+  }
+  .beauty-visual-icon {
+    display: inline-flex;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--brand-gradient-soft);
+    color: var(--brand-700);
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+  }
+  .beauty-visual-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 0.95rem;
+  }
+  .beauty-visual-sub {
+    font-size: 0.78rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .beauty-visual-stat {
+    position: absolute;
+    bottom: 2%;
+    left: 10%;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: var(--ink-900);
+    color: #fff;
+    border-radius: var(--r-lg);
+    padding: 1.1rem 1.6rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .beauty-visual-stat strong {
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    color: var(--brand-300);
+  }
+  .beauty-visual-stat strong span {
+    font-size: 0.85rem;
+    margin-left: 0.1em;
+  }
+  .beauty-visual-stat small {
+    display: block;
+    font-size: 0.68rem;
+    opacity: 0.7;
+    margin-top: 0.2rem;
+  }
+  .beauty-stat-div {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* ============ section head (shared pattern) ============ */
+  .section--cream {
+    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
+  }
+  .section-head {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto clamp(2.2rem, 5vw, 3.5rem);
+  }
+  .section-head .lead {
+    margin-top: 0.9rem;
+  }
+  .fineprint {
+    margin-top: 1.6rem;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  /* ============ RECOMMENDED ============ */
+  .recommended-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .rec-card {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.6rem 1.6rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .rec-icon {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient-soft);
+    color: var(--brand-700);
+    font-size: 1.2rem;
+  }
+  .rec-title {
+    font-size: 1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-top: 0.4rem;
+  }
+  .rec-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ============ SOLUTIONS ============ */
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .sol-card {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.8rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .sol-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .sol-num {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-200);
+    line-height: 1;
+  }
+  .sol-icon {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow-brand);
+  }
+  .sol-title {
+    font-size: 1.1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.5rem;
+  }
+  .sol-desc {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* ============ PLANS ============ */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .plan-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .plan-card--featured {
+    border-color: var(--brand-400);
+    box-shadow: 0 0 0 2px var(--brand-200), var(--shadow-md);
+  }
+  .plan-badge {
+    position: absolute;
+    top: -0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    padding: 0.3em 1.2em;
+    border-radius: var(--r-pill);
+    white-space: nowrap;
+  }
+  .plan-tag {
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    background: var(--brand-100);
+    display: inline-block;
+    padding: 0.25em 0.9em;
+    border-radius: var(--r-pill);
+    margin-bottom: 0.8rem;
+  }
+  .plan-name {
+    font-size: 1.15rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .plan-contents {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+  .plan-price-block {
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--cream-200);
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .plan-price-label {
+    font-size: 0.78rem;
+    color: var(--ink-500);
+    font-weight: var(--fw-bold);
+  }
+  .plan-price {
+    font-family: var(--font-serif);
+    font-size: 1.9rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-700);
+  }
+  .plan-details {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--cream-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .plan-details > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--cream-200);
+    font-size: 0.88rem;
+  }
+  .plan-details > div:last-child {
+    border-bottom: none;
+  }
+  .plan-details dt {
+    color: var(--ink-500);
+  }
+  .plan-details dd {
+    margin: 0;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+  }
+  .plan-subtitle {
+    font-size: 0.82rem;
+    color: var(--brand-700);
+    font-weight: var(--fw-bold);
+    margin-top: 0.25rem;
+  }
+  /* お試しプライスブロック */
+  .plan-price-unit {
+    font-size: 0.85rem;
+    font-weight: var(--fw-regular);
+    color: var(--ink-500);
+    margin-left: 0.2em;
+  }
+  /* 定期プランの料金ティア */
+  .plan-tiers {
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--cream-200);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .plan-tier {
+    border: 1px solid var(--cream-200);
+    border-radius: var(--r-sm);
+    padding: 0.7rem 1rem;
+    background: var(--cream-50);
+  }
+  .plan-tier--bulk {
+    background: var(--brand-50);
+    border-color: var(--brand-200);
+  }
+  .plan-tier-label {
+    font-size: 0.72rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-500);
+    text-transform: none;
+    margin-bottom: 0.45rem;
+    letter-spacing: 0.03em;
+  }
+  .plan-tier--bulk .plan-tier-label {
+    color: var(--brand-700);
+  }
+  .plan-tier-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+  .plan-tier-row + .plan-tier-row {
+    margin-top: 0.3rem;
+  }
+  .plan-tier-sub {
+    font-size: 0.78rem;
+    color: var(--ink-400);
+    flex-shrink: 0;
+  }
+  .plan-tier-price {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-700);
+    overflow-wrap: anywhere;
+  }
+  /* プランノート（お試し切り替え注記） */
+  .plan-note {
+    margin-top: 0.9rem;
+    font-size: 0.78rem;
+    color: var(--brand-800);
+    background: var(--brand-50);
+    border: 1px solid var(--brand-200);
+    border-radius: var(--r-sm);
+    padding: 0.6rem 0.9rem;
+    line-height: 1.6;
+    display: flex;
+    gap: 0.5em;
+    align-items: flex-start;
+    overflow-wrap: anywhere;
+  }
+  .plan-note i {
+    flex-shrink: 0;
+    margin-top: 0.1em;
+    color: var(--brand-600);
+  }
+  .plan-caution {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #c05a00;
+    background: #fff8f0;
+    border: 1px solid #ffdbb5;
+    border-radius: var(--r-sm);
+    padding: 0.6rem 0.9rem;
+    line-height: 1.6;
+    display: flex;
+    gap: 0.5em;
+    align-items: flex-start;
+    overflow-wrap: anywhere;
+  }
+  .plan-caution i {
+    flex-shrink: 0;
+    margin-top: 0.1em;
+  }
+  /* 免責の重要警告行 */
+  .disclaimer-list-item--warning {
+    color: #a8001e !important;
+    font-weight: var(--fw-bold);
+  }
+  .plan-btn {
+    margin-top: 1.4rem;
+    width: 100%;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 0.9em 1.5em;
+  }
+
+  /* ============ FLOW ============ */
+  .beauty-flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+  .beauty-flow-step {
+    display: flex;
+    gap: 1.3rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .beauty-flow-no {
+    flex-shrink: 0;
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    font-size: 1.3rem;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    box-shadow: var(--shadow-brand);
+  }
+  .beauty-flow-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 1.05rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .beauty-flow-time {
+    font-size: 0.72rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    background: var(--brand-100);
+    border-radius: var(--r-pill);
+    padding: 0.2em 0.8em;
+  }
+  .beauty-flow-desc {
+    margin-top: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  /* ============ INGREDIENTS ============ */
+  .ingredients-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--r-lg);
+  }
+  .ingredients-table {
+    width: 100%;
+    min-width: 540px; /* スクロール幅を確保しつつ表がつぶれない */
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    font-size: 0.9rem;
+  }
+  .ingredients-table thead tr {
+    background: var(--brand-gradient);
+    color: #fff;
+  }
+  .ingredients-table th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-weight: var(--fw-bold);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .ingredients-table td {
+    padding: 0.9rem 1.2rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--cream-200);
+    line-height: 1.55;
+    vertical-align: top;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .ingredients-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .ingredients-table tbody tr:nth-child(even) td {
+    background: var(--cream-50);
+  }
+  .ing-name {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    /* nowrap を外し、min-width で表幅を確保するため折返し可に */
+    word-break: break-word;
+  }
+  .ing-plans {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+  }
+
+  /* ============ DISCLAIMER ============ */
+  .beauty-disclaimer {
+    background: var(--cream-100);
+    padding-block: 2.5rem;
+  }
+  .disclaimer-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+  }
+  .disclaimer-title i {
+    color: var(--brand-700);
+    margin-right: 0.4em;
+  }
+  .disclaimer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    list-style: none;
+    padding: 0;
+  }
+  .disclaimer-list li {
+    font-size: 0.82rem;
+    line-height: 1.85;
+    color: var(--ink-500);
+    padding-left: 1.2em;
+    position: relative;
+    overflow-wrap: anywhere;
+  }
+  .disclaimer-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    color: var(--brand-400);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (min-width: 600px) {
+    .recommended-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .solutions-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    /* プランカード: タブレットでは2カラム（内容が多いため3カラムは狭すぎる） */
+    .plans-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 720px) {
+    .recommended-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (min-width: 960px) {
+    .beauty-hero-inner {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+    }
+    .beauty-hero-visual {
+      display: block;
+    }
+    .solutions-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    /* 960px以上で3カラム：6プランが3×2に並ぶ */
+    .plans-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  /* 全幅でのオーバーフロー安全策 */
+  .plan-card,
+  .plan-contents,
+  .plan-caution,
+  .plan-note,
+  .plan-tier-price {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+</style>

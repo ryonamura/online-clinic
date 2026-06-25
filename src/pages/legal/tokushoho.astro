@@ -1,0 +1,634 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import LineCta from "../../components/LineCta.astro";
+---
+
+<PageLayout
+  title="特定商取引法に基づく表記｜キレイレポオンライン"
+  description="キレイレポオンラインの特定商取引法に基づく表記。販売業者・販売条件・返品・定期配送について記載しています。"
+>
+
+  {/* ============ PAGE HEADER ============ */}
+  <section class="page-header">
+    <div class="container container--narrow">
+      <p class="eyebrow">LEGAL</p>
+      <h1 class="page-title">特定商取引法に基づく表記</h1>
+      <p class="page-lead">
+        通信販売に関する特定商取引法に基づき、以下のとおり表記します。
+      </p>
+    </div>
+  </section>
+
+  {/* ============ SECTION 1: 事業者情報 ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-building" aria-hidden="true"></i>販売業者情報
+      </h2>
+
+      <div class="table-scroll">
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <th scope="row">販売業者</th>
+              <td>株式会社シアン</td>
+            </tr>
+            <tr>
+              <th scope="row">運営統括責任者</th>
+              <td>籔本 崇</td>
+            </tr>
+            <tr>
+              <th scope="row">所在地</th>
+              <td>〒141-0031 東京都品川区西五反田2丁目13-6 セラヴィ五反田ビル2F</td>
+            </tr>
+            <tr>
+              <th scope="row">電話番号</th>
+              <td>03-6419-7728</td>
+            </tr>
+            <tr>
+              <th scope="row">メールアドレス</th>
+              <td><a href="mailto:info@xian.inc">info@xian.inc</a></td>
+            </tr>
+            <tr>
+              <th scope="row">お問い合わせ対応時間</th>
+              <td>平日 11:00〜17:00</td>
+            </tr>
+            <tr>
+              <th scope="row">お問い合わせ先（LINE）</th>
+              <td>
+                <a href="https://lin.ee/YjPkymi" target="_blank" rel="noopener">
+                  https://lin.ee/YjPkymi
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">サイトURL</th>
+              <td>
+                <a href="https://kireireport.com/online-clinic" target="_blank" rel="noopener">
+                  https://kireireport.com/online-clinic
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SECTION 2: 医薬品の提供スキーム ============ */}
+  <section class="section section--cream">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-hospital" aria-hidden="true"></i>医薬品の提供スキームについて
+      </h2>
+
+      <div class="scheme-box">
+        <p class="scheme-text">
+          本サービスにおける診察・処方は、提携医療機関である<strong>マーチクリニック</strong>の医師が実施します。
+          サイトの運営・決済処理・お薬の発送業務は<strong>株式会社シアン</strong>が担当しています。
+        </p>
+        <div class="scheme-flow">
+          <div class="scheme-step">
+            <span class="scheme-icon"><i class="fa-solid fa-user"></i></span>
+            <p class="scheme-label">お客様</p>
+          </div>
+          <span class="scheme-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          <div class="scheme-step">
+            <span class="scheme-icon"><i class="fa-solid fa-globe"></i></span>
+            <p class="scheme-label">株式会社シアン<small>サイト運営・決済・発送</small></p>
+          </div>
+          <span class="scheme-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+          <div class="scheme-step">
+            <span class="scheme-icon"><i class="fa-solid fa-stethoscope"></i></span>
+            <p class="scheme-label">マーチクリニック<small>診察・処方</small></p>
+          </div>
+        </div>
+        <p class="scheme-note">
+          ※本サービスは自由診療（保険適用外）です。オンライン診察の結果、処方を行えない場合があります。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SECTION 3: 共通の販売条件 ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-credit-card" aria-hidden="true"></i>共通の販売条件
+      </h2>
+
+      <div class="table-scroll">
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <th scope="row">支払方法</th>
+              <td>
+                クレジットカード（VISA / Mastercard / JCB / AMEX）、
+                atone翌月払い（コンビニ端末 / 銀行ATM / 電子バーコード / 口座振替）、
+                後払い（コンビニ / 銀行ATM）
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">支払時期</th>
+              <td>
+                ■ クレジットカード: ご利用のカード会社の締め日・引落日に準じます。<br />
+                ■ atone翌月払い: コンビニ端末・銀行ATM・電子バーコードは翌月10日、はがき請求書は翌月20日、口座振替は翌月27日。<br />
+                ■ 後払い: 注文確定翌日にメール＋SMSにて請求。支払期限は請求から10日以内。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">商品等の引渡時期</th>
+              <td>オンライン診療後、翌営業日までに発送します。</td>
+            </tr>
+            <tr>
+              <th scope="row">返品・交換</th>
+              <td>
+                医薬品の性質上、処方確定後のお薬の返品・交換は原則お受けできません。<br />
+                当社側の原因（誤配送・破損等）による場合は、商品到着後3日以内にLINEにてご連絡ください。送料は当社負担にて対応いたします。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">クーリングオフ</th>
+              <td>
+                本サービスは通信販売のため、特定商取引法上のクーリングオフ制度は適用されません。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ SECTION 4: サービス別 販売条件 ============ */}
+  <section class="section section--cream">
+    <div class="container container--narrow">
+      <h2 class="block-title">
+        <i class="fa-solid fa-list-check" aria-hidden="true"></i>サービス別の販売条件
+      </h2>
+
+      <p class="section-note">
+        各サービスの詳細な料金プランは、各サービスページをご確認ください。以下は代表的な価格レンジと条件の概要です。
+      </p>
+
+      {/* ---- GLP-1 ---- */}
+      <div class="service-block">
+        <h3 class="service-block-title">
+          <span class="service-badge service-badge--gold">
+            <i class="fa-solid fa-pills"></i>GLP-1ダイエット
+          </span>
+        </h3>
+        <div class="table-scroll">
+          <table class="info-table">
+            <tbody>
+              <tr>
+                <th scope="row">販売価格</th>
+                <td>
+                  7,500円〜67,000円（税込・1ヶ月分）<br />
+                  ※薬剤・用量により異なります。各プラン詳細は<a href="/glp1">GLP-1ダイエットページ</a>をご参照ください。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">商品以外の必要代金</th>
+                <td>
+                  診察・配送料 2,000円（税込）<br />
+                  ※診察・配送料は全サービス一律 2,000円（税込）です。診察料は配送料に含まれます。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">定期配送条件</th>
+                <td>
+                  初回購入後、25日または27日後に2回目の決済・発送を行います。以降は毎月（28日または30日周期）自動でお届けします。<br />
+                  解約・休止は、次回発送日の1日前までに、ご自身でマイページよりお手続きいただけます。<br />
+                  解約金・違約金は一切発生しません。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">処方・適応</th>
+                <td>
+                  自由診療（保険適用外）。マンジャロ（チルゼパチド）・リベルサス（セマグルチド）・フォシーガ・ルセフィはいずれも肥満治療目的の国内未承認（適応外使用）。医師の診察のうえ処方します。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ---- 美容内服 ---- */}
+      <div class="service-block">
+        <h3 class="service-block-title">
+          <span class="service-badge service-badge--pink">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>美容内服
+          </span>
+        </h3>
+        <div class="table-scroll">
+          <table class="info-table">
+            <tbody>
+              <tr>
+                <th scope="row">販売価格</th>
+                <td>
+                  2,980円〜6,980円（税込・1ヶ月分）<br />
+                  ※プランにより異なります。各プラン詳細は<a href="/beauty">美容内服ページ</a>をご参照ください。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">商品以外の必要代金</th>
+                <td>
+                  診察・配送料 2,000円（税込）<br />
+                  ※診察・配送料は全サービス一律 2,000円（税込）です。診察料は配送料に含まれます。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">定期配送条件</th>
+                <td>
+                  初回購入後、25日または27日後に2回目の決済・発送を行います。以降は毎月（28日または30日周期）自動でお届けします。<br />
+                  解約・休止は、次回発送日の1日前までに、ご自身でマイページよりお手続きいただけます。<br />
+                  解約金・違約金は一切発生しません。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">処方・適応</th>
+                <td>
+                  自由診療（保険適用外）。一部薬剤は美容目的での使用が承認適応外となる場合があります。トラネキサム酸を含むプランは、ピル服用中・血栓症の既往がある方には処方できません。医師の診察のうえ処方します。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ---- アンチエイジング ---- */}
+      <div class="service-block">
+        <h3 class="service-block-title">
+          <span class="service-badge service-badge--gold-aa">
+            <i class="fa-solid fa-dna"></i>アンチエイジング
+          </span>
+        </h3>
+        <div class="table-scroll">
+          <table class="info-table">
+            <tbody>
+              <tr>
+                <th scope="row">販売価格</th>
+                <td>
+                  2,980円〜3,480円（税込・1ヶ月分）<br />
+                  ※各プラン詳細は<a href="/antiaging">アンチエイジングページ</a>をご参照ください。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">商品以外の必要代金</th>
+                <td>
+                  診察・配送料 2,000円（税込）<br />
+                  ※診察・配送料は全サービス一律 2,000円（税込）です。診察料は配送料に含まれます。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">定期配送条件</th>
+                <td>
+                  初回購入後、25日または27日後に2回目の決済・発送を行います。以降は毎月（28日または30日周期）自動でお届けします。<br />
+                  解約・休止は、次回発送日の1日前までに、ご自身でマイページよりお手続きいただけます。<br />
+                  解約金・違約金は一切発生しません。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">処方・適応</th>
+                <td>
+                  自由診療（保険適用外）。メトホルミンのエイジングケア目的処方は国内未承認（適応外使用）です。医師の診察のうえ処方します。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ---- AGA ---- */}
+      <div class="service-block">
+        <h3 class="service-block-title">
+          <span class="service-badge service-badge--navy">
+            <i class="fa-solid fa-person"></i>AGA（男性型脱毛症）
+          </span>
+        </h3>
+        <div class="table-scroll">
+          <table class="info-table">
+            <tbody>
+              <tr>
+                <th scope="row">販売価格</th>
+                <td>
+                  3,480円〜19,980円（税込）<br />
+                  ※デュタステリド0.5mgの各プラン（1ヶ月／3ヶ月定期便・12ヶ月まとめ買い）の詳細は<a href="/aga">AGA治療ページ</a>をご参照ください。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">商品以外の必要代金</th>
+                <td>
+                  診察・配送料 2,000円（税込）<br />
+                  ※診察・配送料は全サービス一律 2,000円（税込）です。診察料は配送料に含まれます。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">定期配送条件</th>
+                <td>
+                  プランに応じて毎月または3ヶ月ごとに自動でお届けします。<br />
+                  解約・休止は、次回発送日の1日前までに、ご自身でマイページよりお手続きいただけます。<br />
+                  解約金・違約金は一切発生しません。
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">処方・適応</th>
+                <td>
+                  自由診療（保険適用外）。デュタステリドは国内でAGA（男性型脱毛症）治療薬として承認されています。医師の診察のうえ処方します。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ DISCLAIMER ============ */}
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="disclaimer-block">
+        <p class="disclaimer-heading">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>免責事項（DISCLAIMER）
+        </p>
+        <ul class="disclaimer-list">
+          <li>本サービスはすべて自由診療（保険適用外）です。費用は全額自己負担となります。</li>
+          <li>効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。</li>
+          <li>一部のお薬は、特定の疾患の治療薬として国内で承認されていますが、美容・ダイエット・エイジングケア目的での使用は承認適応外（適応外使用）となります。適応外使用のため、医薬品副作用被害救済制度の対象外となる場合があります。</li>
+          <li>医薬品は国内卸売販売業者より購入しています。</li>
+          <li>オンライン診察の結果、処方を行えない場合があります。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <LineCta />
+</PageLayout>
+
+<style>
+  /* ============ PAGE HEADER ============ */
+  .page-header {
+    background: linear-gradient(180deg, var(--cream-50) 0%, #fff 100%);
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    border-bottom: 1px solid var(--cream-300);
+  }
+  .page-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-top: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+  .page-lead {
+    margin-top: 0.9rem;
+    font-size: 0.97rem;
+    color: var(--text-muted);
+    max-width: 38rem;
+  }
+
+  /* ============ SECTION COMMON ============ */
+  .section--cream {
+    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
+  }
+  .block-title {
+    font-size: 1.25rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid var(--brand-200);
+    display: flex;
+    align-items: center;
+    gap: 0.55em;
+  }
+  .block-title i {
+    color: var(--brand-600);
+    font-size: 1rem;
+  }
+  .section-note {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.75;
+  }
+
+  /* ============ TABLE SCROLL WRAPPER ============ */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--r-md);
+    border: 1px solid var(--cream-300);
+  }
+
+  /* ============ INFO TABLE ============ */
+  .info-table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: #fff;
+    font-size: 0.93rem;
+  }
+  .info-table th,
+  .info-table td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--cream-200);
+    line-height: 1.8;
+  }
+  .info-table tr:last-child th,
+  .info-table tr:last-child td {
+    border-bottom: none;
+  }
+  .info-table th {
+    width: 34%;
+    min-width: 9rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    background: var(--cream-50);
+    white-space: nowrap;
+  }
+  .info-table td {
+    color: var(--ink-500);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .info-table a {
+    color: var(--brand-700);
+    text-decoration: underline;
+    word-break: break-all;
+  }
+
+  /* ============ SCHEME BOX ============ */
+  .scheme-box {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 2rem 1.8rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .scheme-text {
+    font-size: 0.95rem;
+    color: var(--ink-500);
+    line-height: 1.85;
+    margin-bottom: 1.8rem;
+  }
+  .scheme-text strong {
+    color: var(--ink-700);
+    font-weight: var(--fw-bold);
+  }
+  .scheme-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .scheme-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 110px;
+  }
+  .scheme-icon {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+    font-size: 1.25rem;
+  }
+  .scheme-label {
+    font-size: 0.85rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    text-align: center;
+    line-height: 1.4;
+  }
+  .scheme-label small {
+    display: block;
+    font-weight: var(--fw-regular);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+  }
+  .scheme-arrow {
+    color: var(--ink-300);
+    font-size: 1rem;
+  }
+  .scheme-note {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    line-height: 1.75;
+    padding-top: 1rem;
+    border-top: 1px solid var(--cream-200);
+  }
+
+  /* ============ SERVICE BLOCKS ============ */
+  .service-block {
+    margin-bottom: 2.5rem;
+  }
+  .service-block:last-child {
+    margin-bottom: 0;
+  }
+  .service-block-title {
+    margin-bottom: 1rem;
+  }
+  .service-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1.1rem;
+    font-weight: var(--fw-bold);
+    padding: 0.45em 1.1em;
+    border-radius: var(--r-pill);
+  }
+  .service-badge--gold {
+    background: var(--gold-gradient-soft, linear-gradient(135deg, #f7eed5, #efddb4));
+    color: var(--gold-800, #8a6a0e);
+  }
+  .service-badge--pink {
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+  }
+  .service-badge--gold-aa {
+    background: var(--gold-gradient-soft, linear-gradient(135deg, #f7eed5, #efddb4));
+    color: var(--gold-800, #8a6a0e);
+  }
+  .service-badge--navy {
+    background: linear-gradient(135deg, #e8edf3, #d3dce8);
+    color: var(--ink-800);
+  }
+
+  /* ============ CAUTION INLINE ============ */
+  .caution-inline {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: var(--fw-bold);
+    color: #b45309;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: var(--r-sm);
+    padding: 0.15em 0.6em;
+    margin-left: 0.3em;
+    vertical-align: middle;
+  }
+
+  /* ============ DISCLAIMER ============ */
+  .disclaimer-block {
+    background: var(--cream-100);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.8rem 2rem;
+  }
+  .disclaimer-heading {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  .disclaimer-heading i {
+    color: var(--brand-700);
+    margin-right: 0.4em;
+  }
+  .disclaimer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding-left: 1.1em;
+  }
+  .disclaimer-list li {
+    font-size: 0.83rem;
+    color: var(--ink-500);
+    line-height: 1.85;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .scheme-box {
+      padding: 1.25rem 1rem;
+    }
+    .disclaimer-block {
+      padding: 1.25rem 1rem;
+    }
+    .scheme-flow {
+      flex-direction: column;
+    }
+    .scheme-arrow {
+      transform: rotate(90deg);
+    }
+  }
+  @media (min-width: 601px) {
+    .info-table th {
+      width: 200px;
+    }
+  }
+</style>
