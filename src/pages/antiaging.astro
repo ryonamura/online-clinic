@@ -210,56 +210,49 @@ const solutions = [
         <p class="lead">シンプルな1プランのみ。いつでも解約・休止できます。</p>
       </header>
 
-      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
-        <table class="price-table">
-          <thead>
-            <tr>
-              <th class="col-name">薬剤名</th>
-              <th class="col-buyout">買い切り</th>
-              <th class="col-term">1ヶ月定期</th>
-              <th class="col-term">3ヶ月定期</th>
-              <th class="col-term">6ヶ月定期</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="cell-name">
-                <span class="drug-name">{metforminPlan.name}</span>
-                {metforminPlan.detail && <span class="drug-detail">{metforminPlan.detail}</span>}
-              </td>
-              <td class="cell-price">
-                {metforminPlan.buyout != null ? `¥${metforminPlan.buyout.toLocaleString()}` : "—"}
-              </td>
-              <td class="cell-price">
-                {metforminPlan.m1 != null ? (
-                  <>
-                    <span class="price-initial">初回 ¥{metforminPlan.m1.initial?.toLocaleString() ?? "—"}</span>
-                    <span class="price-sep"> ／ </span>
-                    <span class="price-recur">2回目〜 ¥{metforminPlan.m1.recur?.toLocaleString() ?? "—"}</span>
-                  </>
-                ) : "—"}
-              </td>
-              <td class="cell-price">
-                {metforminPlan.m3 != null ? (
-                  <>
-                    <span class="price-initial">初回 ¥{metforminPlan.m3.initial?.toLocaleString() ?? "—"}</span>
-                    <span class="price-sep"> ／ </span>
-                    <span class="price-recur">2回目〜 ¥{metforminPlan.m3.recur?.toLocaleString() ?? "—"}</span>
-                  </>
-                ) : "—"}
-              </td>
-              <td class="cell-price">
-                {metforminPlan.m6 != null ? (
-                  <>
-                    <span class="price-initial">初回 ¥{metforminPlan.m6.initial?.toLocaleString() ?? "—"}</span>
-                    <span class="price-sep"> ／ </span>
-                    <span class="price-recur">2回目〜 ¥{metforminPlan.m6.recur?.toLocaleString() ?? "—"}</span>
-                  </>
-                ) : "—"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="aa-plan-card">
+        <div class="aa-plan-card-head">
+          <span class="aa-plan-icon"><i class="fa-solid fa-dna" aria-hidden="true"></i></span>
+          <div>
+            <p class="aa-plan-drug">{metforminPlan.name}</p>
+            {metforminPlan.detail && <p class="aa-plan-detail">{metforminPlan.detail}</p>}
+          </div>
+        </div>
+        <dl class="aa-plan-rows">
+          {metforminPlan.buyout != null && (
+            <div class="aa-plan-row">
+              <dt>買い切り</dt>
+              <dd><span class="aa-price-main">¥{metforminPlan.buyout.toLocaleString()}</span></dd>
+            </div>
+          )}
+          {metforminPlan.m1 != null && (
+            <div class="aa-plan-row">
+              <dt>1ヶ月定期</dt>
+              <dd>
+                <span class="aa-price-main">初回 ¥{metforminPlan.m1.initial?.toLocaleString() ?? "—"}</span>
+                <span class="aa-price-sub">2回目以降 ¥{metforminPlan.m1.recur?.toLocaleString() ?? "—"}</span>
+              </dd>
+            </div>
+          )}
+          {metforminPlan.m3 != null && (
+            <div class="aa-plan-row">
+              <dt>3ヶ月定期</dt>
+              <dd>
+                <span class="aa-price-main">初回 ¥{metforminPlan.m3.initial?.toLocaleString() ?? "—"}</span>
+                <span class="aa-price-sub">2回目以降 ¥{metforminPlan.m3.recur?.toLocaleString() ?? "—"}</span>
+              </dd>
+            </div>
+          )}
+          {metforminPlan.m6 != null && (
+            <div class="aa-plan-row">
+              <dt>6ヶ月定期</dt>
+              <dd>
+                <span class="aa-price-main">初回 ¥{metforminPlan.m6.initial?.toLocaleString() ?? "—"}</span>
+                <span class="aa-price-sub">2回目以降 ¥{metforminPlan.m6.recur?.toLocaleString() ?? "—"}</span>
+              </dd>
+            </div>
+          )}
+        </dl>
       </div>
 
       <p class="plan-note-aa">
@@ -684,6 +677,82 @@ const solutions = [
     box-shadow: var(--shadow-gold);
     border: 1px solid var(--gold-200);
   }
+  .aa-plan-card {
+    max-width: 520px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-top: 3px solid var(--gold-600);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-md);
+    padding: 1.6rem 1.8rem;
+  }
+  .aa-plan-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--cream-200);
+    margin-bottom: 0.4rem;
+  }
+  .aa-plan-icon {
+    display: inline-flex;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--gold-gradient-soft);
+    color: var(--gold-800);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .aa-plan-drug {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 1.1rem;
+  }
+  .aa-plan-detail {
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .aa-plan-rows {
+    display: flex;
+    flex-direction: column;
+  }
+  .aa-plan-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0.1rem;
+    border-bottom: 1px solid var(--cream-200);
+  }
+  .aa-plan-row:last-child {
+    border-bottom: none;
+  }
+  .aa-plan-row dt {
+    font-weight: var(--fw-medium);
+    color: var(--ink-500);
+    white-space: nowrap;
+  }
+  .aa-plan-row dd {
+    margin: 0;
+    text-align: right;
+  }
+  .aa-price-main {
+    font-family: var(--font-serif);
+    font-weight: var(--fw-bold);
+    color: var(--gold-800);
+  }
+  .aa-price-sub {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+    margin-top: 0.15rem;
+  }
+
   .price-table {
     width: 100%;
     min-width: 560px;
