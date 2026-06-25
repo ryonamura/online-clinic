@@ -365,27 +365,16 @@ const compare = [
   }
 
   .hero-visual {
-    position: relative;
-    min-height: 320px;
     display: none;
   }
   .hero-card {
-    position: absolute;
     background: #fff;
     border: 1px solid var(--cream-300);
     border-radius: var(--r-lg);
-    padding: 1.5rem 1.6rem;
-    box-shadow: var(--shadow-lg);
-    width: 60%;
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-md);
   }
-  .hero-card--1 {
-    top: 6%;
-    left: 4%;
-  }
-  .hero-card--2 {
-    top: 38%;
-    right: 2%;
-  }
+  /* hero カードはグリッドで並べる（下のメディアクエリ参照） */
   .hero-card-icon {
     display: inline-flex;
     width: 48px;
@@ -412,17 +401,15 @@ const compare = [
     margin-top: 0.2rem;
   }
   .hero-stat {
-    position: absolute;
-    bottom: 2%;
-    left: 12%;
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    justify-content: center;
+    gap: 1.4rem;
     background: var(--ink-900);
     color: #fff;
     border-radius: var(--r-lg);
     padding: 1.1rem 1.6rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
   .hero-stat strong {
     font-family: var(--font-serif);
@@ -936,8 +923,13 @@ const compare = [
       gap: 2rem;
     }
     .hero-visual {
-      display: block;
-      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-content: center;
+    }
+    .hero-stat {
+      grid-column: 1 / -1;
     }
     .service-grid {
       grid-template-columns: repeat(4, 1fr);
@@ -948,12 +940,7 @@ const compare = [
     }
   }
 
-  /* --- Large desktop (1280px+): keep hero cards within bounds --- */
-  @media (min-width: 1280px) {
-    .hero-card {
-      width: 55%;
-    }
-  }
+  /* hero カードはグリッド配置のため固定幅は不要 */
 
   /* --- General overflow safety --- */
   .hero-copy,
