@@ -2,6 +2,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
 import { LINE_URL } from "../data/site";
+import { glp1Plans, dietSetPlans, dietAddons, PAYMENT_METHODS } from "../data/pricing";
 
 const recommended = [
   {
@@ -285,176 +286,165 @@ const contraindications = [
         <p class="lead">すべて税込・別途診察・配送料2,000円・定期縛りなし。</p>
       </header>
 
-      {/* Category A */}
-      <div class="plan-category">
-        <p class="plan-cat-label">
-          <span class="plan-cat-badge">カテゴリ A</span>
-          マンジャロ（注射）GIP/GLP-1受容体作動薬
-        </p>
-        <div class="plan-grid">
-          <article class="plan-card">
-            <p class="plan-name">スタートプラン</p>
-            <p class="plan-drug">マンジャロ 2.5mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">12,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">13,000<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">33,900<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">6ヶ月一括</span><span class="plan-price">66,000<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card plan-card--featured">
-            <p class="plan-badge">よくご選択いただいています</p>
-            <p class="plan-name">マンジャロ 5.0mgプラン</p>
-            <p class="plan-drug">マンジャロ 5.0mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">25,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">27,000<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">74,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">6ヶ月一括</span><span class="plan-price">135,000<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card">
-            <p class="plan-name">ハイドーズプラン</p>
-            <p class="plan-drug">マンジャロ 7.5mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">36,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">38,000<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">107,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">6ヶ月一括</span><span class="plan-price">198,000<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-        </div>
+      {/* メイン薬剤表 */}
+      <h3 class="plans-subtitle">薬剤プラン</h3>
+      <p class="plans-note-manjaro">※マンジャロは1ヶ月分=4本（1箱2本×2箱）</p>
+      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th class="col-drug">薬剤名</th>
+              <th class="col-price">買い切り</th>
+              <th class="col-price">1ヶ月定期</th>
+              <th class="col-price">3ヶ月定期</th>
+              <th class="col-price">6ヶ月定期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {glp1Plans.map((p) => (
+              <tr>
+                <td class="drug-cell">
+                  <span class="drug-name">{p.name}</span>
+                  {p.detail && <span class="drug-detail">{p.detail}</span>}
+                </td>
+                <td class="price-cell">
+                  {p.buyout != null ? `¥${p.buyout.toLocaleString()}` : "—"}
+                </td>
+                <td class="price-cell">
+                  {p.m1 != null
+                    ? (p.m1.initial != null || p.m1.recur != null
+                        ? <>
+                            {p.m1.initial != null && <span class="term-initial">初回 ¥{p.m1.initial.toLocaleString()}</span>}
+                            {p.m1.initial != null && p.m1.recur != null && <span class="term-sep"> ／ </span>}
+                            {p.m1.recur != null && <span class="term-recur">2回目〜 ¥{p.m1.recur.toLocaleString()}</span>}
+                          </>
+                        : "—")
+                    : "—"}
+                </td>
+                <td class="price-cell">
+                  {p.m3 != null
+                    ? (p.m3.initial != null || p.m3.recur != null
+                        ? <>
+                            {p.m3.initial != null && <span class="term-initial">初回 ¥{p.m3.initial.toLocaleString()}</span>}
+                            {p.m3.initial != null && p.m3.recur != null && <span class="term-sep"> ／ </span>}
+                            {p.m3.recur != null && <span class="term-recur">2回目〜 ¥{p.m3.recur.toLocaleString()}</span>}
+                          </>
+                        : "—")
+                    : "—"}
+                </td>
+                <td class="price-cell">
+                  {p.m6 != null
+                    ? (p.m6.initial != null || p.m6.recur != null
+                        ? <>
+                            {p.m6.initial != null && <span class="term-initial">初回 ¥{p.m6.initial.toLocaleString()}</span>}
+                            {p.m6.initial != null && p.m6.recur != null && <span class="term-sep"> ／ </span>}
+                            {p.m6.recur != null && <span class="term-recur">2回目〜 ¥{p.m6.recur.toLocaleString()}</span>}
+                          </>
+                        : "—")
+                    : "—"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* Category B */}
-      <div class="plan-category">
-        <p class="plan-cat-label">
-          <span class="plan-cat-badge">カテゴリ B</span>
-          マンジャロ 高用量（医師の判断で増量）
-        </p>
-        <div class="plan-grid">
-          <article class="plan-card">
-            <p class="plan-name">ステップアップ</p>
-            <p class="plan-drug">マンジャロ 10.0mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">45,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">47,000<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">131,000<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card">
-            <p class="plan-name">ハイパワー</p>
-            <p class="plan-drug">マンジャロ 12.5mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">58,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">60,000<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">167,520<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card">
-            <p class="plan-name">マックスドーズ</p>
-            <p class="plan-drug">マンジャロ 15.0mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">65,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">67,000<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">188,100<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-        </div>
+      {/* セットプラン表 */}
+      <h3 class="plans-subtitle" style="margin-top:2.5rem;">セットプラン</h3>
+      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th class="col-drug">薬剤/セット名</th>
+              <th class="col-price">買い切り</th>
+              <th class="col-price">1ヶ月定期</th>
+              <th class="col-price">3ヶ月定期</th>
+              <th class="col-price">6ヶ月定期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dietSetPlans.map((p) => (
+              <tr>
+                <td class="drug-cell">
+                  <span class="drug-name">{p.name}</span>
+                  {p.detail && <span class="drug-detail">{p.detail}</span>}
+                </td>
+                <td class="price-cell">
+                  {p.buyout != null ? `¥${p.buyout.toLocaleString()}` : "—"}
+                </td>
+                <td class="price-cell">
+                  {p.m1 != null
+                    ? (p.m1.initial != null || p.m1.recur != null
+                        ? <>
+                            {p.m1.initial != null && <span class="term-initial">初回 ¥{p.m1.initial.toLocaleString()}</span>}
+                            {p.m1.initial != null && p.m1.recur != null && <span class="term-sep"> ／ </span>}
+                            {p.m1.recur != null && <span class="term-recur">2回目〜 ¥{p.m1.recur.toLocaleString()}</span>}
+                          </>
+                        : "—")
+                    : "—"}
+                </td>
+                <td class="price-cell">
+                  {p.m3 != null
+                    ? (p.m3.initial != null || p.m3.recur != null
+                        ? <>
+                            {p.m3.initial != null && <span class="term-initial">初回 ¥{p.m3.initial.toLocaleString()}</span>}
+                            {p.m3.initial != null && p.m3.recur != null && <span class="term-sep"> ／ </span>}
+                            {p.m3.recur != null && <span class="term-recur">2回目〜 ¥{p.m3.recur.toLocaleString()}</span>}
+                          </>
+                        : "—")
+                    : "—"}
+                </td>
+                <td class="price-cell">—</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* Category C */}
-      <div class="plan-category">
-        <p class="plan-cat-label">
-          <span class="plan-cat-badge">カテゴリ C</span>
-          リベルサス（飲むGLP-1）注射が苦手な方に
-        </p>
-        <div class="plan-grid plan-grid--2">
-          <article class="plan-card">
-            <p class="plan-name">まず試してみたい方に</p>
-            <p class="plan-drug">リベルサス 3mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">月額（定期便）</span><span class="plan-price">7,500<span class="plan-unit">円〜/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">20,000<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card">
-            <p class="plan-name">しっかり取り組みたい方に</p>
-            <p class="plan-drug">リベルサス 7mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">月額（定期便）</span><span class="plan-price">15,500<span class="plan-unit">円〜/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">44,500<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      {/* Category D */}
-      <div class="plan-category">
-        <p class="plan-cat-label">
-          <span class="plan-cat-badge">カテゴリ D</span>
-          ダイエットサポート内服薬（SGLT2阻害薬）
-        </p>
-        <div class="plan-grid plan-grid--2">
-          <article class="plan-card">
-            <p class="plan-name">フォシーガプラン</p>
-            <p class="plan-drug">フォシーガ 5mg（ダパグリフロジン）</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">8,500<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">9,500<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">27,600<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card">
-            <p class="plan-name">ルセフィプラン</p>
-            <p class="plan-drug">ルセフィ錠 2.5mg（ルセオグリフロジン）</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">7,500<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">8,500<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">24,700<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      {/* Category E */}
-      <div class="plan-category">
-        <p class="plan-cat-label">
-          <span class="plan-cat-badge">カテゴリ E</span>
-          セットプラン（組み合わせでアプローチ）
-        </p>
-        <div class="plan-grid">
-          <article class="plan-card">
-            <p class="plan-name">Wアプローチセット</p>
-            <p class="plan-drug">メトホルミン 500mg + フォシーガ 5mg</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">初回</span><span class="plan-price">10,930<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">継続</span><span class="plan-price">12,930<span class="plan-unit">円/月</span></span></div>
-              <div><span class="plan-label">3ヶ月一括</span><span class="plan-price">37,600<span class="plan-unit">円</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card">
-            <p class="plan-name">吐き気対策セット</p>
-            <p class="plan-drug">マンジャロ 2.5mg + ナウゼリン（吐き気止め）</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">月額（税込・配送料込）</span><span class="plan-price">13,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">定期便</span><span class="plan-price">14,000<span class="plan-unit">円/月</span></span></div>
-            </div>
-          </article>
-          <article class="plan-card">
-            <p class="plan-name">漢方併用セット</p>
-            <p class="plan-drug">マンジャロ 2.5mg + 防風通聖散</p>
-            <div class="plan-prices">
-              <div><span class="plan-label">月額（税込・配送料込）</span><span class="plan-price">16,000<span class="plan-unit">円</span></span></div>
-              <div><span class="plan-label">定期便</span><span class="plan-price">17,000<span class="plan-unit">円/月</span></span></div>
-            </div>
-          </article>
-        </div>
+      {/* オプション表（マンジャロ処方時のみ） */}
+      <h3 class="plans-subtitle" style="margin-top:2.5rem;">オプション（マンジャロ処方時のみ）</h3>
+      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th class="col-drug">オプション名</th>
+              <th class="col-price">買い切り</th>
+              <th class="col-price">1ヶ月定期</th>
+              <th class="col-price">3ヶ月定期</th>
+              <th class="col-price">備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dietAddons.map((p) => (
+              <tr>
+                <td class="drug-cell">
+                  <span class="drug-name">{p.name}</span>
+                  {p.detail && <span class="drug-detail">{p.detail}</span>}
+                </td>
+                <td class="price-cell">
+                  {p.buyout != null ? `¥${p.buyout.toLocaleString()}` : "—"}
+                </td>
+                <td class="price-cell">
+                  {p.m1 != null
+                    ? (p.m1.initial != null || p.m1.recur != null
+                        ? <>
+                            {p.m1.initial != null && <span class="term-initial">初回 ¥{p.m1.initial.toLocaleString()}</span>}
+                            {p.m1.initial != null && p.m1.recur != null && <span class="term-sep"> ／ </span>}
+                            {p.m1.recur != null && <span class="term-recur">2回目〜 ¥{p.m1.recur.toLocaleString()}</span>}
+                          </>
+                        : "—")
+                    : "—"}
+                </td>
+                <td class="price-cell">—</td>
+                <td class="price-cell note-cell">{p.note ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <p class="fineprint">
-        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。定期縛りなし・いつでも解約可能。
-        吐き気対策セット・漢方併用セットの表示価格は診察・配送料込みです。
+        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。お支払いは {PAYMENT_METHODS}。自由診療（保険適用外）。定期縛りなし、次回発送日の1日前までにマイページから解約可能。
       </p>
     </div>
   </section>
@@ -887,95 +877,95 @@ const contraindications = [
   }
 
   /* ============ PLANS ============ */
-  .plan-category {
-    margin-bottom: 3rem;
-  }
-  .plan-cat-label {
-    font-size: 0.95rem;
+  .plans-subtitle {
+    font-size: 1.05rem;
     font-weight: var(--fw-bold);
     color: var(--ink-700);
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    flex-wrap: wrap;
+    margin: 2rem 0 0.6rem;
+    padding-left: 0.8rem;
+    border-left: 3px solid var(--brand-500);
   }
-  .plan-cat-badge {
-    font-size: 0.75rem;
-    font-weight: var(--fw-bold);
-    color: var(--brand-800);
-    background: var(--brand-100);
-    border-radius: var(--r-pill);
-    padding: 0.3em 0.9em;
-    flex-shrink: 0;
-  }
-  .plan-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.1rem;
-  }
-  .plan-card {
-    background: #fff;
-    border: 1px solid var(--cream-300);
-    border-radius: var(--r-lg);
-    padding: 1.5rem;
-    box-shadow: var(--shadow-sm);
-  }
-  .plan-card--featured {
-    border-color: var(--brand-300);
-    box-shadow: var(--shadow-brand);
-  }
-  .plan-badge {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: var(--fw-bold);
-    color: #fff;
-    background: var(--brand-gradient);
-    border-radius: var(--r-pill);
-    padding: 0.25em 0.9em;
+  .plans-note-manjaro {
+    font-size: 0.82rem;
+    color: var(--ink-400);
     margin-bottom: 0.8rem;
   }
-  .plan-name {
+  .table-scroll {
+    border-radius: var(--r-md);
+    border: 1px solid var(--cream-300);
+    box-shadow: var(--shadow-sm);
+  }
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 620px;
+  }
+  .price-table thead tr {
+    background: var(--ink-900);
+  }
+  .price-table th {
+    color: #fff;
     font-weight: var(--fw-bold);
-    color: var(--ink-700);
-    font-size: 1.05rem;
-    margin-bottom: 0.25rem;
-    overflow-wrap: anywhere;
-  }
-  .plan-drug {
     font-size: 0.82rem;
-    color: var(--brand-700);
-    font-weight: var(--fw-medium);
-    margin-bottom: 1rem;
-    overflow-wrap: anywhere;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    white-space: nowrap;
   }
-  .plan-prices {
+  .price-table th.col-drug {
+    min-width: 180px;
+  }
+  .price-table th.col-price {
+    min-width: 120px;
+  }
+  .price-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--cream-200);
+    background: #fff;
+    vertical-align: top;
+    color: var(--ink-500);
+  }
+  .price-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .price-table tbody tr:hover td {
+    background: var(--brand-50);
+  }
+  .drug-cell {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.25rem;
   }
-  .plan-prices > div {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+  .drug-name {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 0.92rem;
   }
-  .plan-label {
+  .drug-detail {
+    font-size: 0.76rem;
+    color: var(--brand-700);
+  }
+  .price-cell {
+    white-space: nowrap;
+  }
+  .term-initial {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--ink-500);
+  }
+  .term-sep {
+    display: none;
+  }
+  .term-recur {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--ink-400);
+  }
+  .note-cell {
     font-size: 0.78rem;
     color: var(--ink-400);
-    min-width: 6.5rem;
-    flex-shrink: 0;
-  }
-  .plan-price {
-    font-family: var(--font-serif);
-    font-weight: var(--fw-bold);
-    font-size: 1.15rem;
-    color: var(--brand-800);
-  }
-  .plan-unit {
-    font-size: 0.75rem;
-    font-weight: var(--fw-regular);
-    margin-left: 0.1em;
+    white-space: normal;
+    min-width: 140px;
   }
 
   /* ============ MECHANISM ============ */
@@ -1124,9 +1114,6 @@ const contraindications = [
     .rec-grid {
       grid-template-columns: repeat(2, 1fr);
     }
-    .plan-grid--2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
   @media (min-width: 720px) {
     .med-grid {
@@ -1134,9 +1121,6 @@ const contraindications = [
     }
     .mechanism-grid {
       grid-template-columns: repeat(3, 1fr);
-    }
-    .plan-grid {
-      grid-template-columns: repeat(2, 1fr);
     }
   }
   @media (min-width: 960px) {
@@ -1149,9 +1133,6 @@ const contraindications = [
       min-height: 360px;
     }
     .rec-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .plan-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }

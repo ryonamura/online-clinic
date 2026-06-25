@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import { metforminPlan, PAYMENT_METHODS } from "../data/pricing";
 
 const badges = [
   { icon: "fa-yen-sign", label: "月額 2,980円〜" },
@@ -209,46 +210,63 @@ const solutions = [
         <p class="lead">シンプルな1プランのみ。いつでも解約・休止できます。</p>
       </header>
 
-      <div class="plan-card">
-        <div class="plan-badge">エイジングケアで注目</div>
-        <div class="plan-icon-wrap" aria-hidden="true">
-          <i class="fa-solid fa-dna"></i>
-        </div>
-        <h3 class="plan-name">メトホルミン 500mg</h3>
-        <p class="plan-desc">30日分 60錠 / 1日2回服用</p>
+      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th class="col-name">薬剤名</th>
+              <th class="col-buyout">買い切り</th>
+              <th class="col-term">1ヶ月定期</th>
+              <th class="col-term">3ヶ月定期</th>
+              <th class="col-term">6ヶ月定期</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cell-name">
+                <span class="drug-name">{metforminPlan.name}</span>
+                {metforminPlan.detail && <span class="drug-detail">{metforminPlan.detail}</span>}
+              </td>
+              <td class="cell-price">
+                {metforminPlan.buyout != null ? `¥${metforminPlan.buyout.toLocaleString()}` : "—"}
+              </td>
+              <td class="cell-price">
+                {metforminPlan.m1 != null ? (
+                  <>
+                    <span class="price-initial">初回 ¥{metforminPlan.m1.initial?.toLocaleString() ?? "—"}</span>
+                    <span class="price-sep"> ／ </span>
+                    <span class="price-recur">2回目〜 ¥{metforminPlan.m1.recur?.toLocaleString() ?? "—"}</span>
+                  </>
+                ) : "—"}
+              </td>
+              <td class="cell-price">
+                {metforminPlan.m3 != null ? (
+                  <>
+                    <span class="price-initial">初回 ¥{metforminPlan.m3.initial?.toLocaleString() ?? "—"}</span>
+                    <span class="price-sep"> ／ </span>
+                    <span class="price-recur">2回目〜 ¥{metforminPlan.m3.recur?.toLocaleString() ?? "—"}</span>
+                  </>
+                ) : "—"}
+              </td>
+              <td class="cell-price">
+                {metforminPlan.m6 != null ? (
+                  <>
+                    <span class="price-initial">初回 ¥{metforminPlan.m6.initial?.toLocaleString() ?? "—"}</span>
+                    <span class="price-sep"> ／ </span>
+                    <span class="price-recur">2回目〜 ¥{metforminPlan.m6.recur?.toLocaleString() ?? "—"}</span>
+                  </>
+                ) : "—"}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div class="plan-prices">
-          <div class="plan-price-row">
-            <span class="plan-price-label">初回</span>
-            <span class="plan-price-val">2,980<span class="plan-price-unit">円</span></span>
-            <span class="plan-price-note">税込</span>
-          </div>
-          <div class="plan-price-row plan-price-row--continue">
-            <span class="plan-price-label">継続（月額）</span>
-            <span class="plan-price-val">3,480<span class="plan-price-unit">円</span></span>
-            <span class="plan-price-note">税込</span>
-          </div>
-          <div class="plan-price-row plan-price-row--bulk">
-            <span class="plan-price-label">3ヶ月一括</span>
-            <span class="plan-price-val">9,800<span class="plan-price-unit">円</span></span>
-            <span class="plan-price-note">税込</span>
-          </div>
-          <div class="plan-price-row plan-price-row--bulk">
-            <span class="plan-price-label">6ヶ月一括</span>
-            <span class="plan-price-val">18,800<span class="plan-price-unit">円</span></span>
-            <span class="plan-price-note">税込</span>
-          </div>
-        </div>
+      <p class="plan-note-aa">
+        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。お支払いは{PAYMENT_METHODS}。自由診療（保険適用外）。定期縛りなし、次回発送日の1日前までにマイページから解約可能。
+      </p>
 
-        <ul class="plan-features">
-          <li><i class="fa-solid fa-check" aria-hidden="true"></i>AMPK活性化による抗老化アプローチ（研究段階）</li>
-          <li><i class="fa-solid fa-check" aria-hidden="true"></i>血糖値コントロール・代謝改善をサポート</li>
-          <li><i class="fa-solid fa-check" aria-hidden="true"></i>米国でTAME試験（非糖尿病高齢者対象）が進行中</li>
-          <li><i class="fa-solid fa-check" aria-hidden="true"></i>毎月定期便でお届け／定期縛りなし</li>
-        </ul>
-
-        <p class="plan-extra">別途、診察・配送料 2,000円（税込）</p>
-
+      <div class="plan-cta-wrap">
         <a
           class="btn btn--line plan-cta-btn"
           href="https://lin.ee/3vvO4ol"
@@ -260,7 +278,6 @@ const solutions = [
       </div>
 
       <p class="fineprint-aa">
-        ※価格は税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。<br />
         ※エイジングケア目的でのメトホルミン処方は国内未承認（適応外使用）です。
       </p>
     </div>
@@ -672,139 +689,110 @@ const solutions = [
     line-height: 1.8;
   }
 
-  /* ============ PLAN ============ */
-  .plan-card {
-    background: #fff;
-    border: 2px solid var(--gold-300);
-    border-radius: var(--r-lg);
-    padding: clamp(1.8rem, 4vw, 2.8rem);
+  /* ============ PLAN TABLE ============ */
+  .table-scroll {
+    border-radius: var(--r-md);
     box-shadow: var(--shadow-gold);
-    text-align: center;
-    position: relative;
-  }
-  .plan-badge {
-    display: inline-block;
-    position: absolute;
-    top: -0.9rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.78rem;
-    font-weight: var(--fw-bold);
-    color: #fff;
-    background: var(--gold-gradient);
-    border-radius: var(--r-pill);
-    padding: 0.35em 1.3em;
-    white-space: nowrap;
-    box-shadow: var(--shadow-gold);
-  }
-  .plan-icon-wrap {
-    display: inline-flex;
-    width: 64px;
-    height: 64px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 18px;
-    background: var(--gold-gradient-soft);
-    color: var(--gold-700);
-    font-size: 1.6rem;
-    margin-top: 1rem;
-  }
-  .plan-name {
-    margin-top: 1rem;
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-bold);
-    color: var(--ink-700);
-  }
-  .plan-desc {
-    margin-top: 0.4rem;
-    font-size: 0.88rem;
-    color: var(--ink-400);
-  }
-  .plan-prices {
-    margin-top: 1.8rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
     border: 1px solid var(--gold-200);
+  }
+  .price-table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background: #fff;
     border-radius: var(--r-md);
     overflow: hidden;
   }
-  .plan-price-row {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.9rem 1.2rem;
-    border-bottom: 1px solid var(--gold-100);
-    background: #fff;
+  .price-table thead tr {
+    background: var(--gold-gradient);
+    color: #fff;
   }
-  .plan-price-row:last-child {
+  .price-table th {
+    padding: 0.9rem 1rem;
+    font-weight: var(--fw-bold);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .price-table th.col-name {
+    text-align: left;
+    min-width: 9rem;
+  }
+  .price-table th.col-buyout {
+    min-width: 6rem;
+  }
+  .price-table th.col-term {
+    min-width: 9.5rem;
+  }
+  .price-table tbody tr {
+    border-bottom: 1px solid var(--gold-100);
+  }
+  .price-table tbody tr:last-child {
     border-bottom: none;
   }
-  .plan-price-row--continue {
-    background: var(--gold-100);
+  .price-table tbody tr:nth-child(even) {
+    background: var(--cream-50);
   }
-  .plan-price-row--bulk {
-    background: #fdfbf5;
+  .price-table td {
+    padding: 1rem;
+    vertical-align: top;
+    color: var(--ink-700);
+    line-height: 1.6;
+    text-align: center;
   }
-  .plan-price-label {
-    font-size: 0.85rem;
-    font-weight: var(--fw-bold);
-    color: var(--ink-500);
-    width: clamp(5.5rem, 20vw, 7rem);
-    text-align: left;
-    flex-shrink: 0;
+  .cell-name {
+    text-align: left !important;
   }
-  .plan-price-val {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
+  .drug-name {
+    display: block;
     font-weight: var(--fw-bold);
     color: var(--gold-700);
-    line-height: 1;
+    font-size: 0.95rem;
   }
-  .plan-price-unit {
-    font-size: 0.85rem;
-    margin-left: 0.1em;
-  }
-  .plan-price-note {
-    font-size: 0.75rem;
+  .drug-detail {
+    display: block;
+    font-size: 0.78rem;
     color: var(--ink-400);
-    margin-left: auto;
+    margin-top: 0.2rem;
   }
-  .plan-features {
-    margin-top: 1.6rem;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
+  .cell-price {
+    font-size: 0.85rem;
+    color: var(--ink-600, var(--ink-500));
   }
-  .plan-features li {
-    display: flex;
-    gap: 0.7em;
-    align-items: flex-start;
-    font-size: 0.93rem;
-    color: var(--ink-700);
-    line-height: 1.55;
+  .price-initial {
+    display: block;
+    font-weight: var(--fw-bold);
+    color: var(--gold-700);
   }
-  .plan-features li i {
-    color: var(--gold-500);
-    flex-shrink: 0;
-    margin-top: 0.22em;
+  .price-sep {
+    display: none;
   }
-  .plan-extra {
-    margin-top: 1.2rem;
+  .price-recur {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+  }
+  .plan-note-aa {
+    margin-top: 1.4rem;
     font-size: 0.82rem;
     color: var(--ink-400);
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+  .plan-cta-wrap {
+    margin-top: 1.8rem;
+    display: flex;
+    justify-content: center;
   }
   .plan-cta-btn {
-    margin-top: 1.8rem;
-    width: 100%;
-    max-width: 28rem;
     font-size: 1.05rem;
     padding: 1.05em 2em;
     justify-content: center;
   }
   .fineprint-aa {
-    margin-top: 1.6rem;
+    margin-top: 1.2rem;
     font-size: 0.8rem;
     color: var(--ink-400);
     text-align: center;

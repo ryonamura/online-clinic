@@ -3,6 +3,7 @@ import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
 import { LINE_URL } from "../data/site";
 import { withBase } from "../lib/links";
+import { agaPlans, PAYMENT_METHODS } from "../data/pricing";
 
 const badges = [
   { icon: "fa-mobile-screen-button", label: "オンライン完結" },
@@ -269,79 +270,71 @@ const agaAbout = [
         <p class="lead">デュタステリド0.5mg錠による治療プラン。定期便ならお得に継続できます。</p>
       </header>
 
-      <div class="aga-plans">
-        <article class="aga-plan-card">
-          <div class="aga-plan-head">
-            <span class="aga-plan-icon"><i class="fa-solid fa-calendar-day"></i></span>
-            <div>
-              <p class="aga-plan-name">1ヶ月定期便</p>
-              <p class="aga-plan-sub">デュタステリド0.5mg／まずは始めたい方に</p>
-            </div>
-          </div>
-          <ul class="aga-plan-features">
-            <li><i class="fa-solid fa-check"></i>デュタステリド0.5mg錠（国内AGA承認薬・ジェネリック）</li>
-            <li><i class="fa-solid fa-check"></i>毎月1回 自動でお届け</li>
-            <li><i class="fa-solid fa-check"></i>定期縛りなし・いつでも解約可</li>
-          </ul>
-          <div class="aga-plan-price-wrap">
-            <p class="aga-plan-price-label">初回</p>
-            <p class="aga-plan-price">3,480円</p>
-            <p class="aga-plan-price-note">2回目以降 3,980円／月（税込）</p>
-          </div>
-          <a class="btn btn--line aga-plan-btn" href={LINE_URL} target="_blank" rel="noopener">
-            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで申し込む
-          </a>
-        </article>
-
-        <article class="aga-plan-card aga-plan-card--combo">
-          <div class="aga-plan-head">
-            <span class="aga-plan-icon"><i class="fa-solid fa-star"></i></span>
-            <div>
-              <p class="aga-plan-name">3ヶ月定期便（おすすめ）</p>
-              <p class="aga-plan-sub">デュタステリド0.5mg／3ヶ月ごとのお届け</p>
-            </div>
-          </div>
-          <ul class="aga-plan-features">
-            <li><i class="fa-solid fa-check"></i>デュタステリド0.5mg錠（国内AGA承認薬・ジェネリック）</li>
-            <li><i class="fa-solid fa-check"></i>3ヶ月ごとのお届けで続けやすい</li>
-            <li><i class="fa-solid fa-check"></i>定期縛りなし・いつでも解約可</li>
-          </ul>
-          <div class="aga-plan-price-wrap">
-            <p class="aga-plan-price-label">初回</p>
-            <p class="aga-plan-price">6,980円</p>
-            <p class="aga-plan-price-note">2回目以降 7,980円／3ヶ月（税込）</p>
-          </div>
-          <a class="btn btn--line aga-plan-btn" href={LINE_URL} target="_blank" rel="noopener">
-            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで申し込む
-          </a>
-        </article>
-
-        <article class="aga-plan-card">
-          <div class="aga-plan-head">
-            <span class="aga-plan-icon"><i class="fa-solid fa-box-open"></i></span>
-            <div>
-              <p class="aga-plan-name">12ヶ月まとめ買い</p>
-              <p class="aga-plan-sub">デュタステリド0.5mg／じっくり続けたい方に</p>
-            </div>
-          </div>
-          <ul class="aga-plan-features">
-            <li><i class="fa-solid fa-check"></i>デュタステリド0.5mg錠（国内AGA承認薬・ジェネリック）</li>
-            <li><i class="fa-solid fa-check"></i>12ヶ月分をまとめてお届け</li>
-            <li><i class="fa-solid fa-check"></i>1回のお支払いで続けやすい</li>
-          </ul>
-          <div class="aga-plan-price-wrap">
-            <p class="aga-plan-price-label">12ヶ月分</p>
-            <p class="aga-plan-price">19,980円</p>
-            <p class="aga-plan-price-note">（税込・まとめ買い）</p>
-          </div>
-          <a class="btn btn--line aga-plan-btn" href={LINE_URL} target="_blank" rel="noopener">
-            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで申し込む
-          </a>
-        </article>
+      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="aga-price-table">
+          <thead>
+            <tr>
+              <th>薬剤 / セット名</th>
+              <th>買い切り</th>
+              <th>1ヶ月定期</th>
+              <th>3ヶ月定期</th>
+              <th>6ヶ月定期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {agaPlans.map((p) => (
+              <tr>
+                <td>
+                  <strong>{p.name}</strong>
+                  {p.detail && <span class="aga-price-detail">{p.detail}</span>}
+                  {p.note && <span class="aga-price-note-inline">{p.note}</span>}
+                </td>
+                <td>
+                  {p.buyout != null ? `¥${p.buyout.toLocaleString()}` : "—"}
+                </td>
+                <td>
+                  {p.m1 != null
+                    ? (p.m1.initial != null && p.m1.recur != null
+                        ? `初回 ¥${p.m1.initial.toLocaleString()} ／ 2回目〜 ¥${p.m1.recur.toLocaleString()}`
+                        : p.m1.initial != null
+                          ? `¥${p.m1.initial.toLocaleString()}`
+                          : p.m1.recur != null
+                            ? `¥${p.m1.recur.toLocaleString()}`
+                            : "—")
+                    : "—"}
+                </td>
+                <td>
+                  {p.m3 != null
+                    ? (p.m3.initial != null && p.m3.recur != null
+                        ? `初回 ¥${p.m3.initial.toLocaleString()} ／ 2回目〜 ¥${p.m3.recur.toLocaleString()}`
+                        : p.m3.initial != null
+                          ? `¥${p.m3.initial.toLocaleString()}`
+                          : p.m3.recur != null
+                            ? `¥${p.m3.recur.toLocaleString()}`
+                            : "—")
+                    : "—"}
+                </td>
+                <td>
+                  {p.m6 != null
+                    ? (p.m6.initial != null && p.m6.recur != null
+                        ? `初回 ¥${p.m6.initial.toLocaleString()} ／ 2回目〜 ¥${p.m6.recur.toLocaleString()}`
+                        : p.m6.initial != null
+                          ? `¥${p.m6.initial.toLocaleString()}`
+                          : p.m6.recur != null
+                            ? `¥${p.m6.recur.toLocaleString()}`
+                            : "—")
+                    : "—"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      <p class="fineprint" style="margin-top: 1.4rem;">フィナステリド・ミノキシジル外用など、その他の薬剤をご希望の方はLINEでご相談ください。</p>
-      <p class="fineprint">※価格はすべて税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。定期縛りなし、次回発送日の1日前までにマイページから解約できます。</p>
+      <p class="fineprint" style="margin-top: 1.4rem;">
+        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。お支払いは {PAYMENT_METHODS}。自由診療（保険適用外）。定期縛りなし、次回発送日の1日前までにマイページから解約可能。
+      </p>
+      <p class="fineprint">フィナステリド・ミノキシジル外用など、その他の薬剤をご希望の方はLINEでご相談ください。</p>
     </div>
   </section>
 
@@ -355,7 +348,7 @@ const agaAbout = [
       <dl class="aga-info-list">
         <div>
           <dt>お支払い方法</dt>
-          <dd>クレジットカード（VISA / Mastercard / JCB / AMEX）、atone翌月払い、後払い（コンビニ/銀行ATM）に対応。</dd>
+          <dd>クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、atone翌月払いに対応。</dd>
         </div>
         <div>
           <dt>配送について</dt>
@@ -868,99 +861,60 @@ const agaAbout = [
     font-size: 0.92rem;
   }
 
-  /* ============ PLANS ============ */
-  .aga-plans {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.3rem;
-  }
-  .aga-plan-card {
+  /* ============ PRICE TABLE ============ */
+  .aga-price-table {
+    width: 100%;
+    border-collapse: collapse;
     background: #fff;
-    border: 1px solid rgba(44, 62, 80, 0.12);
+    font-size: 0.9rem;
+    min-width: 600px;
     border-radius: var(--r-lg);
-    padding: 1.8rem;
+    overflow: hidden;
+    border: 1px solid rgba(44, 62, 80, 0.12);
     box-shadow: var(--shadow-sm);
   }
-  .aga-plan-card--combo {
-    border-color: var(--ink-500);
-    border-width: 2px;
-  }
-  .aga-plan-head {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.2rem;
-  }
-  .aga-plan-icon {
-    flex-shrink: 0;
-    display: inline-flex;
-    width: 52px;
-    height: 52px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
+  .aga-price-table thead {
     background: var(--ink-900);
     color: #fff;
-    font-size: 1.3rem;
   }
-  .aga-plan-name {
+  .aga-price-table th {
+    padding: 0.9rem 1.1rem;
+    text-align: left;
     font-weight: var(--fw-bold);
-    font-size: 1.08rem;
-    color: var(--ink-900);
-    overflow-wrap: anywhere;
-  }
-  .aga-plan-sub {
     font-size: 0.83rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .aga-price-table td {
+    padding: 1rem 1.1rem;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(44, 62, 80, 0.07);
+    color: var(--ink-700);
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .aga-price-table tr:last-child td {
+    border-bottom: none;
+  }
+  .aga-price-table tr:nth-child(even) td {
+    background: var(--cream-50);
+  }
+  .aga-price-detail {
+    display: block;
+    font-size: 0.78rem;
     color: var(--ink-400);
     margin-top: 0.2rem;
   }
-  .aga-plan-features {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    margin-bottom: 1.5rem;
-  }
-  .aga-plan-features li {
-    display: flex;
-    gap: 0.6em;
-    align-items: flex-start;
-    font-size: 0.9rem;
-    color: var(--ink-500);
-    overflow-wrap: anywhere;
-  }
-  .aga-plan-features i {
-    color: var(--ink-500);
-    margin-top: 0.2em;
-    flex-shrink: 0;
-  }
-  .aga-plan-price-wrap {
-    background: var(--cream-50);
-    border: 1px solid rgba(44, 62, 80, 0.08);
-    border-radius: var(--r-md);
-    padding: 1rem 1.2rem;
-    margin-bottom: 1.2rem;
-    text-align: center;
-  }
-  .aga-plan-price-label {
+  .aga-price-note-inline {
+    display: block;
     font-size: 0.78rem;
-    color: var(--ink-400);
-    font-weight: var(--fw-medium);
-    margin-bottom: 0.3rem;
-  }
-  .aga-plan-price {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    font-weight: var(--fw-bold);
-    color: var(--ink-700);
-  }
-  .aga-plan-price-note {
-    font-size: 0.78rem;
-    color: var(--ink-400);
-    margin-top: 0.35rem;
-  }
-  .aga-plan-btn {
-    width: 100%;
-    justify-content: center;
+    color: #7a3a00;
+    background: #fdecd4;
+    border-radius: var(--r-sm);
+    padding: 0.3rem 0.6rem;
+    margin-top: 0.4rem;
+    line-height: 1.55;
   }
 
   /* ============ INFO LIST ============ */
@@ -1037,9 +991,6 @@ const agaAbout = [
   /* ============ RESPONSIVE ============ */
   @media (min-width: 600px) {
     .aga-for-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .aga-plans {
       grid-template-columns: repeat(2, 1fr);
     }
   }

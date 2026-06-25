@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import { beautyPlans, PAYMENT_METHODS } from "../data/pricing";
 
 const recommended = [
   {
@@ -58,87 +59,6 @@ const solutions = [
   },
 ];
 
-// プランの種別: "trial" | "subscription"
-// subscription の場合: monthly(1ヶ月定期) と bulk3(3ヶ月定期) を持つ
-const plans = [
-  {
-    type: "trial",
-    name: "お試しセット",
-    subtitle: "美容内服3種・10日分",
-    contents: "シナール（VC）・ユベラ（VE）・ノイロビタン（VB群）3種セット",
-    price: "1,280円",
-    priceSub: "（10日分）",
-    tag: "まず試してみたい方に",
-    note: "10日経過後、自動的に「はじめての美容内服セット」（月3,480円）に切り替わります。",
-    caution: null,
-    featured: false,
-  },
-  {
-    type: "subscription",
-    name: "はじめての美容内服セット",
-    subtitle: "3種・1ヶ月定期",
-    contents: "シナール（VC）・ユベラ（VE）・ノイロビタン（VB群）",
-    firstMonthly: "2,980円",
-    contMonthly: "3,480円",
-    firstBulk3: null,
-    contBulk3: null,
-    tag: "続けやすい定期プラン",
-    caution: null,
-    featured: false,
-  },
-  {
-    type: "subscription",
-    name: "透明感爆上げセット",
-    subtitle: "3種",
-    contents: "ユベラ（VE）・シナール（VC）・ハイチオール（L-システイン）",
-    firstMonthly: "3,980円",
-    contMonthly: "4,980円",
-    firstBulk3: "9,800円",
-    contBulk3: "10,800円",
-    tag: "おすすめ",
-    caution: null,
-    featured: true,
-  },
-  {
-    type: "subscription",
-    name: "美容内服 4種セット",
-    subtitle: "4種（ハイチオール or トラネキサム酸を追加）",
-    contents: "ユベラ（VE）・シナール（VC）・ノイロビタン（VB群）＋ハイチオール または トラネキサム酸",
-    firstMonthly: "5,480円",
-    contMonthly: "5,980円",
-    firstBulk3: "14,800円",
-    contBulk3: "15,800円",
-    tag: "4種で充実ケア",
-    caution: "トラネキサム酸を選択の場合、ピル服用中・血栓症の既往・腎機能障害・妊娠中の方は服用不可。",
-    featured: false,
-  },
-  {
-    type: "subscription",
-    name: "とことん美白セット",
-    subtitle: "5種フルセット",
-    contents: "ユベラ（VE）・シナール（VC）・ハイチオール・トラネキサム酸・ノイロビタン（VB群）",
-    firstMonthly: "6,480円",
-    contMonthly: "6,980円",
-    firstBulk3: "17,800円",
-    contBulk3: "18,800円",
-    tag: "5種フルセット",
-    caution: "トラネキサム酸を含むため、ピル（経口避妊薬）服用中・血栓症の既往がある方・腎機能障害がある方・妊娠中の方は服用不可。",
-    featured: false,
-  },
-  {
-    type: "subscription",
-    name: "アクネトレント20mg",
-    subtitle: "ニキビ治療",
-    contents: "イソトレチノイン20mg（中等症〜重症ニキビへのアプローチ）",
-    firstMonthly: "4,980円",
-    contMonthly: "5,980円",
-    firstBulk3: "10,800円",
-    contBulk3: "11,800円",
-    tag: "ニキビ治療",
-    caution: "妊娠中・妊娠の可能性のある方は服用不可。服用中および中止後一定期間は確実な避妊が必要。献血も不可。詳細は免責事項をご確認ください。",
-    featured: false,
-  },
-];
 
 const ingredients = [
   {
@@ -154,7 +74,7 @@ const ingredients = [
   {
     name: "ハイチオール（L-システイン）",
     effect: "メラニン生成の過剰産生を抑えるサポート・肝機能サポート",
-    plans: "はじめて / 透明感アップ / とことん美白",
+    plans: "はじめて / 透明感爆上げ / とことん美白",
   },
   {
     name: "トラネキサム酸",
@@ -164,7 +84,7 @@ const ingredients = [
   {
     name: "ノイロビタン（ビタミンB群）",
     effect: "皮膚・粘膜の健康維持・肌荒れサポート",
-    plans: "はじめて / とことん美白 / 4種セット",
+    plans: "とことん美白",
   },
   {
     name: "アクネトレント（イソトレチノイン）",
@@ -284,72 +204,69 @@ const steps = [
         <h2 class="section-title">料金<span class="beauty-accent-text">プラン</span></h2>
         <p class="lead">お悩みと続けやすさに合わせてお選びいただけます。すべて定期縛りなし。</p>
       </header>
-      <div class="plans-grid">
-        {plans.map((p) => (
-          <article class:list={["plan-card", { "plan-card--featured": p.featured }]}>
-            {p.featured && <span class="plan-badge">おすすめ</span>}
-            <p class="plan-tag">{p.tag}</p>
-            <h3 class="plan-name">{p.name}</h3>
-            <p class="plan-subtitle">{p.subtitle}</p>
-            <p class="plan-contents">{p.contents}</p>
-
-            {p.type === "trial" && (
-              <div class="plan-price-block">
-                <p class="plan-price-label">お試し価格</p>
-                <p class="plan-price">{p.price}<span class="plan-price-unit">{p.priceSub}</span></p>
-              </div>
-            )}
-
-            {p.type === "subscription" && (
-              <div class="plan-tiers">
-                <div class="plan-tier">
-                  <p class="plan-tier-label">1ヶ月定期</p>
-                  <div class="plan-tier-row">
-                    <span class="plan-tier-sub">初回</span>
-                    <span class="plan-tier-price">{p.firstMonthly}</span>
-                  </div>
-                  <div class="plan-tier-row">
-                    <span class="plan-tier-sub">継続</span>
-                    <span class="plan-tier-price">{p.contMonthly}</span>
-                  </div>
-                </div>
-                {p.firstBulk3 && (
-                  <div class="plan-tier plan-tier--bulk">
-                    <p class="plan-tier-label">3ヶ月定期</p>
-                    <div class="plan-tier-row">
-                      <span class="plan-tier-sub">初回</span>
-                      <span class="plan-tier-price">{p.firstBulk3}</span>
-                    </div>
-                    <div class="plan-tier-row">
-                      <span class="plan-tier-sub">継続</span>
-                      <span class="plan-tier-price">{p.contBulk3}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {p.note && (
-              <p class="plan-note">
-                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-                {p.note}
-              </p>
-            )}
-            {p.caution && (
-              <p class="plan-caution">
-                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-                {p.caution}
-              </p>
-            )}
-            <a class="btn btn--line plan-btn" href="https://lin.ee/3vvO4ol" target="_blank" rel="noopener">
-              <i class="fa-brands fa-line" aria-hidden="true"></i>このプランで相談する
-            </a>
-          </article>
-        ))}
+      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>薬剤／セット名</th>
+              <th>買い切り</th>
+              <th>1ヶ月定期</th>
+              <th>3ヶ月定期</th>
+              <th>6ヶ月定期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {beautyPlans.map((p) => (
+              <tr>
+                <td>
+                  <span class="pt-name">{p.name}</span>
+                  {p.detail && <span class="pt-detail">{p.detail}</span>}
+                  {p.note && <span class="pt-note"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>{p.note}</span>}
+                </td>
+                <td>{p.buyout != null ? `¥${p.buyout.toLocaleString()}` : "—"}</td>
+                <td>
+                  {p.m1 == null || (p.m1.initial == null && p.m1.recur == null)
+                    ? "—"
+                    : (
+                      <span>
+                        {p.m1.initial != null ? `初回 ¥${p.m1.initial.toLocaleString()}` : "—"}
+                        {" ／ "}
+                        {p.m1.recur != null ? `2回目〜 ¥${p.m1.recur.toLocaleString()}` : "—"}
+                      </span>
+                    )
+                  }
+                </td>
+                <td>
+                  {p.m3 == null || (p.m3.initial == null && p.m3.recur == null)
+                    ? "—"
+                    : (
+                      <span>
+                        {p.m3.initial != null ? `初回 ¥${p.m3.initial.toLocaleString()}` : "—"}
+                        {" ／ "}
+                        {p.m3.recur != null ? `2回目〜 ¥${p.m3.recur.toLocaleString()}` : "—"}
+                      </span>
+                    )
+                  }
+                </td>
+                <td>
+                  {p.m6 == null || (p.m6.initial == null && p.m6.recur == null)
+                    ? "—"
+                    : (
+                      <span>
+                        {p.m6.initial != null ? `初回 ¥${p.m6.initial.toLocaleString()}` : "—"}
+                        {" ／ "}
+                        {p.m6.recur != null ? `2回目〜 ¥${p.m6.recur.toLocaleString()}` : "—"}
+                      </span>
+                    )
+                  }
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       <p class="fineprint">
-        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。自由診療（保険適用外）です。<br />
-        ※定期縛りなし、次回発送日の1日前までにマイページから解約できます。
+        ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。お支払いは{PAYMENT_METHODS}。自由診療（保険適用外）。定期縛りなし、次回発送日の1日前までにマイページから解約可能。
       </p>
     </div>
   </section>
@@ -1100,13 +1017,63 @@ const steps = [
       grid-template-columns: repeat(3, 1fr);
     }
   }
-  /* 全幅でのオーバーフロー安全策 */
-  .plan-card,
-  .plan-contents,
-  .plan-caution,
-  .plan-note,
-  .plan-tier-price {
-    overflow-wrap: anywhere;
+  /* ============ PRICING TABLE ============ */
+  .pricing-table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    font-size: 0.88rem;
+  }
+  .pricing-table thead tr {
+    background: var(--brand-gradient);
+    color: #fff;
+  }
+  .pricing-table th {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-weight: var(--fw-bold);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+  .pricing-table td {
+    padding: 0.85rem 1rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--cream-200);
+    vertical-align: top;
+    line-height: 1.55;
     word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .pricing-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .pricing-table tbody tr:nth-child(even) td {
+    background: var(--cream-50);
+  }
+  .pt-name {
+    display: block;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 0.9rem;
+  }
+  .pt-detail {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+  }
+  .pt-note {
+    display: block;
+    font-size: 0.76rem;
+    color: #c05a00;
+    margin-top: 0.35rem;
+    line-height: 1.5;
+  }
+  .pt-note i {
+    margin-right: 0.3em;
   }
 </style>
