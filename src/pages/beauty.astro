@@ -432,28 +432,14 @@ const steps = [
 
   /* Hero visual */
   .beauty-hero-visual {
-    position: relative;
-    min-height: 320px;
     display: none;
-    overflow: hidden; /* 絶対配置カードがはみ出さないよう clip */
   }
   .beauty-visual-card {
-    position: absolute;
     background: #fff;
     border: 1px solid var(--cream-300);
     border-radius: var(--r-lg);
     padding: 1.5rem 1.6rem;
-    box-shadow: var(--shadow-lg);
-    width: 60%;
-    max-width: 240px;
-  }
-  .beauty-visual-card--a {
-    top: 4%;
-    left: 4%;
-  }
-  .beauty-visual-card--b {
-    top: 40%;
-    right: 2%;
+    box-shadow: var(--shadow-md);
   }
   .beauty-visual-icon {
     display: inline-flex;
@@ -478,17 +464,15 @@ const steps = [
     margin-top: 0.2rem;
   }
   .beauty-visual-stat {
-    position: absolute;
-    bottom: 2%;
-    left: 10%;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1.2rem;
     background: var(--ink-900);
     color: #fff;
     border-radius: var(--r-lg);
     padding: 1.1rem 1.6rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
   .beauty-visual-stat strong {
     font-family: var(--font-serif);
@@ -1007,7 +991,13 @@ const steps = [
       gap: 2rem;
     }
     .beauty-hero-visual {
-      display: block;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-content: center;
+    }
+    .beauty-visual-stat {
+      grid-column: 1 / -1;
     }
     .solutions-grid {
       grid-template-columns: repeat(2, 1fr);

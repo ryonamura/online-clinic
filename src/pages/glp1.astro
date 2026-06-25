@@ -39,7 +39,7 @@ const recommended = [
 
 const medications = [
   {
-    name: "マンジャロ（チルゼパチド）",
+    name: "注射薬（チルゼパチド）",
     medClass: "GIP/GLP-1受容体作動薬",
     route: "週1回 皮下注射",
     feature: "GIPとGLP-1の二重作用で食欲抑制・体重減少をサポート",
@@ -112,7 +112,7 @@ const contraindications = [
 
 <PageLayout
   title="GLP-1ダイエット（メディカルダイエット）のオンライン診療｜キレイレポオンライン"
-  description="マンジャロ・リベルサスなどGLP-1・SGLT2阻害薬を医師が処方。食欲コントロールをサポートする医療ダイエットをオンラインで。診察・配送料2,000円・定期縛りなし。"
+  description="注射薬・リベルサスなどGLP-1・SGLT2阻害薬を医師が処方。食欲コントロールをサポートする医療ダイエットをオンラインで。診察・配送料2,000円・定期縛りなし。"
 >
   {/* ============ HERO ============ */}
   <section class="hero">
@@ -142,7 +142,7 @@ const contraindications = [
       <div class="hero-visual" aria-hidden="true">
         <div class="hero-card hero-card--1">
           <span class="hero-card-icon"><i class="fa-solid fa-syringe"></i></span>
-          <p class="hero-card-title">マンジャロ（注射）</p>
+          <p class="hero-card-title">GLP-1注射薬</p>
           <p class="hero-card-sub">GIP/GLP-1二重作動薬 週1回</p>
         </div>
         <div class="hero-card hero-card--2">
@@ -288,7 +288,7 @@ const contraindications = [
 
       {/* メイン薬剤表 */}
       <h3 class="plans-subtitle">薬剤プラン</h3>
-      <p class="plans-note-manjaro">※マンジャロは1ヶ月分=4本（1箱2本×2箱）</p>
+      <p class="plans-note-manjaro">※注射薬は1ヶ月分=4本（1箱2本×2箱）</p>
       <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="price-table">
           <thead>
@@ -401,8 +401,8 @@ const contraindications = [
         </table>
       </div>
 
-      {/* オプション表（マンジャロ処方時のみ） */}
-      <h3 class="plans-subtitle" style="margin-top:2.5rem;">オプション（マンジャロ処方時のみ）</h3>
+      {/* オプション表（注射薬処方時のみ） */}
+      <h3 class="plans-subtitle" style="margin-top:2.5rem;">オプション（注射薬処方時のみ）</h3>
       <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="price-table">
           <thead>
@@ -508,7 +508,7 @@ const contraindications = [
         本サービスは自由診療（保険適用外）です。費用は全額自己負担となります。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。
       </p>
       <p>
-        マンジャロ（チルゼパチド）およびリベルサス（セマグルチド）は、国内では2型糖尿病の治療薬として承認されており、肥満治療を目的とした使用は国内未承認（適応外使用）となります。
+        注射薬（チルゼパチド）およびリベルサス（セマグルチド）は、国内では2型糖尿病の治療薬として承認されており、肥満治療を目的とした使用は国内未承認（適応外使用）となります。
         フォシーガ（ダパグリフロジン）およびルセフィ（ルセオグリフロジン）は、国内では2型糖尿病等の治療薬として承認されており、肥満治療を目的とした使用は国内未承認（適応外使用）となります。
       </p>
       <p>
@@ -592,22 +592,15 @@ const contraindications = [
 
   /* hero visual */
   .hero-visual {
-    position: relative;
-    min-height: 320px;
     display: none;
-    overflow: hidden;
   }
   .hero-card {
-    position: absolute;
     background: #fff;
     border: 1px solid var(--cream-300);
     border-radius: var(--r-lg);
-    padding: 1.5rem 1.6rem;
-    box-shadow: var(--shadow-lg);
-    width: 62%;
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-md);
   }
-  .hero-card--1 { top: 6%; left: 4%; }
-  .hero-card--2 { top: 40%; right: 2%; }
   .hero-card-icon {
     display: inline-flex;
     width: 48px;
@@ -630,18 +623,15 @@ const contraindications = [
     margin-top: 0.2rem;
   }
   .hero-stat {
-    position: absolute;
-    bottom: 2%;
-    left: 10%;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1.2rem;
     background: var(--ink-900);
     color: #fff;
     border-radius: var(--r-lg);
     padding: 1.1rem 1.6rem;
-    box-shadow: var(--shadow-lg);
-    max-width: 88%;
+    box-shadow: var(--shadow-md);
   }
   .hero-stat strong {
     font-family: var(--font-serif);
@@ -1129,8 +1119,13 @@ const contraindications = [
       gap: 2rem;
     }
     .hero-visual {
-      display: block;
-      min-height: 360px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      align-content: center;
+    }
+    .hero-stat {
+      grid-column: 1 / -1;
     }
     .rec-grid {
       grid-template-columns: repeat(3, 1fr);

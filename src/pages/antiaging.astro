@@ -455,21 +455,13 @@ const solutions = [
   /* hero visual */
   .hero-aa-visual {
     display: none;
-    position: relative;
-    min-height: 320px;
-    overflow: hidden;
   }
   .hero-aa-card {
-    position: absolute;
-    top: 5%;
-    left: 5%;
-    width: 72%;
-    max-width: calc(100% - 10%);
     background: #fff;
     border: 1px solid var(--gold-200);
     border-radius: var(--r-lg);
     padding: 1.8rem 2rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
   }
   .hero-aa-icon-wrap {
     display: inline-flex;
@@ -505,18 +497,15 @@ const solutions = [
     padding: 0.3em 0.9em;
   }
   .hero-aa-stat {
-    position: absolute;
-    bottom: 4%;
-    right: 4%;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1.2rem;
     background: var(--ink-900);
     color: #fff;
     border-radius: var(--r-lg);
     padding: 1.1rem 1.6rem;
-    box-shadow: var(--shadow-lg);
-    max-width: calc(100% - 8%);
+    box-shadow: var(--shadow-md);
   }
   .hero-aa-stat strong {
     font-family: var(--font-serif);
@@ -862,13 +851,10 @@ const solutions = [
       gap: 2rem;
     }
     .hero-aa-visual {
-      display: block;
-      min-height: 360px;
-    }
-  }
-  @media (min-width: 1200px) {
-    .hero-aa-visual {
-      min-height: 400px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      align-content: center;
     }
   }
 
