@@ -4,11 +4,10 @@ import LineCta from "../components/LineCta.astro";
 import { LINE_URL, services, shopLink } from "../data/site";
 import { withBase } from "../lib/links";
 
-const trust = [
-  { icon: "fa-yen-sign", label: "診察・配送料 2,000円" },
-  { icon: "fa-rotate-left", label: "定期縛りなし" },
-  { icon: "fa-mobile-screen-button", label: "オンライン完結" },
-  { icon: "fa-comment-dots", label: "LINEで相談OK" },
+const badges = [
+  { icon: "fa-truck-fast", label: "最短翌日お届け", desc: "処方確定後に即発送。忙しい方も待たずに受け取れます。" },
+  { icon: "fa-yen-sign", label: "わかりやすい定額", desc: "診察・配送料は 2,000円（税込）一律。追加の隠れ費用はありません。" },
+  { icon: "fa-comment-dots", label: "LINEで完結・縛りなし", desc: "予約〜診察〜処方〜発送まですべてLINEで。定期縛りなしでいつでも解約可。" },
 ];
 
 const serviceCards = [
@@ -94,61 +93,49 @@ const compare = [
 ---
 
 <PageLayout>
-  {/* ============ HERO ============ */}
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-copy">
-        <p class="eyebrow">ONLINE CLINIC ・ 完全オンライン診療</p>
-        <h1 class="hero-title">
-          GLP-1ダイエット・美容内服の<br />
-          <span class="hero-title-accent">オンライン診療</span>なら<br />
-          キレイレポオンライン
-        </h1>
-        <p class="hero-lead">
-          美容内服・GLP-1ダイエット・アンチエイジング・AGA治療をオンラインで完結。
-          提携医療機関の医師がビデオ通話で診察し、お薬が自宅に届きます。
+  {/* ============ HERO（CLINIC FOR風・左右分割＋訴求バッジ） ============ */}
+  <section class="ha-hero">
+    <div class="container ha-hero-inner">
+      <div class="ha-copy">
+        <p class="ha-eyebrow">
+          <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+          ONLINE CLINIC &nbsp;·&nbsp; 完全オンライン診療
         </p>
-        <div class="hero-actions">
-          <a class="btn btn--line hero-btn" href={LINE_URL} target="_blank" rel="noopener">
+        <h1 class="ha-title">
+          自宅にいながら<br />
+          医師の診察・<span class="ha-title-accent">お薬お届け</span>
+        </h1>
+        <p class="ha-lead">
+          GLP-1ダイエット・美容内服・アンチエイジング・AGA治療をオンラインで。<br class="ha-br-md" />
+          提携医療機関（マーチクリニック）の医師がビデオ通話で診察し、<br class="ha-br-md" />
+          処方薬が自宅に届きます。
+        </p>
+        <div class="ha-actions">
+          <a class="btn btn--line ha-btn-line" href={LINE_URL} target="_blank" rel="noopener">
             <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
           </a>
           <a class="btn btn--ghost" href="#services">サービスを見る</a>
         </div>
-        <ul class="hero-notes">
-          <li><i class="fa-solid fa-circle-check"></i>診察・配送料 2,000円</li>
-          <li><i class="fa-solid fa-circle-check"></i>定期縛りなし</li>
-          <li><i class="fa-solid fa-circle-check"></i>LINEで完結</li>
+        <ul class="ha-checklist" aria-label="主なポイント">
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>診察・配送料 2,000円（税込）一律</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>定期縛りなし・いつでも解約可</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>通院不要・オンライン完結</li>
         </ul>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
-        <div class="hero-card hero-card--1">
-          <span class="hero-card-icon"><i class="fa-solid fa-pills"></i></span>
-          <p class="hero-card-title">GLP-1ダイエット</p>
-          <p class="hero-card-sub">注射薬・リベルサス 処方</p>
-        </div>
-        <div class="hero-card hero-card--2">
-          <span class="hero-card-icon pink"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-          <p class="hero-card-title">美容内服</p>
-          <p class="hero-card-sub">美白・エイジングケア処方</p>
-        </div>
-        <div class="hero-stat">
-          <div><strong>2,000<span>円</span></strong><small>診察・配送料</small></div>
-          <div class="hero-stat-div"></div>
-          <div><strong>0<span>回</span></strong><small>通院回数</small></div>
-        </div>
-      </div>
+      <aside class="ha-panel" aria-label="サービスの特長">
+        {badges.map((b) => (
+          <div class="ha-badge">
+            <span class="ha-badge-icon" aria-hidden="true"><i class={`fa-solid ${b.icon}`}></i></span>
+            <div class="ha-badge-body">
+              <p class="ha-badge-label">{b.label}</p>
+              <p class="ha-badge-desc">{b.desc}</p>
+            </div>
+          </div>
+        ))}
+      </aside>
     </div>
   </section>
-
-  {/* ============ TRUST RIBBON ============ */}
-  <div class="trust">
-    <div class="container trust-inner">
-      {trust.map((t) => (
-        <span class="trust-item"><i class={`fa-solid ${t.icon}`}></i>{t.label}</span>
-      ))}
-    </div>
-  </div>
 
   {/* ============ SERVICES ============ */}
   <section class="section" id="services">
@@ -296,7 +283,175 @@ const compare = [
 </PageLayout>
 
 <style>
-  /* ============ HERO ============ */
+  /* ===== HERO（CLINIC FOR風・採用案A：左右分割＋訴求バッジ） ===== */
+  .ha-hero {
+    background:
+      radial-gradient(ellipse 70% 60% at 100% 0%, var(--brand-50) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 0% 100%, var(--cream-100) 0%, transparent 55%),
+      #fff;
+    padding-block: clamp(3rem, 8vw, 6rem);
+    overflow: hidden;
+  }
+  .ha-hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .ha-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-700);
+  }
+  .ha-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 1.3rem + 3.5vw, 3.2rem);
+    font-weight: var(--fw-bold);
+    line-height: 1.45;
+    letter-spacing: 0.015em;
+    color: var(--ink-700);
+    margin-top: 1rem;
+  }
+  .ha-title-accent {
+    color: var(--brand-700);
+    position: relative;
+    white-space: nowrap;
+  }
+  .ha-title-accent::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0.06em;
+    height: 0.28em;
+    background: var(--brand-200);
+    opacity: 0.6;
+    z-index: -1;
+  }
+  .ha-lead {
+    margin-top: 1.4rem;
+    font-size: clamp(0.95rem, 0.85rem + 0.5vw, 1.1rem);
+    color: var(--ink-500);
+    line-height: 1.85;
+    max-width: 36rem;
+  }
+  .ha-br-md {
+    display: none;
+  }
+  .ha-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+  .ha-btn-line {
+    font-size: 1.05rem;
+    padding: 1em 2.2em;
+  }
+  .ha-checklist {
+    margin-top: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    list-style: none;
+    padding: 0;
+  }
+  .ha-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .ha-checklist i {
+    color: var(--brand-600);
+    font-size: 0.95em;
+    flex-shrink: 0;
+  }
+  .ha-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .ha-badge {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .ha-badge:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .ha-badge-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-md);
+    background: var(--brand-gradient-soft);
+    color: var(--brand-700);
+    font-size: 1.35rem;
+  }
+  .ha-badge-body {
+    min-width: 0;
+  }
+  .ha-badge-label {
+    font-weight: var(--fw-bold);
+    font-size: 1rem;
+    color: var(--ink-700);
+    line-height: 1.3;
+  }
+  .ha-badge-desc {
+    margin-top: 0.35rem;
+    font-size: 0.86rem;
+    color: var(--ink-500);
+    line-height: 1.7;
+  }
+  @media (max-width: 599px) {
+    .ha-title {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    .ha-badge {
+      padding: 1.1rem 1.1rem;
+    }
+  }
+  @media (min-width: 720px) {
+    .ha-checklist {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.6rem;
+    }
+    .ha-br-md {
+      display: block;
+    }
+  }
+  @media (min-width: 960px) {
+    .ha-hero-inner {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+    }
+  }
+  @media (min-width: 1100px) {
+    .ha-hero-inner {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 4rem;
+    }
+  }
+
+  /* ============ 旧HERO（未使用） ============ */
   .hero {
     position: relative;
     overflow: hidden;
