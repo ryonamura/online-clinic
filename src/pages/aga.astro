@@ -93,7 +93,7 @@ const agaAbout = [
       <div class="hero-aga-copy">
         <p class="eyebrow-aga">MEN'S AGA ・ 男性型脱毛症 オンライン診療</p>
         <h1 class="hero-aga-title">
-          AGA（男性型脱毛症）の<br />
+          AGA<span class="aga-title-paren">（男性型脱毛症）</span>の<br />
           <span class="hero-aga-accent">オンライン診療</span>
         </h1>
         <p class="hero-aga-lead">
@@ -422,6 +422,11 @@ const agaAbout = [
     letter-spacing: 0.02em;
     color: var(--ink-900);
     margin-top: 1rem;
+  }
+  .aga-title-paren {
+    font-size: 0.5em;
+    letter-spacing: 0.02em;
+    font-weight: var(--fw-bold);
   }
   .hero-aga-accent {
     color: var(--ink-700);
