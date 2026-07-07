@@ -3,9 +3,28 @@ import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
 import { LINE_URL, services, shopLink } from "../data/site";
 import { withBase } from "../lib/links";
+import {
+  agaPlans,
+  beautyPlans,
+  glp1Plans,
+  metforminPlan,
+  PAYMENT_METHODS,
+  type Plan,
+} from "../data/pricing";
+
+function minInitialYen(...plans: Plan[]): string {
+  const prices: number[] = [];
+  for (const p of plans) {
+    if (p.buyout != null) prices.push(p.buyout);
+    for (const term of [p.m1, p.m3, p.m6]) {
+      if (term?.initial != null) prices.push(term.initial);
+    }
+  }
+  return Math.min(...prices).toLocaleString("ja-JP");
+}
 
 const badges = [
-  { icon: "fa-truck-fast", label: "最短翌日お届け", desc: "処方確定後に即発送。忙しい方も待たずに受け取れます。" },
+  { icon: "fa-truck-fast", label: "最短翌日発送", desc: "処方確定後、最短翌日に発送。忙しい方も待たずに受け取れます。" },
   { icon: "fa-yen-sign", label: "わかりやすい定額", desc: "診察・配送料は 2,000円（税込）一律。追加の隠れ費用はありません。" },
   { icon: "fa-comment-dots", label: "LINEで完結・縛りなし", desc: "予約〜診察〜処方〜発送まですべてLINEで。定期縛りなしでいつでも解約可。" },
 ];
@@ -16,7 +35,7 @@ const serviceCards = [
     icon: "fa-pills",
     name: "GLP-1ダイエット",
     desc: "注射薬・リベルサスなどを医師の診察のもと処方。食欲のコントロールをサポートし、無理のない医療ダイエットをご提案します。",
-    price: "月々 7,500円〜",
+    price: `初回 ${minInitialYen(...glp1Plans)}円〜`,
     href: "/glp1",
     tone: "pink",
   },
@@ -25,7 +44,7 @@ const serviceCards = [
     icon: "fa-wand-magic-sparkles",
     name: "美容内服",
     desc: "ビタミンC・トラネキサム酸・L-システインなど、美白・エイジングケアの内服薬を医師が処方。内側からの肌ケアを。",
-    price: "月々 2,980円〜",
+    price: `初回 ${minInitialYen(...beautyPlans)}円〜`,
     href: "/beauty",
     tone: "pink",
   },
@@ -34,7 +53,7 @@ const serviceCards = [
     icon: "fa-dna",
     name: "アンチエイジング",
     desc: "メトホルミンによるエイジングケアアプローチ。世界的に研究が進む抗老化の選択肢を、オンライン診療で。",
-    price: "月々 2,980円〜",
+    price: `初回 ${minInitialYen(metforminPlan)}円〜`,
     href: "/antiaging",
     tone: "gold",
   },
@@ -43,7 +62,7 @@ const serviceCards = [
     icon: "fa-mars",
     name: "AGA治療",
     desc: "デュタステリド0.5mg等を医師が処方。男性の薄毛（AGA）の進行抑制・発毛をサポートします。",
-    price: "月々 3,480円〜",
+    price: `初回 ${minInitialYen(...agaPlans)}円〜`,
     href: "/aga",
     tone: "navy",
   },
@@ -245,7 +264,7 @@ const compare = [
         <h2 class="section-title">お支払い・<span class="accent">定期配送</span>について</h2>
       </header>
       <dl class="info-list">
-        <div><dt>お支払い方法</dt><dd>クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、atone翌月払いに対応。</dd></div>
+        <div><dt>お支払い方法</dt><dd>{PAYMENT_METHODS}に対応。</dd></div>
         <div><dt>配送について</dt><dd>全国一律 診察・配送料 2,000円（税込）。最短翌日発送、プライバシーに配慮した梱包でお届けします。</dd></div>
         <div><dt>定期配送</dt><dd>毎月自動発送で飲み忘れを防止。定期縛りはなく、次回発送日の1日前までにマイページからいつでも解約・休止が可能です。</dd></div>
       </dl>

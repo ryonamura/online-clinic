@@ -2,7 +2,7 @@
 // 料金マスター（2025-12-05 版・最新）— サイト内の価格はすべてここを参照する
 // 共通ルール:
 //   ・全プラン別途、診察・配送料 一律 2,000円（税込）。2回目以降も同額。
-//   ・支払い方法: クレジットカード / Apple Pay / atone翌月払い のみ。
+//   ・支払い方法: クレジットカード / Apple Pay / PayPay / atone翌月払い のみ。
 //   ・価格はすべて税込。null は「設定なし(-)」。
 //   ・買い切り(buyout)は1ヶ月単位。定期(m1/m3/m6)は initial=初回 / recur=2回目以降。
 //   ・注射薬は1ヶ月分=4本（1箱2本×2箱）。
@@ -11,7 +11,7 @@
 
 export const CONSULT_SHIPPING = 2000; // 診察・配送料（税込・一律）
 export const PAYMENT_METHODS =
-  "クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、atone翌月払い";
+  "クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、PayPay、atone翌月払い";
 
 export interface Term {
   initial: number | null; // 初回

@@ -10,7 +10,7 @@ export interface Props {
 
 const {
   title = "キレイレポオンライン｜オンライン診療",
-  description = "GLP-1メディカルダイエット・美容内服・アンチエイジングのオンライン診療。スマホで完結、お薬は最短即日発送。診察・配送料込みでわかりやすい料金。",
+  description = "GLP-1メディカルダイエット・美容内服・アンチエイジングのオンライン診療。スマホで完結、お薬は最短翌日発送。診察・配送料は別途2,000円（税込）でわかりやすい料金。",
   canonical,
   ogImage = "/ogp.png",
 } = Astro.props;
@@ -27,6 +27,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <!-- OGP -->
     <meta property="og:type" content="website" />
