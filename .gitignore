@@ -16,3 +16,5 @@ node_modules/
 # logs
 *.log
 npm-debug.log*
+# 受け渡し用アーティファクト（ソースではない）
+handoff-hp-update/

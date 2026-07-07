@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import { PAYMENT_METHODS } from "../data/pricing";
 
 const categories = [
   {
@@ -103,11 +104,11 @@ const categories = [
       },
       {
         q: "配送にかかる日数は？",
-        a: "処方確定後、通常3〜5営業日でお届けします。配送状況はLINEでご確認いただけます。最短翌日発送に対応していますが、お届け日は地域や配送状況によって異なります。",
+        a: "処方確定後、最短翌日に発送します。お届けは地域により1〜5営業日程度です。配送状況はLINEでご確認いただけます。",
       },
       {
         q: "支払方法は何がありますか？",
-        a: "クレジットカード（VISA・Mastercard・JCB・AMEX）、Apple Pay、atone翌月払いに対応しています。定期便は毎月自動決済となります。",
+        a: `${PAYMENT_METHODS}に対応しています。定期便は毎月自動決済となります。`,
       },
       {
         q: "定期便の解約方法は？",
