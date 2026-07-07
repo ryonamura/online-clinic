@@ -1,0 +1,223 @@
+diff --git a/src/data/pricing.ts b/src/data/pricing.ts
+index b916e80..d7fc7b9 100644
+--- a/src/data/pricing.ts
++++ b/src/data/pricing.ts
+@@ -2,7 +2,7 @@
+ // 料金マスター（2025-12-05 版・最新）— サイト内の価格はすべてここを参照する
+ // 共通ルール:
+ //   ・全プラン別途、診察・配送料 一律 2,000円（税込）。2回目以降も同額。
+-//   ・支払い方法: クレジットカード / Apple Pay / atone翌月払い のみ。
++//   ・支払い方法: クレジットカード / Apple Pay / PayPay / atone翌月払い のみ。
+ //   ・価格はすべて税込。null は「設定なし(-)」。
+ //   ・買い切り(buyout)は1ヶ月単位。定期(m1/m3/m6)は initial=初回 / recur=2回目以降。
+ //   ・注射薬は1ヶ月分=4本（1箱2本×2箱）。
+@@ -11,7 +11,7 @@
+ 
+ export const CONSULT_SHIPPING = 2000; // 診察・配送料（税込・一律）
+ export const PAYMENT_METHODS =
+-  "クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、atone翌月払い";
++  "クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、PayPay、atone翌月払い";
+ 
+ export interface Term {
+   initial: number | null; // 初回
+diff --git a/src/layouts/BaseLayout.astro b/src/layouts/BaseLayout.astro
+index c84fd05..2516aa3 100644
+--- a/src/layouts/BaseLayout.astro
++++ b/src/layouts/BaseLayout.astro
+@@ -10,7 +10,7 @@ export interface Props {
+ 
+ const {
+   title = "キレイレポオンライン｜オンライン診療",
+-  description = "GLP-1メディカルダイエット・美容内服・アンチエイジングのオンライン診療。スマホで完結、お薬は最短即日発送。診察・配送料込みでわかりやすい料金。",
++  description = "GLP-1メディカルダイエット・美容内服・アンチエイジングのオンライン診療。スマホで完結、お薬は最短翌日発送。診察・配送料は別途2,000円（税込）でわかりやすい料金。",
+   canonical,
+   ogImage = "/ogp.png",
+ } = Astro.props;
+@@ -27,6 +27,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+     <title>{title}</title>
+     <meta name="description" content={description} />
+     <link rel="canonical" href={canonicalURL} />
++    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+ 
+     <!-- OGP -->
+     <meta property="og:type" content="website" />
+diff --git a/src/pages/aga.astro b/src/pages/aga.astro
+index 3e90341..05534db 100644
+--- a/src/pages/aga.astro
++++ b/src/pages/aga.astro
+@@ -348,7 +348,7 @@ const agaAbout = [
+       <dl class="aga-info-list">
+         <div>
+           <dt>お支払い方法</dt>
+-          <dd>クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、atone翌月払いに対応。</dd>
++          <dd>{PAYMENT_METHODS}に対応。</dd>
+         </div>
+         <div>
+           <dt>配送について</dt>
+diff --git a/src/pages/faq.astro b/src/pages/faq.astro
+index f808831..78b3391 100644
+--- a/src/pages/faq.astro
++++ b/src/pages/faq.astro
+@@ -1,6 +1,7 @@
+ ---
+ import PageLayout from "../layouts/PageLayout.astro";
+ import LineCta from "../components/LineCta.astro";
++import { PAYMENT_METHODS } from "../data/pricing";
+ 
+ const categories = [
+   {
+@@ -103,11 +104,11 @@ const categories = [
+       },
+       {
+         q: "配送にかかる日数は？",
+-        a: "処方確定後、通常3〜5営業日でお届けします。配送状況はLINEでご確認いただけます。最短翌日発送に対応していますが、お届け日は地域や配送状況によって異なります。",
++        a: "処方確定後、最短翌日に発送します。お届けは地域により1〜5営業日程度です。配送状況はLINEでご確認いただけます。",
+       },
+       {
+         q: "支払方法は何がありますか？",
+-        a: "クレジットカード（VISA・Mastercard・JCB・AMEX）、Apple Pay、atone翌月払いに対応しています。定期便は毎月自動決済となります。",
++        a: `${PAYMENT_METHODS}に対応しています。定期便は毎月自動決済となります。`,
+       },
+       {
+         q: "定期便の解約方法は？",
+diff --git a/src/pages/index.astro b/src/pages/index.astro
+index 7b296da..1ff5b82 100644
+--- a/src/pages/index.astro
++++ b/src/pages/index.astro
+@@ -3,9 +3,28 @@ import PageLayout from "../layouts/PageLayout.astro";
+ import LineCta from "../components/LineCta.astro";
+ import { LINE_URL, services, shopLink } from "../data/site";
+ import { withBase } from "../lib/links";
++import {
++  agaPlans,
++  beautyPlans,
++  glp1Plans,
++  metforminPlan,
++  PAYMENT_METHODS,
++  type Plan,
++} from "../data/pricing";
++
++function minInitialYen(...plans: Plan[]): string {
++  const prices: number[] = [];
++  for (const p of plans) {
++    if (p.buyout != null) prices.push(p.buyout);
++    for (const term of [p.m1, p.m3, p.m6]) {
++      if (term?.initial != null) prices.push(term.initial);
++    }
++  }
++  return Math.min(...prices).toLocaleString("ja-JP");
++}
+ 
+ const badges = [
+-  { icon: "fa-truck-fast", label: "最短翌日お届け", desc: "処方確定後に即発送。忙しい方も待たずに受け取れます。" },
++  { icon: "fa-truck-fast", label: "最短翌日発送", desc: "処方確定後、最短翌日に発送。忙しい方も待たずに受け取れます。" },
+   { icon: "fa-yen-sign", label: "わかりやすい定額", desc: "診察・配送料は 2,000円（税込）一律。追加の隠れ費用はありません。" },
+   { icon: "fa-comment-dots", label: "LINEで完結・縛りなし", desc: "予約〜診察〜処方〜発送まですべてLINEで。定期縛りなしでいつでも解約可。" },
+ ];
+@@ -16,7 +35,7 @@ const serviceCards = [
+     icon: "fa-pills",
+     name: "GLP-1ダイエット",
+     desc: "注射薬・リベルサスなどを医師の診察のもと処方。食欲のコントロールをサポートし、無理のない医療ダイエットをご提案します。",
+-    price: "月々 7,500円〜",
++    price: `初回 ${minInitialYen(...glp1Plans)}円〜`,
+     href: "/glp1",
+     tone: "pink",
+   },
+@@ -25,7 +44,7 @@ const serviceCards = [
+     icon: "fa-wand-magic-sparkles",
+     name: "美容内服",
+     desc: "ビタミンC・トラネキサム酸・L-システインなど、美白・エイジングケアの内服薬を医師が処方。内側からの肌ケアを。",
+-    price: "月々 2,980円〜",
++    price: `初回 ${minInitialYen(...beautyPlans)}円〜`,
+     href: "/beauty",
+     tone: "pink",
+   },
+@@ -34,7 +53,7 @@ const serviceCards = [
+     icon: "fa-dna",
+     name: "アンチエイジング",
+     desc: "メトホルミンによるエイジングケアアプローチ。世界的に研究が進む抗老化の選択肢を、オンライン診療で。",
+-    price: "月々 2,980円〜",
++    price: `初回 ${minInitialYen(metforminPlan)}円〜`,
+     href: "/antiaging",
+     tone: "gold",
+   },
+@@ -43,7 +62,7 @@ const serviceCards = [
+     icon: "fa-mars",
+     name: "AGA治療",
+     desc: "デュタステリド0.5mg等を医師が処方。男性の薄毛（AGA）の進行抑制・発毛をサポートします。",
+-    price: "月々 3,480円〜",
++    price: `初回 ${minInitialYen(...agaPlans)}円〜`,
+     href: "/aga",
+     tone: "navy",
+   },
+@@ -245,7 +264,7 @@ const compare = [
+         <h2 class="section-title">お支払い・<span class="accent">定期配送</span>について</h2>
+       </header>
+       <dl class="info-list">
+-        <div><dt>お支払い方法</dt><dd>クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、atone翌月払いに対応。</dd></div>
++        <div><dt>お支払い方法</dt><dd>{PAYMENT_METHODS}に対応。</dd></div>
+         <div><dt>配送について</dt><dd>全国一律 診察・配送料 2,000円（税込）。最短翌日発送、プライバシーに配慮した梱包でお届けします。</dd></div>
+         <div><dt>定期配送</dt><dd>毎月自動発送で飲み忘れを防止。定期縛りはなく、次回発送日の1日前までにマイページからいつでも解約・休止が可能です。</dd></div>
+       </dl>
+diff --git a/src/pages/legal/tokushoho.astro b/src/pages/legal/tokushoho.astro
+index 48916cb..5cd89d9 100644
+--- a/src/pages/legal/tokushoho.astro
++++ b/src/pages/legal/tokushoho.astro
+@@ -65,8 +65,8 @@ import { withBase } from "../../lib/links";
+             <tr>
+               <th scope="row">サイトURL</th>
+               <td>
+-                <a href="https://kireireport.com/online-clinic" target="_blank" rel="noopener">
+-                  https://kireireport.com/online-clinic
++                <a href="https://kireirepo-online.clinic" target="_blank" rel="noopener">
++                  https://kireirepo-online.clinic
+                 </a>
+               </td>
+             </tr>
+@@ -85,8 +85,8 @@ import { withBase } from "../../lib/links";
+ 
+       <div class="scheme-box">
+         <p class="scheme-text">
+-          本サービスにおける診察・処方は、提携医療機関である<strong>マーチクリニック</strong>の医師が実施します。
+-          サイトの運営・決済処理・お薬の発送業務は<strong>株式会社シアン</strong>が担当しています。
++          本サービスにおける<strong>診察・処方・お薬の発送</strong>は、提携医療機関である<strong>マーチクリニック</strong>が実施します。
++          <strong>サイトの運営・決済</strong>は<strong>株式会社シアン</strong>が担当しています（お薬の発送は行いません）。
+         </p>
+         <div class="scheme-flow">
+           <div class="scheme-step">
+@@ -96,12 +96,12 @@ import { withBase } from "../../lib/links";
+           <span class="scheme-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+           <div class="scheme-step">
+             <span class="scheme-icon"><i class="fa-solid fa-globe"></i></span>
+-            <p class="scheme-label">株式会社シアン<small>サイト運営・決済・発送</small></p>
++            <p class="scheme-label">株式会社シアン<small>サイト運営・決済のみ</small></p>
+           </div>
+           <span class="scheme-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+           <div class="scheme-step">
+             <span class="scheme-icon"><i class="fa-solid fa-stethoscope"></i></span>
+-            <p class="scheme-label">マーチクリニック<small>診察・処方</small></p>
++            <p class="scheme-label">マーチクリニック<small>診察・処方・お薬の発送</small></p>
+           </div>
+         </div>
+         <p class="scheme-note">
+@@ -124,7 +124,7 @@ import { withBase } from "../../lib/links";
+             <tr>
+               <th scope="row">支払方法</th>
+               <td>
+-                クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、
++                クレジットカード（VISA / Mastercard / JCB / AMEX）、Apple Pay、PayPay、
+                 atone翌月払い（コンビニ端末 / 銀行ATM / 電子バーコード / 口座振替）
+               </td>
+             </tr>
+@@ -137,7 +137,10 @@ import { withBase } from "../../lib/links";
+             </tr>
+             <tr>
+               <th scope="row">商品等の引渡時期</th>
+-              <td>オンライン診療後、翌営業日までに発送します。</td>
++              <td>
++                処方確定後、提携医療機関であるマーチクリニックより最短翌日に発送します。<br />
++                お届けは地域により1〜5営業日程度です。
++              </td>
+             </tr>
+             <tr>
+               <th scope="row">返品・交換</th>

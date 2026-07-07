@@ -1,0 +1,7 @@
+ M src/data/pricing.ts
+ M src/layouts/BaseLayout.astro
+ M src/pages/aga.astro
+ M src/pages/faq.astro
+ M src/pages/index.astro
+ M src/pages/legal/tokushoho.astro
+?? public/
