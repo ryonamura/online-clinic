@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -39,6 +39,9 @@ jobs:
 
   deploy:
     needs: build
+    # デプロイは既定ブランチ main のみ（github-pages 環境の保護ルールに準拠）。
+    # damascus / PR では build 検証のみ行い、deploy はスキップする。
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
