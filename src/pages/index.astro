@@ -1,7 +1,7 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
-import { LINE_URL, services, shopLink } from "../data/site";
+import { LINE_URL, shopLink } from "../data/site";
 import { withBase } from "../lib/links";
 import {
   agaPlans,
@@ -145,7 +145,7 @@ const compare = [
       <aside class="ha-panel" aria-label="サービスの特長">
         {badges.map((b) => (
           <div class="ha-badge">
-            <span class="ha-badge-icon" aria-hidden="true"><i class={`fa-solid ${b.icon}`}></i></span>
+            <span class="ha-badge-icon" aria-hidden="true"><i class={`fa-solid ${b.icon}`} aria-hidden="true"></i></span>
             <div class="ha-badge-body">
               <p class="ha-badge-label">{b.label}</p>
               <p class="ha-badge-desc">{b.desc}</p>
@@ -168,12 +168,12 @@ const compare = [
       <div class="service-grid">
         {serviceCards.map((s) => (
           <a class:list={["service-card", `tone-${s.tone}`]} href={withBase(s.href)}>
-            <span class="service-icon"><i class={`fa-solid ${s.icon}`}></i></span>
+            <span class="service-icon"><i class={`fa-solid ${s.icon}`} aria-hidden="true"></i></span>
             <h3 class="service-name">{s.name}</h3>
             <p class="service-desc">{s.desc}</p>
             <div class="service-foot">
               <span class="service-price">{s.price}</span>
-              <span class="service-more">詳しく見る<i class="fa-solid fa-arrow-right"></i></span>
+              <span class="service-more">詳しく見る<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </div>
           </a>
         ))}
@@ -193,7 +193,7 @@ const compare = [
       <div class="reason-grid">
         {reasons.map((r) => (
           <article class="reason-card">
-            <span class="reason-icon"><i class={`fa-solid ${r.icon}`}></i></span>
+            <span class="reason-icon"><i class={`fa-solid ${r.icon}`} aria-hidden="true"></i></span>
             <h3 class="reason-title">{r.title}</h3>
             <p class="reason-desc">{r.desc}</p>
             <span class="reason-tag">{r.tag}</span>
@@ -236,7 +236,7 @@ const compare = [
       <div class="about-grid">
         {aboutPoints.map((a) => (
           <article class="about-card">
-            <span class="about-icon"><i class={`fa-solid ${a.icon}`}></i></span>
+            <span class="about-icon"><i class={`fa-solid ${a.icon}`} aria-hidden="true"></i></span>
             <h3 class="about-title">{a.title}</h3>
             <p class="about-desc">{a.desc}</p>
           </article>
@@ -246,11 +246,11 @@ const compare = [
       <div class="compare">
         <div class="compare-col compare-old">
           <p class="compare-head">従来の通院</p>
-          <ul>{compare.map((c) => <li><i class="fa-solid fa-xmark"></i>{c.old}</li>)}</ul>
+          <ul>{compare.map((c) => <li><i class="fa-solid fa-xmark" aria-hidden="true"></i>{c.old}</li>)}</ul>
         </div>
         <div class="compare-col compare-neo">
           <p class="compare-head">キレイレポオンライン</p>
-          <ul>{compare.map((c) => <li><i class="fa-solid fa-check"></i>{c.neo}</li>)}</ul>
+          <ul>{compare.map((c) => <li><i class="fa-solid fa-check" aria-hidden="true"></i>{c.neo}</li>)}</ul>
         </div>
       </div>
     </div>
@@ -275,7 +275,7 @@ const compare = [
   {/* ============ MEDICAL DISCLAIMER ============ */}
   <section class="disclaimer">
     <div class="container container--narrow">
-      <p class="disclaimer-title"><i class="fa-solid fa-circle-info"></i>ご利用にあたって</p>
+      <p class="disclaimer-title"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>ご利用にあたって</p>
       <p>
         本サービスは自由診療（保険適用外）です。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。
         一部のお薬は、国内では特定の疾患の治療薬として承認されており、ダイエット・美容・エイジングケア目的での使用は承認適応外（適応外使用）となります。

@@ -12,9 +12,30 @@ const { title, description, canonical } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
+  <a class="skip-link" href="#main-content">本文へ移動</a>
   <Header />
-  <main>
+  <main id="main-content" tabindex="-1">
     <slot />
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 100;
+    padding: 0.65rem 1rem;
+    border-radius: var(--r-sm);
+    background: var(--ink-900);
+    color: #fff;
+    font-weight: var(--fw-bold);
+    transform: translateY(-150%);
+    transition: transform 0.15s ease;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+</style>

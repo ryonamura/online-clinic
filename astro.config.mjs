@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // 静的サイト出力（既存の Firebase Hosting 等にそのまま乗る）
 export default defineConfig({
@@ -7,4 +8,5 @@ export default defineConfig({
   site: process.env.PUBLIC_SITE || 'https://kireirepo-online.clinic',
   base: process.env.PUBLIC_BASE || '/',
   trailingSlash: 'ignore',
+  integrations: [sitemap()],
 });

@@ -20,11 +20,32 @@ export interface Term {
 export interface Plan {
   name: string;
   detail?: string; // 内容・用量など
-  buyout: number | null; // 買い切り（1ヶ月）
+  buyout: number | null; // 買い切り価格
+  buyoutMonths?: number; // 買い切りで提供する月数（省略時は1ヶ月）
   m1: Term | null; // 1ヶ月定期
   m3: Term | null; // 3ヶ月定期
   m6: Term | null; // 6ヶ月定期
   note?: string;
+}
+
+/** 1ヶ月分として販売される買い切り・1ヶ月定期の最小〜最大価格。 */
+export function formatOneMonthPriceRange(plans: readonly Plan[]): string {
+  const prices = plans.flatMap((plan) => {
+    const buyout =
+      plan.buyout != null && (plan.buyoutMonths ?? 1) === 1 ? [plan.buyout] : [];
+    const monthly = plan.m1 == null ? [] : [plan.m1.initial, plan.m1.recur];
+    return [...buyout, ...monthly].filter(
+      (price): price is number => price != null,
+    );
+  });
+
+  if (prices.length === 0) {
+    throw new Error("1ヶ月分の価格が設定されていません");
+  }
+
+  const min = Math.min(...prices).toLocaleString("ja-JP");
+  const max = Math.max(...prices).toLocaleString("ja-JP");
+  return min === max ? `${min}円` : `${min}円〜${max}円`;
 }
 
 // ===== ダイエット：GLP-1 / SGLT2 =====
@@ -72,5 +93,5 @@ export const beautyPlans: Plan[] = [
 // ===== AGA =====
 export const agaPlans: Plan[] = [
   { name: "デュタステリド錠 0.5mg", detail: "国内AGA承認薬・毎日 内服", buyout: 3980, m1: { initial: 3480, recur: 3980 }, m3: { initial: 6980, recur: 7980 }, m6: null },
-  { name: "デュタステリド0.5mg 12ヶ月まとめ買い", detail: "360錠・買い切りのみ", buyout: 19980, m1: null, m3: null, m6: null },
+  { name: "デュタステリド0.5mg 12ヶ月まとめ買い", detail: "360錠・買い切りのみ", buyout: 19980, buyoutMonths: 12, m1: null, m3: null, m6: null },
 ];

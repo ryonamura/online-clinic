@@ -66,11 +66,21 @@ const defaultSteps: ProductStep[] = [
 
 export function getPlansForProduct(product: Product): Plan[] {
   if (product.singlePlan) return [product.singlePlan];
-  const all = [...glp1Plans, ...beautyPlans, ...agaPlans];
   if (product.category === "antiaging") return [metforminPlan];
-  return product.planNames
-    .map((name) => all.find((p) => p.name === name))
-    .filter((p): p is Plan => p != null);
+  const categoryPlans =
+    product.category === "glp1"
+      ? glp1Plans
+      : product.category === "beauty"
+        ? beautyPlans
+        : agaPlans;
+
+  return product.planNames.map((name) => {
+    const plan = categoryPlans.find((candidate) => candidate.name === name);
+    if (!plan) {
+      throw new Error(`${product.category}/${product.slug}: 料金プラン「${name}」が見つかりません`);
+    }
+    return plan;
+  });
 }
 
 export function getProductBySlug(category: ProductCategory, slug: string): Product | undefined {
@@ -145,7 +155,7 @@ export const products: Product[] = [
     ],
     disclaimer: [
       "本治療は自由診療（保険適用外）です。リベルサス（セマグルチド）は国内では2型糖尿病治療薬として承認されており、肥満治療目的の使用は国内未承認（適応外使用）となります。",
-      "適応外使用のため、医薬品副作用被害救済制度の対象外となります。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。",
+      "美容・痩身目的の適応外使用では、医薬品副作用被害救済制度の救済給付を受けられない可能性が非常に高いとされています。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。",
     ],
     faq: [
       { q: "リベルサスはオンライン診療で処方できますか？", a: "はい。医師のオンライン診察のうえ、適切と判断された方に処方します。診察なしでの購入はできません。" },
@@ -223,7 +233,7 @@ export const products: Product[] = [
     ],
     disclaimer: [
       "本治療は自由診療（保険適用外）です。チルゼパチドは国内では2型糖尿病治療薬として承認されており、肥満治療目的の使用は国内未承認（適応外使用）となります。",
-      "適応外使用のため、医薬品副作用被害救済制度の対象外となります。クール便での配送が必要です。",
+      "美容・痩身目的の適応外使用では、医薬品副作用被害救済制度の救済給付を受けられない可能性が非常に高いとされています。クール便での配送が必要です。",
     ],
     faq: [
       { q: "自己注射は難しくないですか？", a: "ペン型の注射器で、ボタンを押すだけの簡単な操作です。初回は医師・スタッフが使用方法をご説明します。不安な方はリベルサス（経口）もご検討ください。" },
@@ -495,7 +505,7 @@ export const products: Product[] = [
     faq: [
       { q: "はじめてセットとの違いは？", a: "各薬剤の錠数が60錠→90錠に増量。1日の服用回数を増やせるため、より積極的なケアが可能です。" },
       { q: "とことん美白セットとの違いは？", a: "本セットはトラネキサム酸を含みません。シミ・肝斑が気になる方は「とことん美白セット」をご検討ください。" },
-      { q: "3ヶ月定期のメリットは？", a: "3ヶ月まとめで月額9,800円（2回目以降10,800円）と、単月よりお得に継続できます。" },
+      { q: "3ヶ月定期のメリットは？", a: "3ヶ月分の総額が初回9,800円（2回目以降10,800円）となり、単月よりお得に継続できます。" },
       { q: "いつ飲むのがよいですか？", a: "食後に1日2〜3回、水またはぬるま湯で内服。朝・昼・夕に分けて服用するのが一般的です。" },
       { q: "定期便の解約はできますか？", a: "定期縛りはありません。次回発送日の1日前までにマイページから解約可能です。" },
     ],
@@ -595,7 +605,7 @@ export const products: Product[] = [
     whatIsTitle: "アクネトレントとは",
     whatIs: [
       "アクネトレント（一般名：イソトレチノイン）は、ビタミンA誘導体に分類されるニキビ治療薬です。皮脂腺の分泌を抑制し、毛穴の詰まりを改善することで、中等症〜重症のニキビにアプローチします。",
-      "国内では尋常性痤瘡（ニキビ）の治療薬として承認されていますが、オンライン診療での処方は医師の慎重な判断が必要です。",
+      "アクネトレント20mgは、国内で尋常性痤瘡（ニキビ）の治療薬として承認されていない医薬品です。ニキビ治療目的での使用は国内未承認となるため、医師が適応を慎重に判断します。",
       "※妊娠中の服用は絶対禁忌です（催奇形性）。妊娠の可能性がある方、妊娠を計画している方は処方できません。",
     ],
     mechanism: [
@@ -631,7 +641,7 @@ export const products: Product[] = [
     ],
     disclaimer: [
       "イソトレチノインは催奇形性があり、妊娠中の服用は絶対禁忌です。女性の方は服用中・中止後一定期間の避妊が必要です。",
-      "自由診療（保険適用外）の場合があります。効果には個人差があります。",
+      "本治療は自由診療（保険適用外）です。国内未承認薬のため、医薬品副作用被害救済制度の対象外となります。効果には個人差があります。",
     ],
     faq: [
       { q: "妊娠中でも処方できますか？", a: "いいえ。イソトレチノインは催奇形性があり、妊娠中・妊娠の可能性がある方への処方は絶対禁忌です。" },
@@ -706,14 +716,14 @@ export const products: Product[] = [
     ],
     disclaimer: [
       "メトホルミンは国内では2型糖尿病治療薬として承認されており、エイジングケア目的の使用は国内未承認（適応外使用）となります。",
-      "ヒトでの抗老化効果は確立していません。自由診療（保険適用外）です。適応外使用のため医薬品副作用被害救済制度の対象外となります。",
+      "ヒトでの抗老化効果は確立していません。自由診療（保険適用外）です。適応外使用のため、医薬品副作用被害救済制度の救済給付を受けられない場合があります。",
     ],
     faq: [
       { q: "エイジングケアに効果はありますか？", a: "AMPK活性化による抗老化効果は基礎研究・動物実験で報告されていますが、ヒトでの抗老化効果はまだ確立していません。効果を保証するものではありません。" },
       { q: "ダイエットにも使えますか？", a: "食欲抑制・代謝改善の作用からダイエット目的でも使用されることがありますが、エイジングケアと同様に適応外使用です。医師にご相談ください。" },
       { q: "下痢が出た場合は？", a: "服用初期に消化器症状が出やすいです。食後服用・少量から開始で軽減することが多いです。続く場合は医師にご相談ください。" },
       { q: "GLP-1薬と併用できますか？", a: "併用される方もいますが、医師の判断が必要です。問診時にご相談ください。" },
-      { q: "6ヶ月定期のメリットは？", a: "6ヶ月まとめで月額18,800円と、単月よりお得に継続できます。" },
+      { q: "6ヶ月定期のメリットは？", a: "6ヶ月分の総額が18,800円となり、単月よりお得に継続できます。" },
       { q: "支払い方法は？", a: "クレジットカード、Apple Pay、PayPay、atone翌月払いに対応しています。" },
     ],
     relatedSlugs: [],
@@ -796,6 +806,30 @@ export const products: Product[] = [
     relatedSlugs: [],
   },
 ];
+
+function validateProductCatalog(catalog: readonly Product[]): void {
+  const keys = new Set<string>();
+
+  for (const product of catalog) {
+    const key = `${product.category}/${product.slug}`;
+    if (keys.has(key)) {
+      throw new Error(`商品slugが重複しています: ${key}`);
+    }
+    keys.add(key);
+    getPlansForProduct(product);
+  }
+
+  for (const product of catalog) {
+    for (const relatedSlug of product.relatedSlugs ?? []) {
+      const relatedKey = `${product.category}/${relatedSlug}`;
+      if (!keys.has(relatedKey)) {
+        throw new Error(`${product.category}/${product.slug}: 関連商品「${relatedSlug}」が見つかりません`);
+      }
+    }
+  }
+}
+
+validateProductCatalog(products);
 
 export function productHref(category: ProductCategory, slug: string): string {
   return `/${category}/${slug}`;

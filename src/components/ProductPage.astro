@@ -36,20 +36,23 @@ const breadcrumbs = [
   { label: product.name },
 ];
 
-function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
+type PriceTerm = "buyout" | "m1" | "m3" | "m6";
+interface PriceCell {
+  single?: number;
+  initial?: number | null;
+  recur?: number | null;
+}
+
+const priceTerms: PriceTerm[] = ["buyout", "m1", "m3", "m6"];
+
+function getPriceCell(plan: Plan, term: PriceTerm): PriceCell | null {
   if (term === "buyout") {
-    return plan.buyout != null ? `¥${plan.buyout.toLocaleString()}` : "—";
+    return plan.buyout != null ? { single: plan.buyout } : null;
   }
   const t = plan[term];
-  if (!t || (t.initial == null && t.recur == null)) return "—";
-  const parts: string[] = [];
-  if (t.initial != null) {
-    parts.push(`<span class="term-initial">初回 ¥${t.initial.toLocaleString()}</span>`);
-  }
-  if (t.recur != null) {
-    parts.push(`<span class="term-recur">2回目以降 ¥${t.recur.toLocaleString()}</span>`);
-  }
-  return parts.join("");
+  return !t || (t.initial == null && t.recur == null)
+    ? null
+    : { initial: t.initial, recur: t.recur };
 }
 ---
 
@@ -172,7 +175,7 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
           <p>{product.dosage}</p>
         </div>
       )}
-      <div class="table-scroll">
+      <div class="table-scroll" tabindex="0" role="region" aria-label={`${product.name}の料金表`}>
         <table class="price-table">
           <thead>
             <tr>
@@ -191,10 +194,27 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
                   {p.detail && <span class="drug-detail">{p.detail}</span>}
                   {p.note && <span class="drug-note">{p.note}</span>}
                 </td>
-                <td class="price-cell" set:html={renderTerm(p, "buyout")}></td>
-                <td class="price-cell" set:html={renderTerm(p, "m1")}></td>
-                <td class="price-cell" set:html={renderTerm(p, "m3")}></td>
-                <td class="price-cell" set:html={renderTerm(p, "m6")}></td>
+                {priceTerms.map((term) => {
+                  const price = getPriceCell(p, term);
+                  return (
+                    <td class="price-cell">
+                      {!price ? (
+                        "—"
+                      ) : price.single != null ? (
+                        `¥${price.single.toLocaleString()}`
+                      ) : (
+                        <>
+                          {price.initial != null && (
+                            <span class="term-initial">初回 ¥{price.initial.toLocaleString()}</span>
+                          )}
+                          {price.recur != null && (
+                            <span class="term-recur">2回目以降 ¥{price.recur.toLocaleString()}</span>
+                          )}
+                        </>
+                      )}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
@@ -309,6 +329,9 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
       <p>
         本サービスは自由診療（保険適用外）です。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。
         診察の結果、処方を行えない場合があります。
+      </p>
+      <p>
+        承認状況・入手経路・海外の安全性情報等は<a href={withBase("/legal/medical-ad")}>医療広告ガイドラインについて</a>をご確認ください。
       </p>
     </div>
   </section>

@@ -1,9 +1,13 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import ProductGrid from "../components/ProductGrid.astro";
 import { LINE_URL } from "../data/site";
 import { withBase } from "../lib/links";
 import { agaPlans, PAYMENT_METHODS } from "../data/pricing";
+import { getProductsByCategory } from "../data/products";
+
+const agaProducts = getProductsByCategory("aga");
 
 const badges = [
   { icon: "fa-mobile-screen-button", label: "オンライン完結" },
@@ -53,7 +57,7 @@ const medications = [
     brand: "内服薬（錠剤）",
     approval: "※国内未承認（適応外使用）",
     method: "毎日 内服（経口）",
-    feature: "外用と比較して全身への効果が期待される一方、副作用（動悸・むくみ・多毛等）のリスクも高まります。医師と十分に相談のうえ検討します。",
+    feature: "外用と比較して全身への作用が生じる一方、副作用（動悸・むくみ・多毛等）のリスクも高まるため、使用には医師との十分な相談が必要です。",
     note: "※国内において発毛目的での内服薬としての承認がありません。適応外使用のため医薬品副作用被害救済制度の対象外となります。",
     approved: false,
   },
@@ -62,7 +66,7 @@ const medications = [
 const steps = [
   { no: "01", title: "LINE友だち追加", time: "約30秒", desc: "ボタンまたはQRコードから友だち追加。24時間いつでも登録いただけます。" },
   { no: "02", title: "問診票を記入", time: "約5分", desc: "薄毛の状態・進行具合・健康状態などをLINE上でお答えいただきます。" },
-  { no: "03", title: "オンライン診察", time: "約10分", desc: "ビデオ通話で医師が診察し、症状や進行度に合わせた処方をご提案します。" },
+  { no: "03", title: "オンライン診察", time: "約10分", desc: "ビデオ通話で医師が診察し、デュタステリドによる治療の可否を判断します。" },
   { no: "04", title: "お薬が自宅に届く", time: "最短翌日発送", desc: "処方確定後にお薬を発送。定期便でのお届けも対応、LINEで経過フォローも行います。" },
 ];
 
@@ -85,7 +89,7 @@ const agaAbout = [
 ];
 ---
 
-<PageLayout title="AGA治療（男性型脱毛症）のオンライン診療｜キレイレポオンライン" description="AGAオンライン診療。フィナステリド・デュタステリド・ミノキシジル外用を医師が処方。自宅にお届け、定期縛りなし。">
+<PageLayout title="AGA治療（男性型脱毛症）のオンライン診療｜キレイレポオンライン" description="AGAオンライン診療。国内承認薬デュタステリドを医師が診察のうえ処方。自宅にお届け、定期縛りなし。">
 
   {/* ============ HERO ============ */}
   <section class="hero-aga">
@@ -97,7 +101,7 @@ const agaAbout = [
           <span class="hero-aga-accent">オンライン診療</span>
         </h1>
         <p class="hero-aga-lead">
-          医師の診察のもと、内服・外用で薄毛の進行抑制・発毛をサポートします。
+          医師の診察のもと、国内承認薬デュタステリドによるAGAの進行抑制治療を行います。
           スマホ完結でお薬が自宅に届きます。
         </p>
         <div class="hero-aga-badges">
@@ -113,22 +117,22 @@ const agaAbout = [
           </a>
         </div>
         <ul class="hero-aga-notes">
-          <li><i class="fa-solid fa-circle-check"></i>診察・配送料 2,000円</li>
-          <li><i class="fa-solid fa-circle-check"></i>定期縛りなし</li>
-          <li><i class="fa-solid fa-circle-check"></i>LINEで完結</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>診察・配送料 2,000円</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>定期縛りなし</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>LINEで完結</li>
         </ul>
       </div>
 
       <div class="hero-aga-visual" aria-hidden="true">
         <div class="aga-visual-card aga-visual-card--1">
-          <span class="aga-visual-icon"><i class="fa-solid fa-pills"></i></span>
+          <span class="aga-visual-icon"><i class="fa-solid fa-pills" aria-hidden="true"></i></span>
           <p class="aga-visual-title">内服治療</p>
-          <p class="aga-visual-sub">フィナステリド / デュタステリド</p>
+          <p class="aga-visual-sub">デュタステリド 0.5mg</p>
         </div>
         <div class="aga-visual-card aga-visual-card--2">
-          <span class="aga-visual-icon navy"><i class="fa-solid fa-spray-can-sparkles"></i></span>
-          <p class="aga-visual-title">外用治療</p>
-          <p class="aga-visual-sub">ミノキシジル外用</p>
+          <span class="aga-visual-icon navy"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+          <p class="aga-visual-title">国内承認薬</p>
+          <p class="aga-visual-sub">男性型脱毛症の治療薬</p>
         </div>
         <div class="aga-visual-stat">
           <div><strong>0<span>回</span></strong><small>通院回数</small></div>
@@ -142,10 +146,10 @@ const agaAbout = [
   {/* ============ TRUST RIBBON ============ */}
   <div class="aga-trust">
     <div class="container aga-trust-inner">
-      <span class="aga-trust-item"><i class="fa-solid fa-user-doctor"></i>国内承認薬を処方</span>
-      <span class="aga-trust-item"><i class="fa-solid fa-mobile-screen-button"></i>オンライン完結</span>
-      <span class="aga-trust-item"><i class="fa-solid fa-rotate-left"></i>定期縛りなし</span>
-      <span class="aga-trust-item"><i class="fa-solid fa-comment-dots"></i>LINEで相談OK</span>
+      <span class="aga-trust-item"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i>国内承認薬を処方</span>
+      <span class="aga-trust-item"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>オンライン完結</span>
+      <span class="aga-trust-item"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i>定期縛りなし</span>
+      <span class="aga-trust-item"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i>LINEで相談OK</span>
     </div>
   </div>
 
@@ -160,7 +164,7 @@ const agaAbout = [
       <div class="aga-about-grid">
         {agaAbout.map((a) => (
           <article class="aga-about-card">
-            <span class="aga-about-icon"><i class={`fa-solid ${a.icon}`}></i></span>
+            <span class="aga-about-icon"><i class={`fa-solid ${a.icon}`} aria-hidden="true"></i></span>
             <h3 class="aga-about-title">{a.title}</h3>
             <p class="aga-about-desc">{a.desc}</p>
           </article>
@@ -180,7 +184,7 @@ const agaAbout = [
       <div class="aga-for-grid">
         {forWhom.map((f) => (
           <article class="aga-for-card">
-            <span class="aga-for-icon"><i class={`fa-solid ${f.icon}`}></i></span>
+            <span class="aga-for-icon"><i class={`fa-solid ${f.icon}`} aria-hidden="true"></i></span>
             <div>
               <h3 class="aga-for-title">{f.title}</h3>
               <p class="aga-for-desc">{f.desc}</p>
@@ -197,10 +201,10 @@ const agaAbout = [
       <header class="section-head">
         <p class="eyebrow-aga">MEDICATIONS</p>
         <h2 class="section-title aga-title">薬の<span class="aga-accent">種類と特徴</span></h2>
-        <p class="lead">医師がお一人おひとりの状態に合わせて処方を検討します。</p>
+        <p class="lead">AGA治療で用いられる代表的な薬剤の比較情報です。当サービスで販売条件を掲載している治療薬はデュタステリドのみです。</p>
       </header>
 
-      <div class="aga-med-table-wrap">
+      <div class="aga-med-table-wrap" tabindex="0" role="region" aria-label="AGA治療薬の比較表">
         <table class="aga-med-table">
           <thead>
             <tr>
@@ -232,7 +236,7 @@ const agaAbout = [
           </tbody>
         </table>
       </div>
-      <p class="fineprint">※フィナステリド・デュタステリドは国内でAGA（男性型脱毛症）治療薬として承認されています。ミノキシジル内服は国内未承認（適応外使用）です。いずれも医師の判断のもと処方されます。</p>
+      <p class="fineprint">※本表は一般的な比較情報であり、全薬剤を本サービスで取り扱うことを示すものではありません。フィナステリド・デュタステリドは国内でAGA（男性型脱毛症）治療薬として承認されています。ミノキシジル内服は国内未承認（適応外使用）です。</p>
       <p class="fineprint">※フィナステリド・デュタステリドは女性（特に妊娠中または妊娠の可能性がある方）・未成年への使用は禁忌です。</p>
     </div>
   </section>
@@ -270,7 +274,7 @@ const agaAbout = [
         <p class="lead">デュタステリド0.5mg錠による治療プラン。定期便ならお得に継続できます。</p>
       </header>
 
-      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <div class="table-scroll" tabindex="0" role="region" aria-label="AGA治療料金表" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="aga-price-table">
           <thead>
             <tr>
@@ -334,7 +338,7 @@ const agaAbout = [
       <p class="fineprint" style="margin-top: 1.4rem;">
         ※価格はすべて税込。別途、診察・配送料 2,000円（税込）。お支払いは {PAYMENT_METHODS}。自由診療（保険適用外）。定期縛りなし、次回発送日の1日前までにマイページから解約可能。
       </p>
-      <p class="fineprint">フィナステリド・ミノキシジル外用など、その他の薬剤をご希望の方はLINEでご相談ください。</p>
+      <p class="fineprint">※現在、当サイトで販売条件を掲載しているAGA治療プランはデュタステリドのみです。</p>
     </div>
   </section>
 
@@ -363,10 +367,16 @@ const agaAbout = [
     </div>
   </section>
 
+  <ProductGrid
+    products={agaProducts}
+    title="デュタステリドの詳しいご案内"
+    lead="治療内容、服用方法、副作用、料金の詳細をご確認いただけます。"
+  />
+
   {/* ============ 免責 DISCLAIMER ============ */}
   <section class="aga-disclaimer">
     <div class="container container--narrow">
-      <p class="aga-disclaimer-title"><i class="fa-solid fa-circle-info"></i>免責事項（DISCLAIMER）</p>
+      <p class="aga-disclaimer-title"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>免責事項（DISCLAIMER）</p>
       <ul class="aga-disclaimer-list">
         <li>本サービスは自由診療（保険適用外）です。費用は全額自己負担となります。</li>
         <li>治療の効果・発毛には個人差があり、すべての方に同様の効果を保証するものではありません。</li>
