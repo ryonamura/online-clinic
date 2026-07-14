@@ -1,7 +1,11 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import ProductGrid from "../components/ProductGrid.astro";
 import { beautyPlans, PAYMENT_METHODS } from "../data/pricing";
+import { getProductsByCategory } from "../data/products";
+
+const beautyProducts = getProductsByCategory("beauty");
 
 const recommended = [
   {
@@ -121,9 +125,9 @@ const steps = [
           内側からケアする、医師処方の美容薬。美白・美肌・エイジングケアをサポート。スマホ1台で処方を受け、毎月自宅に届きます。
         </p>
         <ul class="beauty-badges">
-          <li><i class="fa-solid fa-circle-check"></i>診察・配送料 2,000円</li>
-          <li><i class="fa-solid fa-circle-check"></i>定期縛りなし</li>
-          <li><i class="fa-solid fa-circle-check"></i>オンライン完結</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>診察・配送料 2,000円</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>定期縛りなし</li>
+          <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>オンライン完結</li>
         </ul>
         <div class="beauty-hero-actions">
           <a class="btn btn--line beauty-cta-btn" href="https://lin.ee/3vvO4ol" target="_blank" rel="noopener">
@@ -134,12 +138,12 @@ const steps = [
 
       <div class="beauty-hero-visual" aria-hidden="true">
         <div class="beauty-visual-card beauty-visual-card--a">
-          <span class="beauty-visual-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <span class="beauty-visual-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></span>
           <p class="beauty-visual-title">美白・透明感ケア</p>
           <p class="beauty-visual-sub">トラネキサム酸・ビタミンC処方</p>
         </div>
         <div class="beauty-visual-card beauty-visual-card--b">
-          <span class="beauty-visual-icon"><i class="fa-solid fa-leaf"></i></span>
+          <span class="beauty-visual-icon"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
           <p class="beauty-visual-title">エイジングケアサポート</p>
           <p class="beauty-visual-sub">ビタミンE・B群配合</p>
         </div>
@@ -163,7 +167,7 @@ const steps = [
       <div class="recommended-grid">
         {recommended.map((r) => (
           <article class="rec-card">
-            <span class="rec-icon"><i class={`fa-solid ${r.icon}`}></i></span>
+            <span class="rec-icon"><i class={`fa-solid ${r.icon}`} aria-hidden="true"></i></span>
             <h3 class="rec-title">{r.title}</h3>
             <p class="rec-desc">{r.desc}</p>
           </article>
@@ -185,7 +189,7 @@ const steps = [
           <article class="sol-card">
             <div class="sol-header">
               <span class="sol-num">0{i + 1}</span>
-              <span class="sol-icon"><i class={`fa-solid ${s.icon}`}></i></span>
+              <span class="sol-icon"><i class={`fa-solid ${s.icon}`} aria-hidden="true"></i></span>
             </div>
             <h3 class="sol-title">{s.title}</h3>
             <p class="sol-desc">{s.desc}</p>
@@ -204,7 +208,7 @@ const steps = [
         <h2 class="section-title">料金<span class="beauty-accent-text">プラン</span></h2>
         <p class="lead">お悩みと続けやすさに合わせてお選びいただけます。すべて定期縛りなし。</p>
       </header>
-      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <div class="table-scroll" tabindex="0" role="region" aria-label="美容内服料金表" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="pricing-table">
           <thead>
             <tr>
@@ -304,7 +308,7 @@ const steps = [
         <h2 class="section-title">成分<span class="beauty-accent-text">一覧</span></h2>
         <p class="lead">お悩みに合わせて、既存プランからお選びいただけます。</p>
       </header>
-      <div class="ingredients-table-wrap">
+      <div class="ingredients-table-wrap" tabindex="0" role="region" aria-label="美容内服の成分一覧表">
         <table class="ingredients-table">
           <thead>
             <tr>
@@ -327,6 +331,12 @@ const steps = [
       <p class="fineprint">※成分の効果・効能は美容目的での使用について承認されたものではありません。効果には個人差があります。</p>
     </div>
   </section>
+
+  <ProductGrid
+    products={beautyProducts}
+    title="商品別の詳しいご案内"
+    lead="各セット・治療薬の特徴、服用方法、副作用、料金を商品別にご確認いただけます。"
+  />
 
   {/* ============ DISCLAIMER ============ */}
   <section class="beauty-disclaimer">
@@ -577,7 +587,7 @@ const steps = [
     font-family: var(--font-serif);
     font-size: 1.6rem;
     font-weight: var(--fw-bold);
-    color: var(--brand-200);
+    color: var(--brand-700);
     line-height: 1;
   }
   .sol-icon {
@@ -1059,7 +1069,7 @@ const steps = [
   .pt-note {
     display: block;
     font-size: 0.76rem;
-    color: #c05a00;
+    color: #934500;
     margin-top: 0.35rem;
     line-height: 1.5;
   }

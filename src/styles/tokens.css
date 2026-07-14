@@ -11,12 +11,12 @@
   --brand-200: #ffc7d8;
   --brand-300: #ff9fbb;
   --brand-400: #ff8aaa; /* 原 --pink-light 系 */
-  --brand-500: #ff6b8e; /* 原 --pink-light */
-  --brand-600: #ff4471; /* 原 --pink（プライマリ） */
-  --brand-700: #e8275c;
-  --brand-800: #c51e4c;
+  --brand-500: #d11e52;
+  --brand-600: #c51e4c;
+  --brand-700: #b51b46;
+  --brand-800: #97163a;
   --brand-900: #97163a;
-  --brand-gradient: linear-gradient(135deg, #ff8aaa 0%, #ff6b8e 45%, #ff4471 100%);
+  --brand-gradient: linear-gradient(135deg, #d11e52 0%, #c51e4c 45%, #97163a 100%);
   --brand-gradient-soft: linear-gradient(135deg, #fff0f5 0%, #fce4ec 100%);
   --shadow-brand: 0 12px 30px rgba(255, 68, 113, 0.22);
   --shadow-brand-hover: 0 16px 36px rgba(255, 68, 113, 0.3);
@@ -35,11 +35,11 @@
   --gold-300: #e2c887;
   --gold-400: #d4af52;
   --gold-500: #c79a2e;
-  --gold-600: #b8860b; /* 原サイトのアンチエイジング基調 */
-  --gold-700: #a07810;
-  --gold-800: #8a6a0e;
+  --gold-600: #8a6a0e;
+  --gold-700: #7d5f0c;
+  --gold-800: #735609;
   --gold-900: #6e5108;
-  --gold-gradient: linear-gradient(135deg, #e3c069 0%, #c79a2e 45%, #b8860b 100%);
+  --gold-gradient: linear-gradient(135deg, #8a6a0e 0%, #7d5f0c 45%, #6e5108 100%);
   --gold-gradient-soft: linear-gradient(135deg, #f7eed5 0%, #efddb4 100%);
   --shadow-gold: 0 12px 30px rgba(184, 134, 11, 0.22);
 
@@ -62,15 +62,15 @@
   --surface: #ffffff;
 
   /* --- LINE（CTA） --- */
-  --line: #06c755;
-  --line-dark: #05a648;
+  --line: #00843d;
+  --line-dark: #006f33;
   --shadow-line: 0 12px 28px rgba(6, 199, 85, 0.28);
 
   /* --- Semantic --- */
   --brand: var(--brand-600);
   --brand-strong: var(--brand-800);
   --text: var(--ink-700);
-  --text-muted: #7f8c8d; /* 原 --text-muted */
+  --text-muted: var(--ink-400);
   --border: #f0e6ea;
 
   /* --- Typography --- */

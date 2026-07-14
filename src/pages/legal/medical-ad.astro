@@ -1,6 +1,18 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import LineCta from "../../components/LineCta.astro";
+import {
+  agaPlans,
+  beautyPlans,
+  formatOneMonthPriceRange,
+  glp1Plans,
+  metforminPlan,
+} from "../../data/pricing";
+
+const glp1PriceRange = formatOneMonthPriceRange(glp1Plans);
+const beautyPriceRange = formatOneMonthPriceRange(beautyPlans);
+const antiagingPriceRange = formatOneMonthPriceRange([metforminPlan]);
+const agaPriceRange = formatOneMonthPriceRange(agaPlans);
 ---
 
 <PageLayout
@@ -65,7 +77,7 @@ import LineCta from "../../components/LineCta.astro";
         </li>
         <li>
           <span class="policy-term">限定解除要件への対応</span>
-          当サービスのウェブサイトは、医療広告ガイドラインにおける「限定解除」の要件（問い合わせ先の明示、自由診療の費用明示、治療内容・リスクの明示等）を満たした上で情報を掲載しています。
+          医療広告ガイドラインにおける「限定解除」の要件に対応するため、問い合わせ先、自由診療の費用、治療内容、主なリスク・副作用等を明示します。
         </li>
       </ol>
     </div>
@@ -88,15 +100,19 @@ import LineCta from "../../components/LineCta.astro";
         <ul class="price-list">
           <li>
             <span class="price-service"><i class="fa-solid fa-pills" aria-hidden="true"></i>GLP-1ダイエット</span>
-            <span class="price-range">7,500円〜67,000円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+            <span class="price-range">{glp1PriceRange}（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
           </li>
           <li>
             <span class="price-service"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>美容内服</span>
-            <span class="price-range">2,980円〜6,980円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+            <span class="price-range">{beautyPriceRange}（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
           </li>
           <li>
             <span class="price-service"><i class="fa-solid fa-dna" aria-hidden="true"></i>アンチエイジング</span>
-            <span class="price-range">2,980円〜3,480円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+            <span class="price-range">{antiagingPriceRange}（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+          </li>
+          <li>
+            <span class="price-service"><i class="fa-solid fa-person" aria-hidden="true"></i>AGA（男性型脱毛症）</span>
+            <span class="price-range">{agaPriceRange}（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
           </li>
         </ul>
         <p class="price-note">
@@ -120,10 +136,10 @@ import LineCta from "../../components/LineCta.astro";
       <div class="med-block">
         <h3 class="med-block-title">
           <span class="med-badge med-badge--gold">
-            <i class="fa-solid fa-pills"></i>GLP-1ダイエット
+            <i class="fa-solid fa-pills" aria-hidden="true"></i>GLP-1ダイエット
           </span>
         </h3>
-        <div class="table-scroll">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="GLP-1ダイエットの治療情報">
         <table class="info-table">
           <tbody>
             <tr>
@@ -157,7 +173,7 @@ import LineCta from "../../components/LineCta.astro";
             <tr>
               <th scope="row">副作用被害救済制度</th>
               <td>
-                適応外使用のため、<strong>医薬品副作用被害救済制度の対象外</strong>となります。医薬品は国内卸売販売業者より購入しています。
+                美容・痩身目的の適応外使用では、<strong>医薬品副作用被害救済制度の救済給付を受けられない可能性が非常に高い</strong>とされています。医薬品は国内卸売販売業者より購入しています。
               </td>
             </tr>
           </tbody>
@@ -169,33 +185,52 @@ import LineCta from "../../components/LineCta.astro";
       <div class="med-block">
         <h3 class="med-block-title">
           <span class="med-badge med-badge--pink">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>美容内服
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>美容内服
           </span>
         </h3>
-        <div class="table-scroll">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="美容内服の治療情報">
         <table class="info-table">
           <tbody>
             <tr>
               <th scope="row">治療内容</th>
-              <td>美白・美肌・エイジングケアを目的とした内服薬（ビタミン類・L-システイン・トラネキサム酸等）の処方。</td>
+              <td>美白・美肌・エイジングケアを目的とした内服薬（ビタミン類・L-システイン・トラネキサム酸等）、および中等症〜重症ニキビに対するイソトレチノインの処方。</td>
             </tr>
             <tr>
               <th scope="row">主な使用薬剤</th>
               <td>
-                ユベラ（ビタミンE）、シナール（ビタミンC＋パントテン酸）、ハイチオール（L-システイン）、トラネキサム酸、ノイロビタン（ビタミンB群）
+                ユベラ（ビタミンE）、シナール（ビタミンC＋パントテン酸）、ハイチオール（L-システイン）、トラネキサム酸、ノイロビタン（ビタミンB群）、アクネトレント20mg（イソトレチノイン）
               </td>
             </tr>
             <tr>
               <th scope="row">承認・適応外の状況</th>
               <td>
-                一部の薬剤は、美容目的での使用が承認適応外となる場合があります。医師の判断のもとで処方します。
+                一部の薬剤は、美容目的での使用が承認適応外となる場合があります。アクネトレント20mgは国内でニキビ治療薬として承認されていない医薬品です。医師の判断のもとで処方します。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">国内承認薬の有無</th>
+              <td>
+                イソトレチノインを有効成分とするイソトレックスカプセル8mg・16mgは国内承認薬ですが、承認された効能・効果は高リスク神経芽腫であり、ニキビ治療ではありません。アクネトレント20mgは国内承認薬ではありません。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">海外の安全性情報</th>
+              <td>
+                米国では、イソトレチノイン製剤は他の治療で改善しない重症の結節性ニキビに承認されています。強い催奇形性があるため、FDA承認製品は妊娠防止を目的とするiPLEDGE REMSという流通・リスク管理プログラムの対象です。これはアクネトレント自体のFDA承認を意味するものではありません。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">入手経路</th>
+              <td>
+                当サービスでは国内卸売販売業者を通じて入手しています。国内で製造販売承認を受けた医薬品ではありません。
               </td>
             </tr>
             <tr>
               <th scope="row">主なリスク・副作用</th>
               <td>
                 胃部不快感・悪心・下痢・便秘・食欲不振等の消化器症状が出ることがあります。<br />
-                <strong>トラネキサム酸：</strong>血栓リスクがあります。ピル服用中・血栓症の既往・腎機能障害・妊娠中の方には処方できません。
+                <strong>トラネキサム酸：</strong>血栓リスクがあります。ピル服用中・血栓症の既往・腎機能障害・妊娠中の方には処方できません。<br />
+                <strong>アクネトレント：</strong>皮膚・口唇・粘膜の乾燥、肝機能障害、脂質異常症等。重大な催奇形性があり、妊娠中・妊娠の可能性がある方への処方は絶対禁忌です。
               </td>
             </tr>
             <tr>
@@ -213,10 +248,10 @@ import LineCta from "../../components/LineCta.astro";
       <div class="med-block">
         <h3 class="med-block-title">
           <span class="med-badge med-badge--gold-aa">
-            <i class="fa-solid fa-dna"></i>アンチエイジング
+            <i class="fa-solid fa-dna" aria-hidden="true"></i>アンチエイジング
           </span>
         </h3>
-        <div class="table-scroll">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="アンチエイジングの治療情報">
         <table class="info-table">
           <tbody>
             <tr>
@@ -247,8 +282,43 @@ import LineCta from "../../components/LineCta.astro";
             <tr>
               <th scope="row">副作用被害救済制度</th>
               <td>
-                適応外使用のため、<strong>医薬品副作用被害救済制度の対象外</strong>となります。医薬品は国内卸売販売業者より購入しています。
+                適応外使用のため、<strong>医薬品副作用被害救済制度の救済給付を受けられない場合があります</strong>。医薬品は国内卸売販売業者より購入しています。
               </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      {/* ---- AGA ---- */}
+      <div class="med-block">
+        <h3 class="med-block-title">
+          <span class="med-badge med-badge--navy">
+            <i class="fa-solid fa-person" aria-hidden="true"></i>AGA（男性型脱毛症）
+          </span>
+        </h3>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="AGA治療の治療情報">
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <th scope="row">治療内容</th>
+              <td>デュタステリドの内服による、男性型脱毛症の進行抑制治療。現在、当サイトで販売条件を掲載しているAGA治療薬はデュタステリドのみです。</td>
+            </tr>
+            <tr>
+              <th scope="row">主な使用薬剤</th>
+              <td>デュタステリド錠 0.5mg</td>
+            </tr>
+            <tr>
+              <th scope="row">承認状況</th>
+              <td>デュタステリドは国内で男性における男性型脱毛症治療薬として承認されています。医師が診察のうえ処方します。</td>
+            </tr>
+            <tr>
+              <th scope="row">主なリスク・副作用</th>
+              <td>性欲減退・勃起障害・射精障害、乳房の圧痛・肥大、肝機能障害等が報告されています。</td>
+            </tr>
+            <tr>
+              <th scope="row">処方できない方</th>
+              <td>女性（特に妊娠中・妊娠の可能性がある方）、前立腺がんの疑いがある方、成分アレルギーのある方、18歳未満の方等。</td>
             </tr>
           </tbody>
         </table>
@@ -265,7 +335,7 @@ import LineCta from "../../components/LineCta.astro";
       </h2>
       <div class="article-body">
         <p>
-          医療広告ガイドラインでは、患者の主観的な体験談を広告として掲載することは原則として禁止されています。当サービスでは、個人の感想・体験談については、その旨を明示した上で掲載し、「すべての方に同様の効果が得られるものではない」という注記を必ず付記します。
+          当サービスの広告では、治療等の内容または効果に関する、患者やその家族の主観に基づく体験談を掲載しません。
         </p>
       </div>
     </div>
@@ -280,7 +350,7 @@ import LineCta from "../../components/LineCta.astro";
       <div class="article-body">
         <p>本サービスの広告表現に関するご意見・ご指摘は、下記よりお受けしています。</p>
       </div>
-      <div class="table-scroll" style="margin-top: 1.2rem;">
+      <div class="table-scroll" tabindex="0" role="region" aria-label="お問い合わせ窓口" style="margin-top: 1.2rem;">
       <table class="info-table">
         <tbody>
           <tr>
@@ -323,6 +393,12 @@ import LineCta from "../../components/LineCta.astro";
           rel="noopener noreferrer"
         >厚生労働省の公式ページ</a>もご参照ください。
       </p>
+      <p class="mhlw-link-wrap">
+        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+        未承認薬等の記載に関する根拠資料：
+        <a href="https://www.pmda.go.jp/drugs/2026/P20260623003/navi.html" target="_blank" rel="noopener noreferrer">PMDA「イソトレックス承認審査情報」</a>、
+        <a href="https://www.fda.gov/drugs/postmarket-drug-safety-information-patients-and-providers/isotretinoin-capsule-information" target="_blank" rel="noopener noreferrer">FDA「Isotretinoin Capsule Information」</a>
+      </p>
     </div>
   </section>
 
@@ -334,7 +410,7 @@ import LineCta from "../../components/LineCta.astro";
       </h2>
       <div class="article-body">
         <p>本ページの内容は、法令・ガイドラインの改定に応じて随時更新します。</p>
-        <p class="update-date">最終更新日：2026年3月</p>
+        <p class="update-date">最終更新日：2026年7月</p>
       </div>
     </div>
   </section>
@@ -553,6 +629,10 @@ import LineCta from "../../components/LineCta.astro";
   .med-badge--gold-aa {
     background: var(--gold-gradient-soft);
     color: var(--gold-800);
+  }
+  .med-badge--navy {
+    background: linear-gradient(135deg, #eef2f6, #dce4ec);
+    color: var(--ink-700);
   }
 
   /* ============ TABLE SCROLL WRAPPER ============ */

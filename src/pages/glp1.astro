@@ -150,12 +150,12 @@ const contraindications = [
 
       <div class="hero-visual" aria-hidden="true">
         <div class="hero-card hero-card--1">
-          <span class="hero-card-icon"><i class="fa-solid fa-syringe"></i></span>
+          <span class="hero-card-icon"><i class="fa-solid fa-syringe" aria-hidden="true"></i></span>
           <p class="hero-card-title">GLP-1注射薬</p>
           <p class="hero-card-sub">GIP/GLP-1二重作動薬 週1回</p>
         </div>
         <div class="hero-card hero-card--2">
-          <span class="hero-card-icon"><i class="fa-solid fa-pills"></i></span>
+          <span class="hero-card-icon"><i class="fa-solid fa-pills" aria-hidden="true"></i></span>
           <p class="hero-card-title">リベルサス（内服）</p>
           <p class="hero-card-sub">注射なしの経口GLP-1薬</p>
         </div>
@@ -224,7 +224,7 @@ const contraindications = [
       </div>
 
       <h3 class="subsection-title">他の減量方法との比較</h3>
-      <div class="compare-wrap">
+      <div class="compare-wrap" tabindex="0" role="region" aria-label="減量方法の比較表">
         <table class="compare-table">
           <thead>
             <tr>
@@ -305,7 +305,7 @@ const contraindications = [
       {/* メイン薬剤表 */}
       <h3 class="plans-subtitle">薬剤プラン</h3>
       <p class="plans-note-manjaro">※注射薬は1ヶ月分=4本（1箱2本×2箱）</p>
-      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <div class="table-scroll" tabindex="0" role="region" aria-label="薬剤プラン料金表" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="price-table">
           <thead>
             <tr>
@@ -367,7 +367,7 @@ const contraindications = [
 
       {/* セットプラン表 */}
       <h3 class="plans-subtitle" style="margin-top:2.5rem;">セットプラン</h3>
-      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <div class="table-scroll" tabindex="0" role="region" aria-label="セットプラン料金表" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="price-table">
           <thead>
             <tr>
@@ -419,7 +419,7 @@ const contraindications = [
 
       {/* オプション表（注射薬処方時のみ） */}
       <h3 class="plans-subtitle" style="margin-top:2.5rem;">オプション（注射薬処方時のみ）</h3>
-      <div class="table-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <div class="table-scroll" tabindex="0" role="region" aria-label="オプション料金表" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="price-table">
           <thead>
             <tr>
@@ -528,7 +528,7 @@ const contraindications = [
         フォシーガ（ダパグリフロジン）およびルセフィ（ルセオグリフロジン）は、国内では2型糖尿病等の治療薬として承認されており、肥満治療を目的とした使用は国内未承認（適応外使用）となります。
       </p>
       <p>
-        適応外使用であるため、医薬品副作用被害救済制度の対象外となります。医薬品は国内卸売販売業者より購入しています。診察の結果、処方を行えない場合があります。
+        美容・痩身目的の適応外使用では、医薬品副作用被害救済制度の救済給付を受けられない可能性が非常に高いとされています。医薬品は国内卸売販売業者より購入しています。診察の結果、処方を行えない場合があります。
       </p>
     </div>
   </section>

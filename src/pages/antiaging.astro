@@ -1,7 +1,11 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import ProductGrid from "../components/ProductGrid.astro";
 import { metforminPlan, PAYMENT_METHODS } from "../data/pricing";
+import { getProductsByCategory } from "../data/products";
+
+const antiagingProducts = getProductsByCategory("antiaging");
 
 const badges = [
   { icon: "fa-yen-sign", label: "月額 2,980円〜" },
@@ -107,7 +111,7 @@ const solutions = [
       <div class="hero-aa-visual" aria-hidden="true">
         <div class="hero-aa-card">
           <span class="hero-aa-icon-wrap">
-            <i class="fa-solid fa-dna"></i>
+            <i class="fa-solid fa-dna" aria-hidden="true"></i>
           </span>
           <p class="hero-aa-card-title">メトホルミン 500mg</p>
           <p class="hero-aa-card-sub">AMPK活性化 / 代謝改善 / 抗炎症</p>
@@ -144,7 +148,7 @@ const solutions = [
             <div class="mech-header">
               <span class="mech-no">{m.no}</span>
               <span class="mech-icon">
-                <i class={`fa-solid ${m.icon}`}></i>
+                <i class={`fa-solid ${m.icon}`} aria-hidden="true"></i>
               </span>
               <span class="mech-label">{m.label}</span>
             </div>
@@ -170,7 +174,7 @@ const solutions = [
         {recommended.map((r) => (
           <li class="rec-card">
             <span class="rec-icon">
-              <i class={`fa-solid ${r.icon}`}></i>
+              <i class={`fa-solid ${r.icon}`} aria-hidden="true"></i>
             </span>
             <p class="rec-text">{r.text}</p>
           </li>
@@ -191,7 +195,7 @@ const solutions = [
         {solutions.map((s) => (
           <article class="sol-card">
             <span class="sol-icon">
-              <i class={`fa-solid ${s.icon}`}></i>
+              <i class={`fa-solid ${s.icon}`} aria-hidden="true"></i>
             </span>
             <h3 class="sol-heading">{s.heading}</h3>
             <p class="sol-body">{s.body}</p>
@@ -276,6 +280,12 @@ const solutions = [
     </div>
   </section>
 
+  <ProductGrid
+    products={antiagingProducts}
+    title="メトホルミンの詳しいご案内"
+    lead="治療内容、服用方法、副作用、料金の詳細をご確認いただけます。"
+  />
+
   {/* ============ DISCLAIMER ============ */}
   <section class="disclaimer-aa" id="disclaimer">
     <div class="container container--narrow">
@@ -292,7 +302,7 @@ const solutions = [
           米国FDAでは2型糖尿病治療薬として承認済ですが、エイジングケアを目的とする承認は各国で取得されていません。
           米国でTAME試験（非糖尿病高齢者約3,000人対象）が進行中ですが、<strong>結果は未発表であり、ヒトでの抗老化効果は確立していません</strong>。
         </li>
-        <li>適応外使用のため、<strong>医薬品副作用被害救済制度の対象外</strong>となります。</li>
+        <li>適応外使用のため、<strong>医薬品副作用被害救済制度の救済給付を受けられない場合があります</strong>。</li>
         <li>
           主な副作用：下痢・吐き気・腹痛・食欲不振等の消化器症状（服用初期に出やすく時間とともに軽減することが多い）。
           まれに乳酸アシドーシス（全身倦怠感・筋肉痛・過呼吸等）が報告されています。異常を感じたら直ちに服用を中止し医師に相談してください。

@@ -37,6 +37,7 @@ import { withBase } from "../../lib/links";
             <p class="article-sub"><strong>1-1</strong>&ensp;当社は以下の目的で個人情報を利用します。</p>
             <ul class="plain-list">
               <li>本サービスを提供するため</li>
+              <li>オンライン問診・診療予約・診察・処方・配送を提携医療機関と連携して実施するため</li>
               <li>登録の受付、本人確認、会員認証等のため</li>
               <li>品質向上のため</li>
               <li>トラフィック測定及び行動測定のため</li>
@@ -64,7 +65,7 @@ import { withBase } from "../../lib/links";
             <ul class="plain-list">
               <li>
                 <strong>（1）ご本人様からご提供いただく情報：</strong>
-                氏名、生年月日、性別、メールアドレス、電話番号、住所、クレジットカード情報、肖像情報、予約に関する情報等
+                氏名、生年月日、性別、メールアドレス、電話番号、住所、決済に関する情報、肖像情報、予約に関する情報、問診回答（症状、既往歴、服用中の薬、アレルギー、健康状態、相談内容等）
               </li>
               <li>
                 <strong>（2）他のサービスとの連携：</strong>
@@ -106,10 +107,9 @@ import { withBase } from "../../lib/links";
           </h2>
           <div class="article-body">
             <ol class="ordered-list">
-              <li>Google Analyticsを利用しています。</li>
-              <li>利便性向上のため利用者情報を取得する場合があります。</li>
-              <li>オプトアウト設定でSP取得情報の取得を停止できます。</li>
-              <li>情報収集モジュールによりSP取得情報を取得しています。</li>
+              <li>本サイトの表示に必要なフォントをGoogle Fontsから、アイコン用ファイルをcdnjs（Cloudflare）から取得します。この通信に伴い、IPアドレス、ブラウザ情報等の接続情報が各提供者へ送信される場合があります。</li>
+              <li>現在の本サイトには、Google Analyticsその他の行動分析タグを設置していません。</li>
+              <li>新たな情報収集モジュールを導入する場合は、取得項目、利用目的、送信先および停止方法を本ページ等で公表します。</li>
             </ol>
           </div>
         </article>
@@ -122,6 +122,7 @@ import { withBase } from "../../lib/links";
           <div class="article-body">
             <ol class="ordered-list">
               <li>法令で認められる場合を除き、同意なく第三者に提供しません。</li>
+              <li>オンライン診療の実施に必要な範囲で、ご本人の同意に基づき、問診回答・予約情報等を提携医療機関（マーチクリニック）へ提供します。</li>
               <li>属性情報に加工した上で提供する場合があります。</li>
               <li>法第27条第2項に基づく第三者提供を行います。</li>
             </ol>
@@ -322,7 +323,7 @@ import { withBase } from "../../lib/links";
   }
   .contact-address a {
     color: var(--brand-700);
-    text-decoration: none;
+    text-decoration: underline;
   }
   .contact-address a:hover {
     text-decoration: underline;

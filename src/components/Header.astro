@@ -6,7 +6,7 @@ const BASE = import.meta.env.BASE_URL;
 // base を除いた論理パスで現在地判定（/online-clinic/glp1/ → /glp1/）
 const path = ("/" + Astro.url.pathname.slice(BASE.length)).replace(/\/{2,}/g, "/") || "/";
 const isActive = (href: string) =>
-  href === "/" ? path === "/" : path.startsWith(href);
+  href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`);
 ---
 
 <header class="site-header">
@@ -19,7 +19,11 @@ const isActive = (href: string) =>
     <nav class="nav-desktop" aria-label="グローバルナビゲーション">
       {
         navLinks.map((l) => (
-          <a href={withBase(l.href)} class:list={["nav-link", { active: isActive(l.href) }]}>
+          <a
+            href={withBase(l.href)}
+            class:list={["nav-link", { active: isActive(l.href) }]}
+            aria-current={isActive(l.href) ? "page" : undefined}
+          >
             {l.label}
           </a>
         ))
@@ -33,7 +37,14 @@ const isActive = (href: string) =>
       <a class="btn btn--line header-cta" href={LINE_URL} target="_blank" rel="noopener">
         <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
       </a>
-      <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く" aria-expanded="false">
+      <button
+        class="hamburger"
+        id="hamburgerBtn"
+        type="button"
+        aria-label="メニューを開く"
+        aria-controls="mobileMenu"
+        aria-expanded="false"
+      >
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -42,7 +53,15 @@ const isActive = (href: string) =>
   <!-- モバイルメニュー -->
   <div class="mobile-menu" id="mobileMenu" hidden>
     <nav class="mobile-nav" aria-label="モバイルナビゲーション">
-      {navLinks.map((l) => <a href={withBase(l.href)} class="mobile-link">{l.label}</a>)}
+      {navLinks.map((l) => (
+        <a
+          href={withBase(l.href)}
+          class:list={["mobile-link", { active: isActive(l.href) }]}
+          aria-current={isActive(l.href) ? "page" : undefined}
+        >
+          {l.label}
+        </a>
+      ))}
       <a class="mobile-link" href={shopLink.href} target="_blank" rel="noopener">
         <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> オンラインショップ
       </a>
@@ -56,25 +75,36 @@ const isActive = (href: string) =>
 <script>
   const btn = document.getElementById("hamburgerBtn");
   const menu = document.getElementById("mobileMenu");
+
+  const setMenuOpen = (open: boolean, restoreFocus = false) => {
+    if (!btn || !menu) return;
+    menu.toggleAttribute("hidden", !open);
+    btn.setAttribute("aria-expanded", String(open));
+    btn.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
+    btn.classList.toggle("is-open", open);
+    if (!open && restoreFocus) btn.focus();
+  };
+
   btn?.addEventListener("click", () => {
-    const open = menu?.hasAttribute("hidden");
-    if (open) {
-      menu?.removeAttribute("hidden");
-      btn.setAttribute("aria-expanded", "true");
-      btn.classList.add("is-open");
-    } else {
-      menu?.setAttribute("hidden", "");
-      btn.setAttribute("aria-expanded", "false");
-      btn.classList.remove("is-open");
+    setMenuOpen(menu?.hasAttribute("hidden") ?? false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu && !menu.hasAttribute("hidden")) {
+      setMenuOpen(false, true);
     }
   });
+
   menu?.querySelectorAll("a").forEach((a) =>
     a.addEventListener("click", () => {
-      menu.setAttribute("hidden", "");
-      btn?.setAttribute("aria-expanded", "false");
-      btn?.classList.remove("is-open");
+      setMenuOpen(false);
     })
   );
+
+  const desktopQuery = window.matchMedia("(min-width: 1100px)");
+  desktopQuery.addEventListener("change", (event) => {
+    if (event.matches) setMenuOpen(false);
+  });
 </script>
 
 <style>
@@ -97,6 +127,7 @@ const isActive = (href: string) =>
     display: flex;
     flex-direction: column;
     line-height: 1;
+    flex-shrink: 0;
   }
   .brand-mark {
     font-family: var(--font-serif);
@@ -152,6 +183,7 @@ const isActive = (href: string) =>
     font-size: 0.88rem;
     font-weight: var(--fw-medium);
     color: var(--ink-700);
+    white-space: nowrap;
   }
   .shop-link i {
     color: var(--brand-600);
@@ -163,6 +195,7 @@ const isActive = (href: string) =>
     display: none;
     padding: 0.6em 1.2em;
     font-size: 0.9rem;
+    white-space: nowrap;
   }
   .hamburger {
     display: inline-flex;
@@ -206,12 +239,15 @@ const isActive = (href: string) =>
     font-weight: var(--fw-medium);
     border-bottom: 1px solid var(--cream-200);
   }
+  .mobile-link.active {
+    color: var(--brand-700);
+  }
   .mobile-cta {
     margin-top: 1.2rem;
     width: 100%;
   }
 
-  @media (min-width: 980px) {
+  @media (min-width: 1100px) {
     .nav-desktop {
       display: flex;
     }

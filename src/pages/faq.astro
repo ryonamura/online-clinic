@@ -163,7 +163,7 @@ const categories = [
             <h2 class="faq-section-title">{cat.label}</h2>
           </header>
 
-          <dl class="faq-list">
+          <div class="faq-list">
             {cat.faqs.map((item) => (
               <details class="faq-item" name={`faq-${cat.id}`}>
                 <summary class="faq-q">
@@ -177,7 +177,7 @@ const categories = [
                 </div>
               </details>
             ))}
-          </dl>
+          </div>
         </section>
       ))}
     </div>
@@ -186,7 +186,7 @@ const categories = [
   {/* ============ DISCLAIMER ============ */}
   <section class="faq-disclaimer">
     <div class="container container--narrow">
-      <p class="disclaimer-title"><i class="fa-solid fa-circle-info"></i>免責事項（DISCLAIMER）</p>
+      <p class="disclaimer-title"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>免責事項（DISCLAIMER）</p>
       <ul class="disclaimer-list">
         <li>本サービスはすべて自由診療（保険適用外）です。費用は全額自己負担となります。</li>
         <li>効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。</li>
@@ -204,7 +204,7 @@ const categories = [
   <section class="section section--cream">
     <div class="container container--narrow">
       <div class="still-q">
-        <span class="still-q-icon"><i class="fa-solid fa-comments"></i></span>
+        <span class="still-q-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span>
         <h2 class="still-q-title">解決しない場合は<span class="accent">LINEへ</span></h2>
         <p class="still-q-text">
           掲載のない質問はLINEでお気軽にご相談ください。<br />
