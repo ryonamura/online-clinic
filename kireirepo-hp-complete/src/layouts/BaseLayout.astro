@@ -1,5 +1,9 @@
 ---
 import "../styles/tokens.css";
+// 使用アイコンのみを自己ホストした FontAwesome サブセット（CDN 全部入りの置き換え）。
+// 再生成: npm run icons  → scripts/gen-icon-subset.py
+import "../styles/fontawesome-subset.css";
+import { withBase } from "../lib/links";
 
 export interface Props {
   title?: string;
@@ -16,7 +20,24 @@ const {
 } = Astro.props;
 
 const siteName = "キレイレポオンライン";
-const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+
+// canonical は本番ホスト（kireireport.com/online-clinic）に固定する。
+// GitHub Pages（PUBLIC_SITE/PUBLIC_BASE）でビルドしても canonical は常に
+// 本番 URL を指すため、複数ホストによる重複コンテンツを防げる。
+const CANONICAL_ORIGIN = "https://kireireport.com";
+const CANONICAL_BASE = "/online-clinic";
+const base = import.meta.env.BASE_URL.replace(/\/$/, ""); // "" または "/online-clinic"
+let path = Astro.url.pathname;
+if (base && path.startsWith(base)) path = path.slice(base.length); // ビルド時 base 前置きを除去
+if (!path.startsWith("/")) path = "/" + path;
+if (!path.endsWith("/")) path += "/"; // sitemap と揃えて末尾スラッシュに正規化
+const canonicalPath = `${CANONICAL_BASE}${path === "/" ? "/" : path}`;
+const canonicalURL = canonical ?? new URL(canonicalPath, CANONICAL_ORIGIN).href;
+
+// base（サブパス配信）を考慮。withBase は base 末尾スラッシュ有無を吸収する。
+const faviconHref = withBase("/favicon.svg");
+// OG 画像はデプロイ先ホストの絶対URL（実際に配信される場所）を指す。
+const ogImageURL = new URL(withBase(ogImage), Astro.site).href;
 ---
 
 <!doctype html>
@@ -27,7 +48,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={faviconHref} type="image/svg+xml" />
 
     <!-- OGP -->
     <meta property="og:type" content="website" />
@@ -35,26 +56,19 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta name="twitter:image" content={ogImageURL} />
     <meta property="og:locale" content="ja_JP" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Fonts -->
+    <!-- Fonts: 実際に使用しているウェイトのみ（Sans 400/500/700, Serif 700） -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <slot name="head" />
   </head>
   <body>
     <slot />
@@ -96,6 +110,18 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
         color: inherit;
         text-decoration: none;
       }
+
+      /* キーボード操作時のフォーカスを明示（アクセシビリティ）。
+         ピンクのグラデーションボタン上でも視認できるよう、
+         余白を空けたブランド色のリングで統一する。 */
+      :focus-visible {
+        outline: 3px solid var(--brand-700);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+      .btn:focus-visible {
+        outline-offset: 3px;
+      }
       h1,
       h2,
       h3,
@@ -127,6 +153,12 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       .section {
         padding-block: var(--section-y);
       }
+      /* 交互に敷くクリーム地。セクションの縦リズムを視覚的に定義する。
+         各ページで個別定義していたものをここへ集約し、商品・カテゴリ・
+         共通コンポーネントで一貫して効くようにする。 */
+      .section--cream {
+        background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
+      }
       .eyebrow {
         display: inline-flex;
         align-items: center;
@@ -135,7 +167,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
         font-weight: var(--fw-bold);
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: var(--brand-700);
+        color: var(--brand-800);
       }
       .eyebrow::before {
         content: "";
@@ -204,8 +236,13 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
         html {
           scroll-behavior: auto;
         }
-        * {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
           transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
         }
       }
     </style>

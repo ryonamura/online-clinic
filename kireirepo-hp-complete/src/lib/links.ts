@@ -1,6 +1,5 @@
-// 内部リンクを base パス（GitHub Pages のサブディレクトリ等）に対応させるヘルパー。
-// 本番(カスタムドメイン)や開発では base="/" なので素通り、
-// GitHub Pages では base="/online-clinic/" を前置きする。
+// 内部リンクを base パス（本番・プレビューとも /online-clinic 配下）に対応させるヘルパー。
+// Astro の BASE_URL を前置きする（末尾スラッシュ有無は吸収）。
 const BASE = import.meta.env.BASE_URL;
 
 export function withBase(path: string): string {
