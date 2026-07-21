@@ -16,5 +16,7 @@ node_modules/
 # logs
 *.log
 npm-debug.log*
+# generated visual QA captures
+.screenshot-preview/
 # 受け渡し用アーティファクト（ソースではない）
 handoff-hp-update/

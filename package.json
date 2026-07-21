@@ -7,12 +7,18 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "icons": "python3 scripts/gen-icon-subset.py",
+    "og": "python3 scripts/gen-og.py"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.0.0"
   },
   "devDependencies": {
-    "playwright": "^1.61.1"
+    "@astrojs/check": "^0.9.9",
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "playwright": "^1.61.1",
+    "typescript": "^5.9.3"
   }
 }

@@ -27,11 +27,13 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      # GH Pages はプレビュー用。本番正規URLは https://kireireport.com/online-clinic
+      # （canonical は BaseLayout で本番固定。ここは Pages 配信ホスト向け）
       - name: Build (with GitHub Pages base path)
         run: npm run build
         env:
           PUBLIC_SITE: https://ryonamura.github.io
-          PUBLIC_BASE: /online-clinic
+          PUBLIC_BASE: /online-clinic/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
