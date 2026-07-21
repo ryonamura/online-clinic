@@ -1,7 +1,7 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
-import { LINE_URL, services, shopLink } from "../data/site";
+import { LINE_URL, shopLink, SITE_NAME, company } from "../data/site";
 import { withBase } from "../lib/links";
 import {
   agaPlans,
@@ -109,9 +109,43 @@ const compare = [
   { old: "薬局での受け取り", neo: "お薬が自宅に届く" },
   { old: "人目が気になる", neo: "プライバシー配慮の梱包" },
 ];
+
+const siteUrl = Astro.site
+  ? new URL(withBase("/"), Astro.site).href
+  : "https://kireireport.com/online-clinic/";
+const orgSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: siteUrl,
+  logo: new URL(withBase("/ogp.png"), Astro.site ?? siteUrl).href,
+  description:
+    "GLP-1メディカルダイエット・美容内服・アンチエイジング・AGA治療のオンライン診療サービス。",
+  email: company.email,
+  telephone: company.tel,
+  address: {
+    "@type": "PostalAddress",
+    postalCode: "141-0031",
+    addressRegion: "東京都",
+    addressLocality: "品川区",
+    streetAddress: "西五反田2丁目13-6 セラヴィ五反田ビル2F",
+    addressCountry: "JP",
+  },
+});
+const websiteSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: siteUrl,
+  inLanguage: "ja",
+});
 ---
 
 <PageLayout>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={orgSchema} />
+    <script type="application/ld+json" set:html={websiteSchema} />
+  </Fragment>
   {/* ============ HERO（CLINIC FOR風・左右分割＋訴求バッジ） ============ */}
   <section class="ha-hero">
     <div class="container ha-hero-inner">
@@ -125,9 +159,7 @@ const compare = [
           医師の診察・<span class="ha-title-accent">お薬お届け</span>
         </h1>
         <p class="ha-lead">
-          GLP-1ダイエット・美容内服・アンチエイジング・AGA治療をオンラインで。<br class="ha-br-md" />
-          提携医療機関（マーチクリニック）の医師がビデオ通話で診察し、<br class="ha-br-md" />
-          処方薬が自宅に届きます。
+          GLP-1ダイエット・美容内服・アンチエイジング・AGA治療をオンラインで。提携医療機関（マーチクリニック）の医師がビデオ通話で診察し、処方薬が自宅に届きます。
         </p>
         <div class="ha-actions">
           <a class="btn btn--line ha-btn-line" href={LINE_URL} target="_blank" rel="noopener">
@@ -325,7 +357,7 @@ const compare = [
     font-weight: var(--fw-bold);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--brand-700);
+    color: var(--brand-800);
   }
   .ha-title {
     font-family: var(--font-serif);
@@ -357,9 +389,6 @@ const compare = [
     color: var(--ink-500);
     line-height: 1.85;
     max-width: 36rem;
-  }
-  .ha-br-md {
-    display: none;
   }
   .ha-actions {
     margin-top: 2rem;
@@ -452,9 +481,6 @@ const compare = [
       flex-direction: row;
       flex-wrap: wrap;
       gap: 0.6rem 1.6rem;
-    }
-    .ha-br-md {
-      display: block;
     }
   }
   @media (min-width: 960px) {
@@ -630,9 +656,6 @@ const compare = [
   }
 
   /* ============ shared section head ============ */
-  .section--cream {
-    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
-  }
   .section-head {
     text-align: center;
     max-width: 40rem;
@@ -714,7 +737,7 @@ const compare = [
     color: var(--brand-800);
   }
   .tone-pink .service-price {
-    color: var(--pink-600);
+    color: var(--brand-800);
   }
   .service-card.tone-gold::before {
     background: var(--gold-gradient);
@@ -757,7 +780,7 @@ const compare = [
     text-align: center;
   }
   .fineprint a {
-    color: var(--brand-700);
+    color: var(--brand-800);
     text-decoration: underline;
   }
 

@@ -1,14 +1,18 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import ProductGrid from "../components/ProductGrid.astro";
 import { LINE_URL } from "../data/site";
 import { withBase } from "../lib/links";
+import { getProductsByCategory, productHref } from "../data/products";
 import { agaPlans, PAYMENT_METHODS } from "../data/pricing";
+
+const agaProducts = getProductsByCategory("aga");
 
 const badges = [
   { icon: "fa-mobile-screen-button", label: "オンライン完結" },
   { icon: "fa-rotate-left", label: "定期縛りなし" },
-  { icon: "fa-user-doctor", label: "医師監修" },
+  { icon: "fa-user-doctor", label: "医師が診察" },
 ];
 
 const forWhom = [
@@ -47,15 +51,6 @@ const medications = [
     feature: "頭皮の血流を改善し、発毛をサポートします。市販品（OTC）としても入手可能です。",
     note: "",
     approved: true,
-  },
-  {
-    name: "ミノキシジル内服",
-    brand: "内服薬（錠剤）",
-    approval: "※国内未承認（適応外使用）",
-    method: "毎日 内服（経口）",
-    feature: "外用と比較して全身への効果が期待される一方、副作用（動悸・むくみ・多毛等）のリスクも高まります。医師と十分に相談のうえ検討します。",
-    note: "※国内において発毛目的での内服薬としての承認がありません。適応外使用のため医薬品副作用被害救済制度の対象外となります。",
-    approved: false,
   },
 ];
 
@@ -149,6 +144,12 @@ const agaAbout = [
     </div>
   </div>
 
+  <ProductGrid
+    products={agaProducts}
+    title="取扱薬剤"
+    lead="デュタステリドの詳細・料金・FAQは商品ページでご確認いただけます。"
+  />
+
   {/* ============ AGAとは ============ */}
   <section class="section">
     <div class="container">
@@ -204,11 +205,11 @@ const agaAbout = [
         <table class="aga-med-table">
           <thead>
             <tr>
-              <th>薬剤名</th>
-              <th>代表製品</th>
-              <th>投与方法</th>
-              <th>承認状況</th>
-              <th>特徴・備考</th>
+              <th scope="col">薬剤名</th>
+              <th scope="col">代表製品</th>
+              <th scope="col">投与方法</th>
+              <th scope="col">承認状況</th>
+              <th scope="col">特徴・備考</th>
             </tr>
           </thead>
           <tbody>
@@ -232,7 +233,7 @@ const agaAbout = [
           </tbody>
         </table>
       </div>
-      <p class="fineprint">※フィナステリド・デュタステリドは国内でAGA（男性型脱毛症）治療薬として承認されています。ミノキシジル内服は国内未承認（適応外使用）です。いずれも医師の判断のもと処方されます。</p>
+      <p class="fineprint">※フィナステリド・デュタステリドは国内でAGA（男性型脱毛症）治療薬として承認されています。ミノキシジル外用は男性型脱毛症に対する発毛効果が承認されています。いずれも医師の判断のもと処方されます。</p>
       <p class="fineprint">※フィナステリド・デュタステリドは女性（特に妊娠中または妊娠の可能性がある方）・未成年への使用は禁忌です。</p>
     </div>
   </section>
@@ -274,11 +275,11 @@ const agaAbout = [
         <table class="aga-price-table">
           <thead>
             <tr>
-              <th>薬剤 / セット名</th>
-              <th>買い切り</th>
-              <th>1ヶ月定期</th>
-              <th>3ヶ月定期</th>
-              <th>6ヶ月定期</th>
+              <th scope="col">薬剤 / セット名</th>
+              <th scope="col">買い切り</th>
+              <th scope="col">1ヶ月定期</th>
+              <th scope="col">3ヶ月定期</th>
+              <th scope="col">6ヶ月定期</th>
             </tr>
           </thead>
           <tbody>
@@ -370,11 +371,10 @@ const agaAbout = [
       <ul class="aga-disclaimer-list">
         <li>本サービスは自由診療（保険適用外）です。費用は全額自己負担となります。</li>
         <li>治療の効果・発毛には個人差があり、すべての方に同様の効果を保証するものではありません。</li>
-        <li>フィナステリド・デュタステリドは国内において男性型脱毛症（AGA）治療薬として承認されています。ミノキシジル内服薬は国内において発毛目的での承認がなく、適応外使用となります。適応外使用の薬剤は医薬品副作用被害救済制度の対象外となります。</li>
+        <li>フィナステリド・デュタステリドは国内において男性型脱毛症（AGA）治療薬として承認されています。ミノキシジル外用は男性型脱毛症に対する発毛効果が承認されています。</li>
         <li>フィナステリド・デュタステリドは女性（特に妊娠中または妊娠の可能性がある方）・未成年への使用は禁忌です。妊娠中の女性が粉砕または破損した錠剤に触れることは避けてください。</li>
         <li>主な副作用（フィナステリド・デュタステリド）: 性欲減退・勃起不全・射精障害等の性機能関連副作用、肝機能障害、乳房痛・乳房肥大、前立腺特異抗原（PSA）値の低下など。まれに使用中止後も持続する場合があります。</li>
         <li>主な副作用（ミノキシジル外用）: 頭皮の刺激感・かゆみ・フケ、使用開始後に一時的な初期脱毛が生じる場合があります。</li>
-        <li>主な副作用（ミノキシジル内服）: 動悸・頻脈・むくみ・体重増加・多毛など。内服はリスクが高いため、医師と十分に相談のうえ検討します。</li>
         <li>医師のオンライン診察が必要です。問診内容によっては処方できない場合があります。</li>
         <li>医薬品は国内卸売販売業者より購入しています。</li>
       </ul>

@@ -34,7 +34,7 @@ export const glp1Plans: Plan[] = [
   { name: "注射薬 7.5mg", detail: "週1回 注射", buyout: 38000, m1: { initial: 36000, recur: 38000 }, m3: { initial: 89400, recur: 110500 }, m6: { initial: 178800, recur: 214320 } },
   { name: "注射薬 10.0mg", detail: "週1回 注射（医師判断で増量）", buyout: 47000, m1: { initial: 45000, recur: 47000 }, m3: { initial: 131000, recur: 136700 }, m6: null },
   { name: "リベルサス 3mg", detail: "飲むGLP-1・毎日 内服", buyout: 7500, m1: { initial: 7500, recur: 7500 }, m3: { initial: 20000, recur: 21800 }, m6: null },
-  { name: "リベルサス 7mg", detail: "飲むGLP-1・毎日 内服", buyout: 15500, m1: { initial: 15500, recur: 27600 }, m3: { initial: 44500, recur: 45100 }, m6: null },
+  { name: "リベルサス 7mg", detail: "飲むGLP-1・毎日 内服", buyout: 15500, m1: { initial: 15500, recur: 15500 }, m3: { initial: 44500, recur: 45100 }, m6: null },
   { name: "フォシーガ 5mg", detail: "SGLT2阻害薬・毎日 内服", buyout: 9500, m1: { initial: 8500, recur: 9500 }, m3: { initial: 27600, recur: 27600 }, m6: null },
   { name: "ルセフィ錠 2.5mg", detail: "SGLT2阻害薬・毎日 内服", buyout: 8500, m1: { initial: 7500, recur: 8500 }, m3: { initial: 24700, recur: 24700 }, m6: null },
 ];

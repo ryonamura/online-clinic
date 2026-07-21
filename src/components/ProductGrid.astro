@@ -49,15 +49,21 @@ const {
   .section-head .lead {
     margin-top: 0.9rem;
   }
+  /* 中央寄せの flex レイアウト。商品数が 1 でも 4 でも、余った列に
+     取り残される「孤立カード」を作らず最終行を中央に揃える
+     （3列グリッドでは 4件で 3+1、1件で左寄せの孤立が発生していた）。 */
   .product-grid {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
   }
   .product-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex: 1 1 14rem;
+    max-width: 22rem;
     background: #fff;
     border: 1px solid var(--cream-300);
     border-radius: var(--r-lg);
@@ -82,7 +88,7 @@ const {
   .product-card-generic {
     font-size: 0.75rem;
     font-weight: var(--fw-bold);
-    color: var(--brand-700);
+    color: var(--brand-800);
     letter-spacing: 0.04em;
     margin-bottom: 0.35rem;
   }
@@ -107,7 +113,7 @@ const {
     margin-top: 1rem;
     font-size: 0.85rem;
     font-weight: var(--fw-bold);
-    color: var(--brand-700);
+    color: var(--brand-800);
     display: inline-flex;
     align-items: center;
     gap: 0.4em;
@@ -117,15 +123,5 @@ const {
   }
   .product-card--navy .product-card-link {
     color: var(--ink-700);
-  }
-  @media (min-width: 600px) {
-    .product-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (min-width: 960px) {
-    .product-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
   }
 </style>

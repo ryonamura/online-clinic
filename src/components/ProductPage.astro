@@ -36,6 +36,58 @@ const breadcrumbs = [
   { label: product.name },
 ];
 
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: product.faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+});
+
+const breadcrumbSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumbs.map((item, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: item.label,
+    ...(item.href ? { item: new URL(item.href, Astro.site).href } : {}),
+  })),
+});
+
+const lowestPrice = plans.reduce<number | null>((min, p) => {
+  const candidates = [
+    p.buyout,
+    p.m1?.initial,
+    p.m1?.recur,
+    p.m3?.initial,
+    p.m6?.initial,
+  ].filter((v): v is number => v != null);
+  const planMin = candidates.length ? Math.min(...candidates) : null;
+  if (planMin == null) return min;
+  return min == null ? planMin : Math.min(min, planMin);
+}, null);
+
+const productSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  description: product.metaDescription,
+  brand: { "@type": "Brand", name: "キレイレポオンライン" },
+  ...(lowestPrice != null
+    ? {
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "JPY",
+          lowPrice: lowestPrice,
+          offerCount: plans.length,
+        },
+      }
+    : {}),
+});
+
 function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
   if (term === "buyout") {
     return plan.buyout != null ? `¥${plan.buyout.toLocaleString()}` : "—";
@@ -46,6 +98,9 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
   if (t.initial != null) {
     parts.push(`<span class="term-initial">初回 ¥${t.initial.toLocaleString()}</span>`);
   }
+  if (t.initial != null && t.recur != null) {
+    parts.push(`<span class="term-sep"> ／ </span>`);
+  }
   if (t.recur != null) {
     parts.push(`<span class="term-recur">2回目以降 ¥${t.recur.toLocaleString()}</span>`);
   }
@@ -54,6 +109,11 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
 ---
 
 <PageLayout title={product.metaTitle} description={product.metaDescription}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={faqSchema} />
+    <script type="application/ld+json" set:html={breadcrumbSchema} />
+    <script type="application/ld+json" set:html={productSchema} />
+  </Fragment>
   <Breadcrumb items={breadcrumbs} />
 
   {/* HERO */}
@@ -94,6 +154,28 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
     </div>
   </section>
 
+  {/* SUPERVISION */}
+  <section class="section section--cream" id="supervision">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">MEDICAL</p>
+        <h2 class="section-title">提携<span class="accent">医療機関</span></h2>
+      </header>
+      <div class="p-supervision">
+        <p class="p-supervision-clinic">
+          <i class="fa-solid fa-user-doctor" aria-hidden="true"></i>
+          {product.supervision.clinic}
+        </p>
+        <p class="p-supervision-note">{product.supervision.note}</p>
+        <ul class="p-supervision-points">
+          {product.supervision.points.map((pt) => (
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>{pt}</span></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
   {/* WHAT IS */}
   <section class="section" id="about">
     <div class="container container--narrow">
@@ -125,6 +207,62 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
             </article>
           ))}
         </div>
+      </div>
+    </section>
+  )}
+
+  {/* COMPARISON */}
+  {product.comparison && (
+    <section class="section" id="comparison">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">COMPARE</p>
+          <h2 class="section-title">{product.comparison.title}</h2>
+        </header>
+        <div class="table-scroll">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                {product.comparison.headers.map((h) => (
+                  <th scope="col">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {product.comparison.rows.map((row) => (
+                <tr class={row.highlight ? "compare-row--highlight" : ""}>
+                  <th scope="row">{row.name}</th>
+                  {row.cells.map((cell) => (
+                    <td>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {product.comparison.note && (
+          <p class="p-compare-note">{product.comparison.note}</p>
+        )}
+      </div>
+    </section>
+  )}
+
+  {/* INGREDIENTS */}
+  {product.ingredients && product.ingredients.length > 0 && (
+    <section class="section section--cream" id="ingredients">
+      <div class="container container--narrow">
+        <header class="section-head">
+          <p class="eyebrow">DETAIL</p>
+          <h2 class="section-title">薬剤<span class="accent">詳細</span></h2>
+        </header>
+        <dl class="p-ingredient-list">
+          {product.ingredients.map((ing) => (
+            <>
+              <dt>{ing.label}</dt>
+              <dd>{ing.value}</dd>
+            </>
+          ))}
+        </dl>
       </div>
     </section>
   )}
@@ -166,21 +304,45 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
         <h2 class="section-title">料金<span class="accent">プラン</span></h2>
         <p class="lead">すべて税込・別途診察・配送料 ¥{CONSULT_SHIPPING.toLocaleString()}・定期縛りなし</p>
       </header>
-      {product.dosage && (
+      {product.dosageDetail ? (
+        <div class="p-dosage-detail">
+          <h3><i class="fa-solid fa-pills" aria-hidden="true"></i>用法・用量の詳細</h3>
+          <p class="p-dosage-summary">{product.dosageDetail.summary}</p>
+          {product.dosageDetail.schedule && (
+            <p><strong>用量スケジュール：</strong>{product.dosageDetail.schedule}</p>
+          )}
+          {product.dosageDetail.timing && (
+            <p><strong>服用タイミング：</strong>{product.dosageDetail.timing}</p>
+          )}
+          {product.dosageDetail.tapering && (
+            <p><strong>漸増：</strong>{product.dosageDetail.tapering}</p>
+          )}
+          {product.dosageDetail.storage && (
+            <p><strong>保管：</strong>{product.dosageDetail.storage}</p>
+          )}
+          {product.dosageDetail.tips.length > 0 && (
+            <ul class="p-dosage-tips">
+              {product.dosageDetail.tips.map((tip) => (
+                <li><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{tip}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ) : product.dosage ? (
         <div class="p-dosage">
           <h3><i class="fa-solid fa-pills" aria-hidden="true"></i>用法・用量</h3>
           <p>{product.dosage}</p>
         </div>
-      )}
+      ) : null}
       <div class="table-scroll">
         <table class="price-table">
           <thead>
             <tr>
-              <th class="col-drug">プラン名</th>
-              <th>買い切り</th>
-              <th>1ヶ月定期</th>
-              <th>3ヶ月定期</th>
-              <th>6ヶ月定期</th>
+              <th scope="col" class="col-drug">プラン名</th>
+              <th scope="col">買い切り</th>
+              <th scope="col">1ヶ月定期</th>
+              <th scope="col">3ヶ月定期</th>
+              <th scope="col">6ヶ月定期</th>
             </tr>
           </thead>
           <tbody>
@@ -246,6 +408,23 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
           <li><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span>{s}</span></li>
         ))}
       </ul>
+      {product.sideEffectsDetail && product.sideEffectsDetail.length > 0 && (
+        <div class="p-side-detail">
+          {product.sideEffectsDetail.map((group) => (
+            <div class="p-side-group">
+              <h4>
+                {group.category}
+                {group.frequency && <span class="p-side-freq">（{group.frequency}）</span>}
+              </h4>
+              <ul>
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
       <h3 class="p-contra-title"><i class="fa-solid fa-ban" aria-hidden="true"></i>主な禁忌</h3>
       <ul class="p-contra-list">
         {product.contraindications.map((c) => (
@@ -254,6 +433,23 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
       </ul>
     </div>
   </section>
+
+  {/* OFF-LABEL */}
+  {product.offLabel && product.offLabel.length > 0 && (
+    <section class="section" id="off-label">
+      <div class="container container--narrow">
+        <header class="section-head">
+          <p class="eyebrow">NOTICE</p>
+          <h2 class="section-title">適応外使用に<span class="accent">ついて</span></h2>
+        </header>
+        <div class="p-offlabel">
+          {product.offLabel.map((item) => (
+            <p><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>{item}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   {/* FAQ */}
   <section class="section" id="faq">
@@ -319,7 +515,7 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
   />
 </PageLayout>
 
-<style define:vars={{ accentColor: accent === "gold" ? "var(--gold-700)" : accent === "navy" ? "var(--ink-700)" : "var(--brand-700)" }}>
+<style define:vars={{ accentColor: accent === "gold" ? "var(--gold-700)" : accent === "navy" ? "var(--ink-700)" : "var(--brand-800)" }}>
   .section-head {
     text-align: center;
     max-width: 40rem;
@@ -423,6 +619,214 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
     margin-bottom: 1rem;
   }
   .p-prose p:last-child { margin-bottom: 0; }
+
+  /* SUPERVISION */
+  .p-supervision {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .p-supervision-clinic {
+    font-weight: var(--fw-bold);
+    font-size: 1rem;
+    color: var(--ink-700);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .p-supervision-clinic i { color: var(--accentColor); }
+  .p-supervision-note {
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .p-supervision-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .p-supervision-points li {
+    display: flex;
+    gap: 0.5em;
+    font-size: 0.88rem;
+    color: var(--ink-500);
+    line-height: 1.65;
+  }
+  .p-supervision-points i { color: var(--accentColor); margin-top: 0.15em; flex-shrink: 0; }
+
+  /* COMPARISON */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+    min-width: 560px;
+  }
+  .compare-table thead tr { background: var(--ink-900); }
+  .compare-table th {
+    color: #fff;
+    font-weight: var(--fw-bold);
+    font-size: 0.78rem;
+    padding: 0.75rem 0.85rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .compare-table tbody th[scope="row"] {
+    background: var(--cream-100);
+    color: var(--ink-700);
+    font-weight: var(--fw-bold);
+    white-space: nowrap;
+  }
+  .compare-table td {
+    padding: 0.75rem 0.85rem;
+    border-bottom: 1px solid var(--cream-200);
+    background: #fff;
+    color: var(--ink-500);
+    vertical-align: top;
+  }
+  .compare-row--highlight td,
+  .compare-row--highlight th[scope="row"] {
+    background: var(--brand-50);
+  }
+  .p-compare-note {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* INGREDIENTS */
+  .p-ingredient-list {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .p-ingredient-list dt {
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: var(--accentColor);
+    padding: 0.9rem 1.2rem 0.25rem;
+    letter-spacing: 0.05em;
+  }
+  .p-ingredient-list dd {
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    padding: 0 1.2rem 0.9rem;
+    line-height: 1.7;
+    border-bottom: 1px solid var(--cream-200);
+  }
+  .p-ingredient-list dd:last-child { border-bottom: none; }
+
+  /* DOSAGE DETAIL */
+  .p-dosage-detail {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.3rem 1.4rem;
+    margin-bottom: 1.5rem;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+  .p-dosage-detail h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--ink-700);
+  }
+  .p-dosage-detail h3 i { color: var(--accentColor); }
+  .p-dosage-summary {
+    font-size: 0.9rem;
+    color: var(--ink-700);
+    font-weight: var(--fw-bold);
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+  .p-dosage-detail p {
+    font-size: 0.86rem;
+    color: var(--ink-500);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+  .p-dosage-tips {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .p-dosage-tips li {
+    font-size: 0.84rem;
+    color: var(--ink-500);
+    display: flex;
+    gap: 0.5em;
+    line-height: 1.65;
+  }
+  .p-dosage-tips i { color: var(--accentColor); flex-shrink: 0; margin-top: 0.15em; }
+
+  /* SIDE EFFECT DETAIL */
+  .p-side-detail {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .p-side-group {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.1rem 1.3rem;
+  }
+  .p-side-group h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+    color: var(--ink-700);
+  }
+  .p-side-freq {
+    font-size: 0.78rem;
+    font-weight: normal;
+    color: var(--ink-400);
+  }
+  .p-side-group ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .p-side-group li {
+    font-size: 0.86rem;
+    color: var(--ink-500);
+    padding-left: 1em;
+    position: relative;
+  }
+  .p-side-group li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--accentColor);
+  }
+
+  /* OFF-LABEL */
+  .p-offlabel {
+    background: var(--cream-100);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.3rem 1.5rem;
+  }
+  .p-offlabel p {
+    font-size: 0.88rem;
+    color: var(--ink-500);
+    line-height: 1.8;
+    margin-bottom: 0.65rem;
+    display: flex;
+    gap: 0.5em;
+    align-items: flex-start;
+  }
+  .p-offlabel p:last-child { margin-bottom: 0; }
+  .p-offlabel i { color: var(--brand-600); flex-shrink: 0; margin-top: 0.2em; }
 
   /* MECHANISM */
   .p-mech-grid {
@@ -573,25 +977,52 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
     color: #fff;
     font-weight: var(--fw-bold);
     font-size: 0.8rem;
-    padding: 0.8rem 0.9rem;
+    padding: 0.85rem 1rem;
     text-align: left;
     white-space: nowrap;
   }
+  .price-table th.col-drug { min-width: 132px; }
   .price-table td {
-    padding: 0.85rem 0.9rem;
+    padding: 0.9rem 1rem;
     border-bottom: 1px solid var(--cream-200);
     background: #fff;
     vertical-align: top;
     color: var(--ink-500);
   }
   .price-table tbody tr:last-child td { border-bottom: none; }
-  .drug-cell { display: flex; flex-direction: column; gap: 0.2rem; }
-  .drug-name { font-weight: var(--fw-bold); color: var(--ink-700); font-size: 0.9rem; }
-  .drug-detail { font-size: 0.74rem; color: var(--brand-700); }
-  .drug-note { font-size: 0.72rem; color: var(--ink-400); }
+  .drug-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 132px;
+  }
+  .drug-name {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  .drug-detail {
+    font-size: 0.74rem;
+    color: var(--brand-800);
+    line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  .drug-note { font-size: 0.72rem; color: var(--ink-400); line-height: 1.5; }
   .price-cell { white-space: nowrap; }
-  .term-initial, .term-recur { display: block; font-size: 0.8rem; }
-  .term-recur { color: var(--ink-400); }
+  /* term spans are injected via set:html, so Astro's scoped hash is not
+     applied to them — target them with :global so the styles still match. */
+  .price-cell :global(.term-initial),
+  .price-cell :global(.term-recur) {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+  .price-cell :global(.term-recur) { color: var(--ink-400); margin-top: 0.15rem; }
+  .price-cell :global(.term-sep) { display: none; }
   .p-payment {
     margin-top: 1.5rem;
     text-align: center;
@@ -744,7 +1175,7 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
   }
   .p-related-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
   .p-related-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem; }
-  .p-related-card span { font-size: 0.82rem; font-weight: var(--fw-bold); color: var(--brand-700); }
+  .p-related-card span { font-size: 0.82rem; font-weight: var(--fw-bold); color: var(--brand-800); }
   .p-related-card--cat { border-style: dashed; }
 
   /* DISCLAIMER */
@@ -775,5 +1206,16 @@ function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
   }
   @media (min-width: 960px) {
     .p-hero-inner { grid-template-columns: 1fr auto; }
+  }
+
+  /* モバイル：横スクロールする表を少し詰めて、一度に見える列を増やす。
+     右端で列が切れることでスクロール可能なことが自然に伝わる。 */
+  @media (max-width: 560px) {
+    .compare-table,
+    .price-table { min-width: 520px; }
+    .compare-table th,
+    .compare-table td,
+    .price-table th,
+    .price-table td { padding: 0.65rem 0.7rem; }
   }
 </style>

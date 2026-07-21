@@ -1,7 +1,12 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import ProductGrid from "../components/ProductGrid.astro";
+import { withBase } from "../lib/links";
+import { getProductsByCategory, productHref } from "../data/products";
 import { metforminPlan, PAYMENT_METHODS } from "../data/pricing";
+
+const antiagingProducts = getProductsByCategory("antiaging");
 
 const badges = [
   { icon: "fa-yen-sign", label: "月額 2,980円〜" },
@@ -97,6 +102,7 @@ const solutions = [
           >
             <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
           </a>
+          <a class="btn btn--ghost" href={withBase(productHref("antiaging", "metformin"))}>メトホルミン詳細</a>
           <a class="btn btn--ghost" href="#plan">料金を見る</a>
         </div>
         <p class="hero-aa-note">
@@ -127,6 +133,12 @@ const solutions = [
       </div>
     </div>
   </section>
+
+  <ProductGrid
+    products={antiagingProducts}
+    title="取扱商品"
+    lead="メトホルミンの詳細・料金・FAQは商品ページでご確認いただけます。"
+  />
 
   {/* ============ HOW IT WORKS: 3つの働き ============ */}
   <section class="section" id="mechanism">

@@ -121,20 +121,36 @@ const categories = [
     ],
   },
 ];
+
+// 全カテゴリのQ&AをまとめてFAQPage構造化データを生成する
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: categories.flatMap((cat) =>
+    cat.faqs.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    }))
+  ),
+});
 ---
 
 <PageLayout
   title="よくある質問｜キレイレポオンライン"
   description="キレイレポオンラインのよくある質問（FAQ）。GLP-1ダイエット・美容内服・アンチエイジング・AGA・サービス全般のご質問と回答をまとめています。"
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={faqSchema} />
+  </Fragment>
+
   {/* ============ PAGE HERO ============ */}
   <section class="faq-hero">
     <div class="container">
       <p class="eyebrow">FAQ</p>
       <h1 class="faq-hero-title">よくある<span class="accent">ご質問</span></h1>
       <p class="lead faq-hero-lead">
-        GLP-1ダイエット・美容内服・アンチエイジング・AGA・サービス全般のご質問をまとめました。<br />
-        解決しない場合はLINEでお気軽にご相談ください。
+        GLP-1ダイエット・美容内服・アンチエイジング・AGA・サービス全般のご質問をまとめました。解決しない場合はLINEでお気軽にご相談ください。
       </p>
     </div>
   </section>
@@ -207,8 +223,7 @@ const categories = [
         <span class="still-q-icon"><i class="fa-solid fa-comments"></i></span>
         <h2 class="still-q-title">解決しない場合は<span class="accent">LINEへ</span></h2>
         <p class="still-q-text">
-          掲載のない質問はLINEでお気軽にご相談ください。<br />
-          専任スタッフが丁寧にご回答します。相談・問診は無料です。
+          掲載のない質問はLINEでお気軽にご相談ください。専任スタッフが丁寧にご回答します。相談・問診は無料です。
         </p>
         <a
           class="btn btn--line"
