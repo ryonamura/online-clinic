@@ -1,0 +1,16 @@
+---
+import ProductPage from "../../components/ProductPage.astro";
+import { getProductsByCategory, getProductBySlug } from "../../data/products";
+
+export function getStaticPaths() {
+  return getProductsByCategory("beauty").map((p) => ({
+    params: { product: p.slug },
+  }));
+}
+
+const { product: slug } = Astro.params;
+const product = getProductBySlug("beauty", slug!);
+if (!product) throw new Error(`Unknown product: ${slug}`);
+---
+
+<ProductPage product={product} />

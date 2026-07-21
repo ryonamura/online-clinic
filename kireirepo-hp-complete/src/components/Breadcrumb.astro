@@ -1,0 +1,68 @@
+---
+import { withBase } from "../lib/links";
+
+export interface Crumb {
+  label: string;
+  href?: string;
+}
+
+export interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="パンくずリスト">
+  <div class="container">
+    <ol class="breadcrumb-list">
+      {items.map((item, i) => (
+        <li class="breadcrumb-item">
+          {i > 0 && <span class="breadcrumb-sep" aria-hidden="true">›</span>}
+          {item.href ? (
+            <a href={withBase(item.href)}>{item.label}</a>
+          ) : (
+            <span aria-current="page">{item.label}</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>
+
+<style>
+  .breadcrumb {
+    background: var(--cream-100);
+    border-bottom: 1px solid var(--cream-300);
+    padding-block: 0.75rem;
+  }
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    font-size: 0.8rem;
+    color: var(--ink-400);
+  }
+  .breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .breadcrumb-item a {
+    color: var(--brand-800);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .breadcrumb-item a:hover {
+    color: var(--brand-800);
+  }
+  .breadcrumb-item span[aria-current] {
+    color: var(--ink-500);
+    font-weight: var(--fw-medium);
+  }
+  .breadcrumb-sep {
+    color: var(--ink-300);
+    font-size: 0.75rem;
+  }
+</style>

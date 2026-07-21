@@ -1,0 +1,127 @@
+---
+import { withBase } from "../lib/links";
+import type { Product } from "../data/products";
+import { productHref } from "../data/products";
+
+export interface Props {
+  products: Product[];
+  title?: string;
+  lead?: string;
+}
+
+const {
+  products,
+  title = "取扱商品",
+  lead = "お悩み・ご希望に合わせた商品ページから詳しくご確認いただけます。",
+} = Astro.props;
+---
+
+<section class="section section--cream" id="products">
+  <div class="container">
+    <header class="section-head">
+      <p class="eyebrow">PRODUCTS</p>
+      <h2 class="section-title">{title}</h2>
+      <p class="lead">{lead}</p>
+    </header>
+    <div class="product-grid">
+      {products.map((p) => (
+        <a class={`product-card product-card--${p.accent}`} href={withBase(productHref(p.category, p.slug))}>
+          <div class="product-card-body">
+            {p.genericName && <p class="product-card-generic">{p.genericName}</p>}
+            <h3 class="product-card-name">{p.name}</h3>
+            <p class="product-card-lead">{p.heroLead.slice(0, 80)}…</p>
+          </div>
+          <span class="product-card-link">
+            詳しく見る <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-head {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto clamp(2rem, 4vw, 3rem);
+  }
+  .section-head .lead {
+    margin-top: 0.9rem;
+  }
+  /* 中央寄せの flex レイアウト。商品数が 1 でも 4 でも、余った列に
+     取り残される「孤立カード」を作らず最終行を中央に揃える
+     （3列グリッドでは 4件で 3+1、1件で左寄せの孤立が発生していた）。 */
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 1 14rem;
+    max-width: 22rem;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 10rem;
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .product-card--pink:hover {
+    border-color: var(--brand-300);
+  }
+  .product-card--gold:hover {
+    border-color: var(--gold-300);
+  }
+  .product-card--navy:hover {
+    border-color: var(--ink-300);
+  }
+  .product-card-generic {
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.35rem;
+  }
+  .product-card--gold .product-card-generic {
+    color: var(--gold-700);
+  }
+  .product-card--navy .product-card-generic {
+    color: var(--ink-500);
+  }
+  .product-card-name {
+    font-size: 1.1rem;
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.5rem;
+  }
+  .product-card-lead {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .product-card-link {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+  .product-card--gold .product-card-link {
+    color: var(--gold-700);
+  }
+  .product-card--navy .product-card-link {
+    color: var(--ink-700);
+  }
+</style>

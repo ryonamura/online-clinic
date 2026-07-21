@@ -1,0 +1,1221 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Breadcrumb from "./Breadcrumb.astro";
+import LineCta from "./LineCta.astro";
+import { LINE_URL } from "../data/site";
+import { withBase } from "../lib/links";
+import {
+  CONSULT_SHIPPING,
+  PAYMENT_METHODS,
+  type Plan,
+} from "../data/pricing";
+import type { Product } from "../data/products";
+import {
+  getPlansForProduct,
+  getProductBySlug,
+  productHref,
+} from "../data/products";
+
+export interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const plans = getPlansForProduct(product);
+const steps = product.steps ?? [];
+const accent = product.accent;
+
+const related =
+  product.relatedSlugs
+    ?.map((slug) => getProductBySlug(product.category, slug))
+    .filter((p): p is Product => p != null) ?? [];
+
+const breadcrumbs = [
+  { label: "ホーム", href: "/" },
+  { label: product.categoryLabel, href: product.categoryHref },
+  { label: product.name },
+];
+
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: product.faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+});
+
+const breadcrumbSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumbs.map((item, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: item.label,
+    ...(item.href ? { item: new URL(item.href, Astro.site).href } : {}),
+  })),
+});
+
+const lowestPrice = plans.reduce<number | null>((min, p) => {
+  const candidates = [
+    p.buyout,
+    p.m1?.initial,
+    p.m1?.recur,
+    p.m3?.initial,
+    p.m6?.initial,
+  ].filter((v): v is number => v != null);
+  const planMin = candidates.length ? Math.min(...candidates) : null;
+  if (planMin == null) return min;
+  return min == null ? planMin : Math.min(min, planMin);
+}, null);
+
+const productSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  description: product.metaDescription,
+  brand: { "@type": "Brand", name: "キレイレポオンライン" },
+  ...(lowestPrice != null
+    ? {
+        offers: {
+          "@type": "AggregateOffer",
+          priceCurrency: "JPY",
+          lowPrice: lowestPrice,
+          offerCount: plans.length,
+        },
+      }
+    : {}),
+});
+
+function renderTerm(plan: Plan, term: "buyout" | "m1" | "m3" | "m6"): string {
+  if (term === "buyout") {
+    return plan.buyout != null ? `¥${plan.buyout.toLocaleString()}` : "—";
+  }
+  const t = plan[term];
+  if (!t || (t.initial == null && t.recur == null)) return "—";
+  const parts: string[] = [];
+  if (t.initial != null) {
+    parts.push(`<span class="term-initial">初回 ¥${t.initial.toLocaleString()}</span>`);
+  }
+  if (t.initial != null && t.recur != null) {
+    parts.push(`<span class="term-sep"> ／ </span>`);
+  }
+  if (t.recur != null) {
+    parts.push(`<span class="term-recur">2回目以降 ¥${t.recur.toLocaleString()}</span>`);
+  }
+  return parts.join("");
+}
+---
+
+<PageLayout title={product.metaTitle} description={product.metaDescription}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={faqSchema} />
+    <script type="application/ld+json" set:html={breadcrumbSchema} />
+    <script type="application/ld+json" set:html={productSchema} />
+  </Fragment>
+  <Breadcrumb items={breadcrumbs} />
+
+  {/* HERO */}
+  <section class={`p-hero p-hero--${accent}`}>
+    <div class="container p-hero-inner">
+      <div class="p-hero-copy">
+        <p class="p-eyebrow">{product.heroEyebrow}</p>
+        <h1 class="p-hero-title">
+          {product.heroTitle}<br />
+          <span class="p-hero-accent">{product.heroAccent}</span>
+        </h1>
+        <p class="p-hero-lead">{product.heroLead}</p>
+        <ul class="p-hero-badges">
+          {product.heroBadges.map((b) => (
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>{b}</li>
+          ))}
+        </ul>
+        <div class="p-hero-actions">
+          <a class="btn btn--line" href={LINE_URL} target="_blank" rel="noopener">
+            <i class="fa-brands fa-line" aria-hidden="true"></i>LINEで無料相談
+          </a>
+          <a class="btn btn--ghost" href="#pricing">料金を見る</a>
+        </div>
+      </div>
+      {product.heroStats && (
+        <div class="p-hero-stats" aria-hidden="true">
+          {product.heroStats.map((s, i) => (
+            <>
+              {i > 0 && <div class="p-stat-div" />}
+              <div>
+                <strong>{s.value}<span>{s.unit}</span></strong>
+                <small>{s.label}</small>
+              </div>
+            </>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  {/* SUPERVISION */}
+  <section class="section section--cream" id="supervision">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">MEDICAL</p>
+        <h2 class="section-title">提携<span class="accent">医療機関</span></h2>
+      </header>
+      <div class="p-supervision">
+        <p class="p-supervision-clinic">
+          <i class="fa-solid fa-user-doctor" aria-hidden="true"></i>
+          {product.supervision.clinic}
+        </p>
+        <p class="p-supervision-note">{product.supervision.note}</p>
+        <ul class="p-supervision-points">
+          {product.supervision.points.map((pt) => (
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i><span>{pt}</span></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* WHAT IS */}
+  <section class="section" id="about">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">ABOUT</p>
+        <h2 class="section-title">{product.whatIsTitle}</h2>
+      </header>
+      <div class="p-prose">
+        {product.whatIs.map((para) => <p>{para}</p>)}
+      </div>
+    </div>
+  </section>
+
+  {/* MECHANISM */}
+  {product.mechanism && product.mechanism.length > 0 && (
+    <section class="section section--cream" id="mechanism">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">MECHANISM</p>
+          <h2 class="section-title">作用の<span class="accent">しくみ</span></h2>
+        </header>
+        <div class="p-mech-grid">
+          {product.mechanism.map((m, i) => (
+            <article class="p-mech-card">
+              <span class="p-mech-no">0{i + 1}</span>
+              <span class="p-mech-icon"><i class={`fa-solid ${m.icon}`} aria-hidden="true"></i></span>
+              <h3>{m.title}</h3>
+              <p>{m.desc}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* COMPARISON */}
+  {product.comparison && (
+    <section class="section" id="comparison">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">COMPARE</p>
+          <h2 class="section-title">{product.comparison.title}</h2>
+        </header>
+        <div class="table-scroll">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                {product.comparison.headers.map((h) => (
+                  <th scope="col">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {product.comparison.rows.map((row) => (
+                <tr class={row.highlight ? "compare-row--highlight" : ""}>
+                  <th scope="row">{row.name}</th>
+                  {row.cells.map((cell) => (
+                    <td>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {product.comparison.note && (
+          <p class="p-compare-note">{product.comparison.note}</p>
+        )}
+      </div>
+    </section>
+  )}
+
+  {/* INGREDIENTS */}
+  {product.ingredients && product.ingredients.length > 0 && (
+    <section class="section section--cream" id="ingredients">
+      <div class="container container--narrow">
+        <header class="section-head">
+          <p class="eyebrow">DETAIL</p>
+          <h2 class="section-title">薬剤<span class="accent">詳細</span></h2>
+        </header>
+        <dl class="p-ingredient-list">
+          {product.ingredients.map((ing) => (
+            <>
+              <dt>{ing.label}</dt>
+              <dd>{ing.value}</dd>
+            </>
+          ))}
+        </dl>
+      </div>
+    </section>
+  )}
+
+  {/* FOR WHOM */}
+  <section class="section" id="for-whom">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">FOR YOU</p>
+        <h2 class="section-title">こんな方に<span class="accent">おすすめ</span></h2>
+      </header>
+      <div class="p-for-grid">
+        {product.forWhom.map((f) => (
+          <article class="p-for-card">
+            <span class="p-for-icon"><i class={`fa-solid ${f.icon}`} aria-hidden="true"></i></span>
+            <div>
+              <h3>{f.title}</h3>
+              <p>{f.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="p-not-for">
+        <h3><i class="fa-solid fa-ban" aria-hidden="true"></i>向いていない方・処方できない方</h3>
+        <ul>
+          {product.notFor.map((n) => (
+            <li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>{n}</span></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* PRICING */}
+  <section class="section section--cream" id="pricing">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">PRICING</p>
+        <h2 class="section-title">料金<span class="accent">プラン</span></h2>
+        <p class="lead">すべて税込・別途診察・配送料 ¥{CONSULT_SHIPPING.toLocaleString()}・定期縛りなし</p>
+      </header>
+      {product.dosageDetail ? (
+        <div class="p-dosage-detail">
+          <h3><i class="fa-solid fa-pills" aria-hidden="true"></i>用法・用量の詳細</h3>
+          <p class="p-dosage-summary">{product.dosageDetail.summary}</p>
+          {product.dosageDetail.schedule && (
+            <p><strong>用量スケジュール：</strong>{product.dosageDetail.schedule}</p>
+          )}
+          {product.dosageDetail.timing && (
+            <p><strong>服用タイミング：</strong>{product.dosageDetail.timing}</p>
+          )}
+          {product.dosageDetail.tapering && (
+            <p><strong>漸増：</strong>{product.dosageDetail.tapering}</p>
+          )}
+          {product.dosageDetail.storage && (
+            <p><strong>保管：</strong>{product.dosageDetail.storage}</p>
+          )}
+          {product.dosageDetail.tips.length > 0 && (
+            <ul class="p-dosage-tips">
+              {product.dosageDetail.tips.map((tip) => (
+                <li><i class="fa-solid fa-circle-info" aria-hidden="true"></i>{tip}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ) : product.dosage ? (
+        <div class="p-dosage">
+          <h3><i class="fa-solid fa-pills" aria-hidden="true"></i>用法・用量</h3>
+          <p>{product.dosage}</p>
+        </div>
+      ) : null}
+      <div class="table-scroll">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th scope="col" class="col-drug">プラン名</th>
+              <th scope="col">買い切り</th>
+              <th scope="col">1ヶ月定期</th>
+              <th scope="col">3ヶ月定期</th>
+              <th scope="col">6ヶ月定期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {plans.map((p) => (
+              <tr>
+                <td class="drug-cell">
+                  <span class="drug-name">{p.name}</span>
+                  {p.detail && <span class="drug-detail">{p.detail}</span>}
+                  {p.note && <span class="drug-note">{p.note}</span>}
+                </td>
+                <td class="price-cell" set:html={renderTerm(p, "buyout")}></td>
+                <td class="price-cell" set:html={renderTerm(p, "m1")}></td>
+                <td class="price-cell" set:html={renderTerm(p, "m3")}></td>
+                <td class="price-cell" set:html={renderTerm(p, "m6")}></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div class="p-payment">
+        <h3><i class="fa-solid fa-credit-card" aria-hidden="true"></i>お支払い方法</h3>
+        <p>{PAYMENT_METHODS}</p>
+        <p class="p-payment-note">※診察・配送料は初回・2回目以降ともに一律 ¥{CONSULT_SHIPPING.toLocaleString()}（税込）</p>
+      </div>
+    </div>
+  </section>
+
+  {/* FLOW */}
+  {steps.length > 0 && (
+    <section class="section" id="flow">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">FLOW</p>
+          <h2 class="section-title">ご利用の<span class="accent">流れ</span></h2>
+        </header>
+        <ol class="p-steps">
+          {steps.map((s) => (
+            <li class="p-step">
+              <span class="p-step-no">{s.no}</span>
+              <div>
+                <div class="p-step-head">
+                  <h3>{s.title}</h3>
+                  <span class="p-step-time">{s.time}</span>
+                </div>
+                <p>{s.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {/* SIDE EFFECTS */}
+  <section class="section section--cream" id="caution">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">CAUTION</p>
+        <h2 class="section-title">副作用・<span class="accent">注意事項</span></h2>
+      </header>
+      <ul class="p-caution-list">
+        {product.sideEffects.map((s) => (
+          <li><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span>{s}</span></li>
+        ))}
+      </ul>
+      {product.sideEffectsDetail && product.sideEffectsDetail.length > 0 && (
+        <div class="p-side-detail">
+          {product.sideEffectsDetail.map((group) => (
+            <div class="p-side-group">
+              <h4>
+                {group.category}
+                {group.frequency && <span class="p-side-freq">（{group.frequency}）</span>}
+              </h4>
+              <ul>
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+      <h3 class="p-contra-title"><i class="fa-solid fa-ban" aria-hidden="true"></i>主な禁忌</h3>
+      <ul class="p-contra-list">
+        {product.contraindications.map((c) => (
+          <li><i class="fa-solid fa-xmark" aria-hidden="true"></i><span>{c}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* OFF-LABEL */}
+  {product.offLabel && product.offLabel.length > 0 && (
+    <section class="section" id="off-label">
+      <div class="container container--narrow">
+        <header class="section-head">
+          <p class="eyebrow">NOTICE</p>
+          <h2 class="section-title">適応外使用に<span class="accent">ついて</span></h2>
+        </header>
+        <div class="p-offlabel">
+          {product.offLabel.map((item) => (
+            <p><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>{item}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* FAQ */}
+  <section class="section" id="faq">
+    <div class="container container--narrow">
+      <header class="section-head">
+        <p class="eyebrow">FAQ</p>
+        <h2 class="section-title">よくある<span class="accent">質問</span></h2>
+      </header>
+      <div class="p-faq-list">
+        {product.faq.map((item) => (
+          <details class="p-faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* RELATED */}
+  {related.length > 0 && (
+    <section class="section section--cream" id="related">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">RELATED</p>
+          <h2 class="section-title">関連<span class="accent">商品</span></h2>
+        </header>
+        <div class="p-related-grid">
+          {related.map((r) => (
+            <a class="p-related-card" href={withBase(productHref(r.category, r.slug))}>
+              <h3>{r.name}</h3>
+              <p>{r.heroLead.slice(0, 60)}…</p>
+              <span>詳しく見る →</span>
+            </a>
+          ))}
+          <a class="p-related-card p-related-card--cat" href={withBase(product.categoryHref)}>
+            <h3>{product.categoryLabel}一覧</h3>
+            <p>他の取扱商品・料金プランを見る</p>
+            <span>カテゴリページへ →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* DISCLAIMER */}
+  <section class="p-disclaimer">
+    <div class="container container--narrow">
+      <p class="p-disclaimer-title">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>免責事項
+      </p>
+      {product.disclaimer.map((d) => <p>{d}</p>)}
+      <p>
+        本サービスは自由診療（保険適用外）です。効果・効能には個人差があり、すべての方に同様の効果を保証するものではありません。
+        診察の結果、処方を行えない場合があります。
+      </p>
+    </div>
+  </section>
+
+  <LineCta
+    heading={`${product.name}のご相談はLINEから`}
+    text="問診〜診察〜発送までスマホひとつで完結。まずはお気軽にご相談ください。"
+  />
+</PageLayout>
+
+<style define:vars={{ accentColor: accent === "gold" ? "var(--gold-700)" : accent === "navy" ? "var(--ink-700)" : "var(--brand-800)" }}>
+  .section-head {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto clamp(2rem, 4vw, 3rem);
+  }
+  .section-head .lead { margin-top: 0.9rem; }
+  .accent { color: var(--accentColor); }
+
+  /* HERO */
+  .p-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .p-hero--pink {
+    background:
+      radial-gradient(80% 70% at 85% 0%, var(--brand-100) 0%, transparent 55%),
+      radial-gradient(70% 60% at 0% 100%, var(--pink-50) 0%, transparent 55%),
+      var(--bg);
+  }
+  .p-hero--gold {
+    background:
+      radial-gradient(80% 70% at 85% 0%, var(--gold-100) 0%, transparent 55%),
+      var(--cream-50);
+  }
+  .p-hero--navy {
+    background:
+      radial-gradient(80% 70% at 85% 0%, rgba(44, 62, 80, 0.08) 0%, transparent 55%),
+      var(--bg);
+  }
+  .p-hero-inner {
+    display: grid;
+    gap: 2rem;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    align-items: center;
+  }
+  .p-eyebrow {
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.12em;
+    color: var(--accentColor);
+  }
+  .p-hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.6rem);
+    font-weight: var(--fw-bold);
+    line-height: 1.4;
+    margin-top: 0.8rem;
+    color: var(--ink-700);
+  }
+  .p-hero--pink .p-hero-accent { color: var(--brand-700); }
+  .p-hero--gold .p-hero-accent { color: var(--gold-700); }
+  .p-hero--navy .p-hero-accent { color: var(--ink-700); }
+  .p-hero-lead {
+    margin-top: 1.2rem;
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+    max-width: 36rem;
+  }
+  .p-hero-badges {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.88rem;
+    color: var(--ink-500);
+  }
+  .p-hero-badges i { color: var(--accentColor); margin-right: 0.35em; }
+  .p-hero-actions {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+  .p-hero-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    background: var(--ink-900);
+    color: #fff;
+    border-radius: var(--r-lg);
+    padding: 1.1rem 1.6rem;
+    max-width: 22rem;
+  }
+  .p-hero-stats strong {
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    color: var(--brand-300);
+  }
+  .p-hero--gold .p-hero-stats strong { color: var(--gold-300); }
+  .p-hero-stats strong span { font-size: 0.85rem; margin-left: 0.1em; }
+  .p-hero-stats small { display: block; font-size: 0.7rem; opacity: 0.75; margin-top: 0.15rem; }
+  .p-stat-div { width: 1px; height: 32px; background: rgba(255,255,255,0.2); }
+
+  /* PROSE */
+  .p-prose p {
+    font-size: 0.95rem;
+    color: var(--ink-500);
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+  .p-prose p:last-child { margin-bottom: 0; }
+
+  /* SUPERVISION */
+  .p-supervision {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .p-supervision-clinic {
+    font-weight: var(--fw-bold);
+    font-size: 1rem;
+    color: var(--ink-700);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .p-supervision-clinic i { color: var(--accentColor); }
+  .p-supervision-note {
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .p-supervision-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .p-supervision-points li {
+    display: flex;
+    gap: 0.5em;
+    font-size: 0.88rem;
+    color: var(--ink-500);
+    line-height: 1.65;
+  }
+  .p-supervision-points i { color: var(--accentColor); margin-top: 0.15em; flex-shrink: 0; }
+
+  /* COMPARISON */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+    min-width: 560px;
+  }
+  .compare-table thead tr { background: var(--ink-900); }
+  .compare-table th {
+    color: #fff;
+    font-weight: var(--fw-bold);
+    font-size: 0.78rem;
+    padding: 0.75rem 0.85rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .compare-table tbody th[scope="row"] {
+    background: var(--cream-100);
+    color: var(--ink-700);
+    font-weight: var(--fw-bold);
+    white-space: nowrap;
+  }
+  .compare-table td {
+    padding: 0.75rem 0.85rem;
+    border-bottom: 1px solid var(--cream-200);
+    background: #fff;
+    color: var(--ink-500);
+    vertical-align: top;
+  }
+  .compare-row--highlight td,
+  .compare-row--highlight th[scope="row"] {
+    background: var(--brand-50);
+  }
+  .p-compare-note {
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--ink-400);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* INGREDIENTS */
+  .p-ingredient-list {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .p-ingredient-list dt {
+    font-size: 0.78rem;
+    font-weight: var(--fw-bold);
+    color: var(--accentColor);
+    padding: 0.9rem 1.2rem 0.25rem;
+    letter-spacing: 0.05em;
+  }
+  .p-ingredient-list dd {
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    padding: 0 1.2rem 0.9rem;
+    line-height: 1.7;
+    border-bottom: 1px solid var(--cream-200);
+  }
+  .p-ingredient-list dd:last-child { border-bottom: none; }
+
+  /* DOSAGE DETAIL */
+  .p-dosage-detail {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.3rem 1.4rem;
+    margin-bottom: 1.5rem;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+  .p-dosage-detail h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--ink-700);
+  }
+  .p-dosage-detail h3 i { color: var(--accentColor); }
+  .p-dosage-summary {
+    font-size: 0.9rem;
+    color: var(--ink-700);
+    font-weight: var(--fw-bold);
+    margin-bottom: 0.8rem;
+    line-height: 1.7;
+  }
+  .p-dosage-detail p {
+    font-size: 0.86rem;
+    color: var(--ink-500);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+  .p-dosage-tips {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .p-dosage-tips li {
+    font-size: 0.84rem;
+    color: var(--ink-500);
+    display: flex;
+    gap: 0.5em;
+    line-height: 1.65;
+  }
+  .p-dosage-tips i { color: var(--accentColor); flex-shrink: 0; margin-top: 0.15em; }
+
+  /* SIDE EFFECT DETAIL */
+  .p-side-detail {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .p-side-group {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.1rem 1.3rem;
+  }
+  .p-side-group h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+    color: var(--ink-700);
+  }
+  .p-side-freq {
+    font-size: 0.78rem;
+    font-weight: normal;
+    color: var(--ink-400);
+  }
+  .p-side-group ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .p-side-group li {
+    font-size: 0.86rem;
+    color: var(--ink-500);
+    padding-left: 1em;
+    position: relative;
+  }
+  .p-side-group li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--accentColor);
+  }
+
+  /* OFF-LABEL */
+  .p-offlabel {
+    background: var(--cream-100);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.3rem 1.5rem;
+  }
+  .p-offlabel p {
+    font-size: 0.88rem;
+    color: var(--ink-500);
+    line-height: 1.8;
+    margin-bottom: 0.65rem;
+    display: flex;
+    gap: 0.5em;
+    align-items: flex-start;
+  }
+  .p-offlabel p:last-child { margin-bottom: 0; }
+  .p-offlabel i { color: var(--brand-600); flex-shrink: 0; margin-top: 0.2em; }
+
+  /* MECHANISM */
+  .p-mech-grid {
+    display: grid;
+    gap: 1.2rem;
+  }
+  .p-mech-card {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.8rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .p-mech-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--brand-gradient);
+  }
+  .p-hero--gold ~ * .p-mech-card::before,
+  :global(.p-hero--gold) + .section .p-mech-card::before {
+    background: var(--gold-gradient);
+  }
+  .p-mech-no {
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    color: var(--accentColor);
+    letter-spacing: 0.1em;
+  }
+  .p-mech-icon {
+    display: inline-flex;
+    width: 48px; height: 48px;
+    align-items: center; justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient);
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0.6rem 0 0.8rem;
+    box-shadow: var(--shadow-brand);
+  }
+  .p-mech-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+  .p-mech-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* FOR WHOM */
+  .p-for-grid {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .p-for-card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.3rem 1.4rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .p-for-icon {
+    flex-shrink: 0;
+    width: 42px; height: 42px;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    border-radius: var(--r-pill);
+    background: var(--brand-gradient-soft);
+    color: var(--brand-800);
+    font-size: 1.1rem;
+  }
+  .p-for-card h3 {
+    font-size: 0.98rem;
+    margin-bottom: 0.35rem;
+  }
+  .p-for-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .p-not-for {
+    background: var(--cream-100);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+  }
+  .p-not-for h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--ink-700);
+  }
+  .p-not-for h3 i { color: var(--brand-600); }
+  .p-not-for ul { display: flex; flex-direction: column; gap: 0.5rem; }
+  .p-not-for li {
+    display: flex;
+    gap: 0.5em;
+    font-size: 0.88rem;
+    color: var(--ink-500);
+  }
+  .p-not-for i { color: var(--ink-300); margin-top: 0.15em; flex-shrink: 0; }
+
+  /* PRICING */
+  .p-dosage {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+  .p-dosage h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--ink-700);
+  }
+  .p-dosage h3 i { color: var(--accentColor); }
+  .p-dosage p { font-size: 0.88rem; color: var(--ink-500); line-height: 1.7; }
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--r-md);
+    border: 1px solid var(--cream-300);
+    box-shadow: var(--shadow-sm);
+  }
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+    min-width: 580px;
+  }
+  .price-table thead tr { background: var(--ink-900); }
+  .price-table th {
+    color: #fff;
+    font-weight: var(--fw-bold);
+    font-size: 0.8rem;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .price-table th.col-drug { min-width: 132px; }
+  .price-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--cream-200);
+    background: #fff;
+    vertical-align: top;
+    color: var(--ink-500);
+  }
+  .price-table tbody tr:last-child td { border-bottom: none; }
+  .drug-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 132px;
+  }
+  .drug-name {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  .drug-detail {
+    font-size: 0.74rem;
+    color: var(--brand-800);
+    line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  .drug-note { font-size: 0.72rem; color: var(--ink-400); line-height: 1.5; }
+  .price-cell { white-space: nowrap; }
+  /* term spans are injected via set:html, so Astro's scoped hash is not
+     applied to them — target them with :global so the styles still match. */
+  .price-cell :global(.term-initial),
+  .price-cell :global(.term-recur) {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+  .price-cell :global(.term-recur) { color: var(--ink-400); margin-top: 0.15rem; }
+  .price-cell :global(.term-sep) { display: none; }
+  .p-payment {
+    margin-top: 1.5rem;
+    text-align: center;
+    max-width: 36rem;
+    margin-inline: auto;
+  }
+  .p-payment h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
+  .p-payment p { font-size: 0.88rem; color: var(--ink-500); line-height: 1.7; }
+  .p-payment-note { margin-top: 0.5rem; font-size: 0.8rem !important; color: var(--ink-400) !important; }
+
+  /* STEPS */
+  .p-steps {
+    display: grid;
+    gap: 1rem;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+  .p-step {
+    display: flex;
+    gap: 1.2rem;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.3rem 1.4rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .p-step-no {
+    flex-shrink: 0;
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: var(--fw-bold);
+    color: var(--accentColor);
+    opacity: 0.7;
+  }
+  .p-step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.35rem;
+  }
+  .p-step-head h3 { font-size: 1rem; }
+  .p-step-time {
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    color: var(--accentColor);
+    background: var(--brand-50);
+    padding: 0.2em 0.6em;
+    border-radius: var(--r-pill);
+  }
+  .p-step p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* CAUTION */
+  .p-caution-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 1.8rem;
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+  }
+  .p-caution-list li {
+    display: flex;
+    gap: 0.65em;
+    font-size: 0.9rem;
+    color: var(--ink-500);
+    line-height: 1.7;
+  }
+  .p-caution-list i { color: var(--brand-600); margin-top: 0.2em; flex-shrink: 0; }
+  .p-contra-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .p-contra-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .p-contra-list li {
+    display: flex;
+    gap: 0.5em;
+    font-size: 0.88rem;
+    color: var(--ink-500);
+  }
+  .p-contra-list i { color: var(--ink-300); flex-shrink: 0; margin-top: 0.15em; }
+
+  /* FAQ */
+  .p-faq-list { display: flex; flex-direction: column; gap: 0.65rem; }
+  .p-faq-item {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .p-faq-item summary {
+    padding: 1.1rem 1.3rem;
+    font-weight: var(--fw-bold);
+    font-size: 0.92rem;
+    color: var(--ink-700);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .p-faq-item summary::-webkit-details-marker { display: none; }
+  .p-faq-item summary::after {
+    content: "+";
+    font-size: 1.2rem;
+    color: var(--accentColor);
+    flex-shrink: 0;
+  }
+  .p-faq-item[open] summary::after { content: "−"; }
+  .p-faq-item p {
+    padding: 0 1.3rem 1.1rem;
+    font-size: 0.88rem;
+    color: var(--ink-500);
+    line-height: 1.75;
+    border-top: 1px solid var(--cream-200);
+    padding-top: 0.9rem;
+    margin: 0 1.3rem 1.1rem;
+  }
+
+  /* RELATED */
+  .p-related-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  .p-related-card {
+    background: #fff;
+    border: 1px solid var(--cream-300);
+    border-radius: var(--r-md);
+    padding: 1.3rem 1.4rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .p-related-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--brand-300);
+  }
+  .p-related-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+  .p-related-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+  .p-related-card span { font-size: 0.82rem; font-weight: var(--fw-bold); color: var(--brand-800); }
+  .p-related-card--cat { border-style: dashed; }
+
+  /* DISCLAIMER */
+  .p-disclaimer {
+    background: var(--cream-100);
+    padding-block: 2.5rem;
+  }
+  .p-disclaimer-title {
+    font-weight: var(--fw-bold);
+    color: var(--ink-700);
+    margin-bottom: 0.8rem;
+    font-size: 0.92rem;
+  }
+  .p-disclaimer-title i { color: var(--accentColor); margin-right: 0.4em; }
+  .p-disclaimer p {
+    font-size: 0.82rem;
+    line-height: 1.85;
+    color: var(--ink-500);
+    margin-bottom: 0.7rem;
+  }
+
+  @media (min-width: 600px) {
+    .p-for-grid { grid-template-columns: repeat(2, 1fr); }
+    .p-related-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 720px) {
+    .p-mech-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 960px) {
+    .p-hero-inner { grid-template-columns: 1fr auto; }
+  }
+
+  /* モバイル：横スクロールする表を少し詰めて、一度に見える列を増やす。
+     右端で列が切れることでスクロール可能なことが自然に伝わる。 */
+  @media (max-width: 560px) {
+    .compare-table,
+    .price-table { min-width: 520px; }
+    .compare-table th,
+    .compare-table td,
+    .price-table th,
+    .price-table td { padding: 0.65rem 0.7rem; }
+  }
+</style>

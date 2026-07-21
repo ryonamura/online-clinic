@@ -1,8 +1,13 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import LineCta from "../components/LineCta.astro";
+import ProductGrid from "../components/ProductGrid.astro";
 import { LINE_URL } from "../data/site";
+import { withBase } from "../lib/links";
+import { getProductsByCategory, productHref } from "../data/products";
 import { glp1Plans, dietSetPlans, dietAddons, PAYMENT_METHODS } from "../data/pricing";
+
+const glp1Products = getProductsByCategory("glp1");
 
 const recommended = [
   {
@@ -39,6 +44,7 @@ const recommended = [
 
 const medications = [
   {
+    slug: "injection",
     name: "注射薬（チルゼパチド）",
     medClass: "GIP/GLP-1受容体作動薬",
     route: "週1回 皮下注射",
@@ -46,6 +52,7 @@ const medications = [
     forWhom: "しっかり減量したい方",
   },
   {
+    slug: "rybelsus",
     name: "リベルサス（セマグルチド）",
     medClass: "GLP-1受容体作動薬",
     route: "毎日 内服（経口）",
@@ -53,6 +60,7 @@ const medications = [
     forWhom: "注射に抵抗がある方",
   },
   {
+    slug: "forxiga",
     name: "フォシーガ（ダパグリフロジン）",
     medClass: "SGLT2阻害薬",
     route: "毎日 内服（経口）",
@@ -60,6 +68,7 @@ const medications = [
     forWhom: "糖質が多い食生活の方",
   },
   {
+    slug: "lusefi",
     name: "ルセフィ（ルセオグリフロジン）",
     medClass: "SGLT2阻害薬",
     route: "毎日 内服（経口）",
@@ -118,7 +127,7 @@ const contraindications = [
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">医師監修 · GLP-1オンライン処方</p>
+        <p class="eyebrow">医師が診察 · GLP-1オンライン処方</p>
         <h1 class="hero-title">
           GLP-1ダイエットの<br />
           <span class="hero-accent">オンライン診療</span>
@@ -165,8 +174,16 @@ const contraindications = [
     </div>
   </section>
 
+  <ProductGrid
+    products={glp1Products}
+    title="取扱薬剤・商品一覧"
+    lead="各薬剤の詳細・料金・FAQは商品ページでご確認いただけます。"
+  />
+
   {/* ============ RECOMMENDED ============ */}
-  <section class="section section--cream" id="recommended">
+  {/* 直前の ProductGrid が cream 地のため、ここは白地にして
+     セクションの明暗リズム（cream↔白）の境目を明確にする。 */}
+  <section class="section" id="recommended">
     <div class="container">
       <header class="section-head">
         <p class="eyebrow">RECOMMENDED</p>
@@ -213,11 +230,11 @@ const contraindications = [
         <table class="compare-table">
           <thead>
             <tr>
-              <th>方法</th>
-              <th>食欲抑制</th>
-              <th>継続しやすさ</th>
-              <th>医師の監修</th>
-              <th>リバウンドリスク</th>
+              <th scope="col">方法</th>
+              <th scope="col">食欲抑制</th>
+              <th scope="col">継続しやすさ</th>
+              <th scope="col">医師の関与</th>
+              <th scope="col">リバウンドリスク</th>
             </tr>
           </thead>
           <tbody>
@@ -248,7 +265,7 @@ const contraindications = [
 
       <div class="med-grid">
         {medications.map((m) => (
-          <article class="med-card">
+          <a class="med-card med-card--link" href={withBase(productHref("glp1", m.slug))}>
             <div class="med-header">
               <p class="med-class">{m.medClass}</p>
               <h3 class="med-name">{m.name}</h3>
@@ -267,7 +284,8 @@ const contraindications = [
                 <dd>{m.forWhom}</dd>
               </div>
             </dl>
-          </article>
+            <span class="med-card-cta">詳しく見る <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </a>
         ))}
       </div>
       <p class="fineprint">
@@ -293,11 +311,11 @@ const contraindications = [
         <table class="price-table">
           <thead>
             <tr>
-              <th class="col-drug">薬剤名</th>
-              <th class="col-price">買い切り</th>
-              <th class="col-price">1ヶ月定期</th>
-              <th class="col-price">3ヶ月定期</th>
-              <th class="col-price">6ヶ月定期</th>
+              <th scope="col" class="col-drug">薬剤名</th>
+              <th scope="col" class="col-price">買い切り</th>
+              <th scope="col" class="col-price">1ヶ月定期</th>
+              <th scope="col" class="col-price">3ヶ月定期</th>
+              <th scope="col" class="col-price">6ヶ月定期</th>
             </tr>
           </thead>
           <tbody>
@@ -355,11 +373,11 @@ const contraindications = [
         <table class="price-table">
           <thead>
             <tr>
-              <th class="col-drug">薬剤/セット名</th>
-              <th class="col-price">買い切り</th>
-              <th class="col-price">1ヶ月定期</th>
-              <th class="col-price">3ヶ月定期</th>
-              <th class="col-price">6ヶ月定期</th>
+              <th scope="col" class="col-drug">薬剤/セット名</th>
+              <th scope="col" class="col-price">買い切り</th>
+              <th scope="col" class="col-price">1ヶ月定期</th>
+              <th scope="col" class="col-price">3ヶ月定期</th>
+              <th scope="col" class="col-price">6ヶ月定期</th>
             </tr>
           </thead>
           <tbody>
@@ -407,11 +425,11 @@ const contraindications = [
         <table class="price-table">
           <thead>
             <tr>
-              <th class="col-drug">オプション名</th>
-              <th class="col-price">買い切り</th>
-              <th class="col-price">1ヶ月定期</th>
-              <th class="col-price">3ヶ月定期</th>
-              <th class="col-price">備考</th>
+              <th scope="col" class="col-drug">オプション名</th>
+              <th scope="col" class="col-price">買い切り</th>
+              <th scope="col" class="col-price">1ヶ月定期</th>
+              <th scope="col" class="col-price">3ヶ月定期</th>
+              <th scope="col" class="col-price">備考</th>
             </tr>
           </thead>
           <tbody>
@@ -734,7 +752,7 @@ const contraindications = [
   .formula-label {
     font-size: 0.82rem;
     font-weight: var(--fw-bold);
-    color: var(--brand-700);
+    color: var(--brand-800);
     letter-spacing: 0.05em;
     margin-bottom: 1rem;
   }
@@ -808,7 +826,7 @@ const contraindications = [
   .row--highlight td { background: var(--brand-50); }
   .row--highlight .method-name { color: var(--brand-800); }
   .val--good {
-    color: var(--brand-700);
+    color: var(--brand-800);
     font-weight: var(--fw-bold);
   }
 
@@ -825,6 +843,24 @@ const contraindications = [
     overflow: hidden;
     box-shadow: var(--shadow-sm);
   }
+  .med-card--link {
+    display: block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .med-card--link:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--brand-300);
+  }
+  .med-card-cta {
+    display: block;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.82rem;
+    font-weight: var(--fw-bold);
+    color: var(--brand-800);
+    border-top: 1px solid var(--cream-200);
+    background: var(--brand-50);
+  }
   .med-header {
     padding: 1.2rem 1.5rem;
     background: var(--brand-gradient-soft);
@@ -833,7 +869,7 @@ const contraindications = [
   .med-class {
     font-size: 0.75rem;
     font-weight: var(--fw-bold);
-    color: var(--brand-700);
+    color: var(--brand-800);
     letter-spacing: 0.05em;
     margin-bottom: 0.3rem;
   }
@@ -856,7 +892,7 @@ const contraindications = [
   .med-detail dt {
     font-size: 0.78rem;
     font-weight: var(--fw-bold);
-    color: var(--brand-700);
+    color: var(--brand-800);
     padding-top: 0.1em;
   }
   .med-detail dd {
@@ -933,7 +969,7 @@ const contraindications = [
   }
   .drug-detail {
     font-size: 0.76rem;
-    color: var(--brand-700);
+    color: var(--brand-800);
   }
   .price-cell {
     white-space: nowrap;

@@ -88,7 +88,7 @@ import LineCta from "../../components/LineCta.astro";
         <ul class="price-list">
           <li>
             <span class="price-service"><i class="fa-solid fa-pills" aria-hidden="true"></i>GLP-1ダイエット</span>
-            <span class="price-range">7,500円〜67,000円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
+            <span class="price-range">7,500円〜47,000円（税込・1ヶ月分）＋診察・配送料 2,000円（税込）</span>
           </li>
           <li>
             <span class="price-service"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>美容内服</span>
@@ -113,7 +113,7 @@ import LineCta from "../../components/LineCta.astro";
         <i class="fa-solid fa-capsules" aria-hidden="true"></i>4. 主な治療内容・使用薬剤と未承認・適応外医薬品の情報
       </h2>
       <p class="section-note">
-        当サービスで処方する薬剤の一部は、国内で特定の疾患の治療薬として承認されていますが、ダイエット・美容・エイジングケアを目的とした使用は国内未承認（適応外使用）です。以下に各サービスの情報を明記します。
+        当サービスで処方する薬剤の多くは、国内で特定の疾患の治療薬として承認された医薬品であり、ダイエット・美容・エイジングケアを目的とした使用は国内未承認（適応外使用）です。一方、アクネトレント（イソトレチノイン）は国内で承認されていない未承認医薬品で、医師が自ら個人輸入により入手したものを処方します。以下に各サービスの情報を明記します。
       </p>
 
       {/* ---- GLP-1ダイエット ---- */}
@@ -202,6 +202,66 @@ import LineCta from "../../components/LineCta.astro";
               <th scope="row">副作用被害救済制度</th>
               <td>
                 適応外使用の場合、<strong>医薬品副作用被害救済制度の対象外</strong>となる場合があります。医薬品は国内卸売販売業者より購入しています。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      {/* ---- アクネトレント（未承認医薬品） ---- */}
+      <div class="med-block">
+        <h3 class="med-block-title">
+          <span class="med-badge med-badge--pink">
+            <i class="fa-solid fa-triangle-exclamation"></i>アクネトレント（イソトレチノイン・未承認医薬品）
+          </span>
+        </h3>
+        <div class="table-scroll">
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <th scope="row">治療内容</th>
+              <td>中等症〜重症のニキビ（尋常性痤瘡）に対するイソトレチノイン内服による治療。皮脂分泌の抑制等を目的とします。</td>
+            </tr>
+            <tr>
+              <th scope="row">未承認医薬品であること</th>
+              <td>
+                アクネトレント（一般名：イソトレチノイン）は、日本国内で医薬品としての承認を受けていない<strong>未承認医薬品</strong>です。医師の診察のうえ、自由診療として処方します。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">入手経路</th>
+              <td>
+                当院で使用するアクネトレント（イソトレチノイン）は、医師が医薬品医療機器等法（薬機法）の規定に基づき<strong>自ら個人輸入により入手</strong>した医薬品です。国内の医薬品卸売販売業者を通じて流通する承認医薬品とは入手経路が異なります。個人輸入された医薬品の使用に関するリスク情報は、
+                <a
+                  href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iyakuhin/kojinyunyu/index.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >厚生労働省「医薬品等を海外から購入しようとされる方へ」</a>のウェブサイトをご確認ください。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">国内承認医薬品の有無</th>
+              <td>
+                国内には、イソトレチノインと同一の有効成分・効能でニキビ治療の承認を得た医薬品はありません。国内で承認されたニキビ治療薬としては、アダパレン・過酸化ベンゾイル・抗菌薬等があります。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">諸外国における安全性等に係る情報</th>
+              <td>
+                イソトレチノインは米国FDAをはじめ諸外国で中等症〜重症のニキビ治療薬として承認・使用されていますが、<strong>重大な催奇形性</strong>（妊娠中の使用による胎児への重篤な影響）が知られており、各国で厳格な管理のもとに使用されています。妊娠中・妊娠の可能性がある方は服用できません。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">主なリスク・副作用</th>
+              <td>
+                口唇・皮膚の乾燥、鼻出血、結膜乾燥、筋肉痛、トリグリセリド上昇・肝機能異常等。催奇形性のため妊娠中の服用は絶対禁忌です。テトラサイクリン系抗生物質との併用は禁忌です。
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">副作用被害救済制度</th>
+              <td>
+                未承認医薬品のため、<strong>医薬品副作用被害救済制度の対象外</strong>となります。
               </td>
             </tr>
           </tbody>
@@ -366,9 +426,6 @@ import LineCta from "../../components/LineCta.astro";
   }
 
   /* ============ SECTION COMMON ============ */
-  .section--cream {
-    background: linear-gradient(180deg, var(--cream-50), var(--cream-100));
-  }
   .block-title {
     font-size: 1.25rem;
     font-weight: var(--fw-bold);
@@ -413,7 +470,7 @@ import LineCta from "../../components/LineCta.astro";
     font-size: 0.85em;
   }
   .mhlw-link-wrap a {
-    color: var(--brand-700);
+    color: var(--brand-800);
     text-decoration: underline;
     font-weight: var(--fw-medium);
   }
@@ -602,7 +659,7 @@ import LineCta from "../../components/LineCta.astro";
     font-weight: var(--fw-bold);
   }
   .info-table a {
-    color: var(--brand-700);
+    color: var(--brand-800);
     text-decoration: underline;
     word-break: break-all;
     overflow-wrap: anywhere;
